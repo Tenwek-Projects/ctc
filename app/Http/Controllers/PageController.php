@@ -42,7 +42,13 @@ class PageController extends Controller
         $news = NewsArticle::published()->latest()->take(3)->get();
 
         $heroMode = SiteSetting::getValue('hero.mode', 'video');
-        $heroVideoUrl = SiteSetting::getValue('hero.video_url', config('ctc.hero_video'));
+        $heroTitle = SiteSetting::getValue('hero.title', 'Cardiothoracic Centre');
+        $heroSubtitle = SiteSetting::getValue('hero.subtitle', 'Tenwek Hospital');
+        $heroDescription = SiteSetting::getValue('hero.description', 'A beacon of hope and healing for patients with heart disease across Sub‑Saharan Africa. We provide life‑saving open‑heart and thoracic care, and train African healthcare professionals to expand access to treatment.');
+        $heroVideoPath = SiteSetting::getValue('hero.video_path');
+        $heroVideoUrl = $heroVideoPath
+            ? PublicAssetUrl::toUrl($heroVideoPath)
+            : SiteSetting::getValue('hero.video_url', config('ctc.hero_video'));
         $heroSlides = HeroSlide::query()->visible()->ordered()->get();
         $servicesImagePath = SiteSetting::getValue('home.services_image_path');
         $servicesImageUrl = PublicAssetUrl::toUrl($servicesImagePath);
@@ -61,6 +67,9 @@ class PageController extends Controller
             'team',
             'news',
             'heroMode',
+            'heroTitle',
+            'heroSubtitle',
+            'heroDescription',
             'heroVideoUrl',
             'heroSlides',
             'servicesImageUrl',

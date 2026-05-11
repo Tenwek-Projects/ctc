@@ -6,9 +6,9 @@
 
 @section('hero')
     @include('components.hero-section', [
-        'title' => 'Cardiothoracic Centre',
-        'subtitle' => 'Tenwek Hospital',
-        'description' => 'A beacon of hope and healing for patients with heart disease across Sub‑Saharan Africa. We provide life‑saving open‑heart and thoracic care, and train African healthcare professionals to expand access to treatment.',
+        'title' => $heroTitle ?? 'Cardiothoracic Centre',
+        'subtitle' => $heroSubtitle ?? 'Tenwek Hospital',
+        'description' => $heroDescription ?? 'A beacon of hope and healing for patients with heart disease across Sub‑Saharan Africa. We provide life‑saving open‑heart and thoracic care, and train African healthcare professionals to expand access to treatment.',
         'mode' => $heroMode ?? 'video',
         'video' => $heroVideoUrl ?? null,
         'slides' => $heroSlides ?? collect(),

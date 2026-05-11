@@ -15,12 +15,26 @@ class HeroController extends Controller
     {
         $mode = SiteSetting::getValue('hero.mode', 'video');
         $videoUrl = SiteSetting::getValue('hero.video_url', config('ctc.hero_video'));
+        $videoPath = SiteSetting::getValue('hero.video_path');
+        $videoFileUrl = $this->publicUrl($videoPath);
+        $heroTitle = SiteSetting::getValue('hero.title', 'Cardiothoracic Centre');
+        $heroSubtitle = SiteSetting::getValue('hero.subtitle', 'Tenwek Hospital');
+        $heroDescription = SiteSetting::getValue('hero.description', 'A beacon of hope and healing for patients with heart disease across Sub‑Saharan Africa. We provide life‑saving open‑heart and thoracic care, and train African healthcare professionals to expand access to treatment.');
         $servicesImagePath = SiteSetting::getValue('home.services_image_path');
         $servicesImageUrl = $this->publicUrl($servicesImagePath);
 
         $slides = HeroSlide::query()->ordered()->get();
 
-        return view('admin-dashboard.hero.edit', compact('mode', 'videoUrl', 'slides', 'servicesImageUrl'));
+        return view('admin-dashboard.hero.edit', compact(
+            'mode',
+            'videoUrl',
+            'videoFileUrl',
+            'heroTitle',
+            'heroSubtitle',
+            'heroDescription',
+            'slides',
+            'servicesImageUrl'
+        ));
     }
 
     public function update(Request $request)
@@ -28,10 +42,27 @@ class HeroController extends Controller
         $data = $request->validate([
             'mode' => ['required', 'in:video,carousel'],
             'video_url' => ['nullable', 'string', 'max:2048'],
+            'video_file' => ['nullable', 'file', 'mimetypes:video/mp4,video/quicktime', 'max:51200'],
+            'hero_title' => ['required', 'string', 'max:80'],
+            'hero_subtitle' => ['required', 'string', 'max:80'],
+            'hero_description' => ['required', 'string', 'max:500'],
         ]);
 
         SiteSetting::setValue('hero.mode', $data['mode']);
         SiteSetting::setValue('hero.video_url', $data['video_url'] ?: null);
+        SiteSetting::setValue('hero.title', $data['hero_title']);
+        SiteSetting::setValue('hero.subtitle', $data['hero_subtitle']);
+        SiteSetting::setValue('hero.description', $data['hero_description']);
+
+        if ($request->hasFile('video_file')) {
+            $old = SiteSetting::getValue('hero.video_path');
+            if ($old && !str_starts_with($old, 'http')) {
+                Storage::disk('public')->delete($old);
+            }
+
+            $path = $request->file('video_file')->store('hero', 'public');
+            SiteSetting::setValue('hero.video_path', $path);
+        }
 
         return redirect()
             ->route('admin-dashboard.hero.edit')

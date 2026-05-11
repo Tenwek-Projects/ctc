@@ -18,7 +18,7 @@
                         <input type="radio" name="mode" value="video" class="mt-1" {{ old('mode', $mode) === 'video' ? 'checked' : '' }}>
                         <span class="min-w-0">
                             <span class="block font-semibold text-admin-dark">Video</span>
-                            <span class="block text-sm text-admin-muted">Loop a YouTube URL or an uploaded MP4 path under <code class="text-xs">public/</code>.</span>
+                            <span class="block text-sm text-admin-muted">Use a URL (YouTube or direct MP4) or upload an MP4 from your computer.</span>
                         </span>
                     </label>
 
@@ -31,17 +31,82 @@
                     </label>
                 </div>
 
-                <div>
-                    <label for="video_url" class="block text-sm font-semibold text-admin-dark">Hero video URL (when mode = Video)</label>
+                <div class="grid gap-4 lg:grid-cols-12 items-start">
+                    <div class="lg:col-span-7">
+                        <label for="video_url" class="block text-sm font-semibold text-admin-dark">Hero video URL (optional)</label>
                     <input
                         id="video_url"
                         name="video_url"
                         type="text"
                         value="{{ old('video_url', $videoUrl) }}"
-                        placeholder="https://www.youtube.com/watch?v=... or videos/hero.mp4"
+                        placeholder="https://www.youtube.com/watch?v=... or https://your-domain/videos/hero.mp4"
                         class="mt-1.5 block w-full rounded-xl border border-gray-300 px-4 py-3 text-sm text-admin-dark focus:border-admin-teal focus:ring-admin-teal"
                     />
                     @error('video_url')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+                        <p class="mt-2 text-xs text-admin-muted">Tip: a direct MP4 URL will play as a background video. YouTube URLs embed automatically.</p>
+                    </div>
+
+                    <div class="lg:col-span-5">
+                        <label class="block text-sm font-semibold text-admin-dark">Upload MP4 (optional)</label>
+                        <input type="file" name="video_file" accept="video/mp4,video/quicktime" class="mt-1.5 block w-full text-sm">
+                        @error('video_file')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+                        @if(!empty($videoFileUrl))
+                            <div class="mt-3 rounded-xl border border-gray-200 bg-white p-3">
+                                <p class="text-xs font-semibold text-admin-dark">Current uploaded video</p>
+                                <a href="{{ $videoFileUrl }}" target="_blank" rel="noopener" class="mt-1 inline-flex items-center text-sm font-medium text-admin-teal hover:underline break-all">
+                                    {{ $videoFileUrl }}
+                                </a>
+                            </div>
+                        @endif
+                        <p class="mt-2 text-xs text-admin-muted">Upload size limit: 50MB. If an upload exists, it takes priority over the URL.</p>
+                    </div>
+                </div>
+
+                <div class="rounded-xl border border-gray-200 bg-white p-4">
+                    <h3 class="text-sm font-semibold text-admin-dark">Hero text</h3>
+                    <p class="mt-1 text-xs text-admin-muted">This content appears on the homepage hero overlay.</p>
+
+                    <div class="mt-4 grid gap-4 lg:grid-cols-12">
+                        <div class="lg:col-span-6">
+                            <label for="hero_title" class="block text-sm font-semibold text-admin-dark">Title</label>
+                            <input
+                                id="hero_title"
+                                name="hero_title"
+                                type="text"
+                                value="{{ old('hero_title', $heroTitle ?? '') }}"
+                                class="mt-1.5 block w-full rounded-xl border border-gray-300 px-4 py-3 text-sm text-admin-dark focus:border-admin-teal focus:ring-admin-teal"
+                                placeholder="Cardiothoracic Centre"
+                                required
+                            />
+                            @error('hero_title')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+                        </div>
+
+                        <div class="lg:col-span-6">
+                            <label for="hero_subtitle" class="block text-sm font-semibold text-admin-dark">Badge subtitle</label>
+                            <input
+                                id="hero_subtitle"
+                                name="hero_subtitle"
+                                type="text"
+                                value="{{ old('hero_subtitle', $heroSubtitle ?? '') }}"
+                                class="mt-1.5 block w-full rounded-xl border border-gray-300 px-4 py-3 text-sm text-admin-dark focus:border-admin-teal focus:ring-admin-teal"
+                                placeholder="Tenwek Hospital"
+                                required
+                            />
+                            @error('hero_subtitle')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+                        </div>
+
+                        <div class="lg:col-span-12">
+                            <label for="hero_description" class="block text-sm font-semibold text-admin-dark">Description</label>
+                            <textarea
+                                id="hero_description"
+                                name="hero_description"
+                                rows="4"
+                                class="mt-1.5 block w-full rounded-xl border border-gray-300 px-4 py-3 text-sm text-admin-dark focus:border-admin-teal focus:ring-admin-teal"
+                                required
+                            >{{ old('hero_description', $heroDescription ?? '') }}</textarea>
+                            @error('hero_description')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
+                        </div>
+                    </div>
                 </div>
 
                 @error('mode')<p class="text-xs text-red-600">{{ $message }}</p>@enderror
