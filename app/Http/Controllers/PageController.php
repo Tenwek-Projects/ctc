@@ -19,6 +19,7 @@ use App\Models\ServiceCategoryPage;
 use App\Models\SiteSetting;
 use App\Models\TeamMember;
 use App\Models\TrainingProgram;
+use App\Support\LegalPageContent;
 use App\Support\PublicAssetUrl;
 use App\Support\Seo\Seo;
 use Illuminate\Http\Request;
