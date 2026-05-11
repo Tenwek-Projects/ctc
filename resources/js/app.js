@@ -1,6 +1,7 @@
 import './bootstrap';
 import Alpine from 'alpinejs';
-import 'trix';
+import 'trix/dist/trix.esm.min.js';
+import 'trix/dist/trix.css';
 import { initCtcMotion } from './motion/index.js';
 
 window.Alpine = Alpine;
