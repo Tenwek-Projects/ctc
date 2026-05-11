@@ -4,6 +4,25 @@ import { CTC_EASE } from './config.js';
 
 const HERO_PRELOADER_MAX_MS = 14000;
 
+/**
+ * @param {string} raw
+ * @returns {string}
+ */
+function buildHeroTitleWordsHtml(raw) {
+    if (typeof raw !== 'string' || !raw.trim()) {
+        return '';
+    }
+    const escaper = document.createElement('div');
+    return raw
+        .trim()
+        .split(/\s+/)
+        .map((w) => {
+            escaper.textContent = w;
+            return `<span class="block" data-ctc-hero-title-word>${escaper.innerHTML}</span>`;
+        })
+        .join('');
+}
+
 function preloadHeroImage(url) {
     const trimmed = (url || '').trim();
     if (!trimmed) return Promise.resolve();
@@ -159,7 +178,7 @@ function initHeroCarousel(slides, bgNodes, ui, reduced) {
         runKen(bgNodes[index]);
 
         if (title) {
-            if (s.title) title.textContent = s.title;
+            if (s.title) title.innerHTML = buildHeroTitleWordsHtml(s.title);
             else title.innerHTML = initialTitleHtml;
         }
         if (subtitle) subtitle.textContent = s.subtitle || initialSubtitle;
@@ -254,6 +273,8 @@ function runHeroWowIntro(ctx) {
         ctasWrap,
         dotsWrap,
         indicator,
+        emblem,
+        arcs,
     } = ctx;
 
     const ctaEls = ctasWrap ? Array.from(ctasWrap.querySelectorAll('a[data-cta]')) : [];
@@ -268,6 +289,8 @@ function runHeroWowIntro(ctx) {
         ctasWrap,
         dotsWrap,
         indicator,
+        emblem,
+        arcs,
     ].filter(Boolean);
 
     if (reduced) {
@@ -277,7 +300,7 @@ function runHeroWowIntro(ctx) {
         if (indicator) {
             const chev = indicator.querySelector('.ctc-hero-scroll-indicator__chev');
             if (chev) {
-                gsap.set(chev, { y: 0 });
+                gsap.set(chev, { y: 0, transformOrigin: '50% 50%' });
             }
         }
         return;
@@ -318,7 +341,16 @@ function runHeroWowIntro(ctx) {
 
     let titleLines = null;
     let useTitleFallback = false;
-    if (!hasCarousel && title?.textContent?.trim()) {
+    const titleWordEls = title ? Array.from(title.querySelectorAll('[data-ctc-hero-title-word]')) : [];
+    if (!hasCarousel && titleWordEls.length) {
+        titleLines = titleWordEls;
+        gsap.set(titleLines, {
+            opacity: 0,
+            yPercent: 118,
+            rotateX: -42,
+            transformOrigin: '50% 100%',
+        });
+    } else if (!hasCarousel && title?.textContent?.trim()) {
         const split = new SplitType(title, { types: 'lines' });
         titleLines = split.lines;
         if (titleLines?.length) {
@@ -348,6 +380,18 @@ function runHeroWowIntro(ctx) {
                 ease: 'power3.out',
             },
             0,
+        );
+    }
+
+    if (arcs) {
+        tl.to(arcs, { opacity: 0.72, duration: 1.15, ease: 'power2.out' }, 0.05);
+    }
+
+    if (emblem) {
+        tl.to(
+            emblem,
+            { opacity: 1, y: 0, scale: 1, duration: 0.88, ease: WOW_SNAP },
+            0.1,
         );
     }
 
@@ -454,11 +498,12 @@ function runHeroWowIntro(ctx) {
             const chev = indicator.querySelector('.ctc-hero-scroll-indicator__chev');
             if (chev) {
                 gsap.to(chev, {
-                    y: 5,
+                    y: 7,
                     repeat: -1,
                     yoyo: true,
                     duration: 1.45,
                     ease: 'power1.inOut',
+                    transformOrigin: '50% 50%',
                 });
             }
         });
@@ -481,7 +526,9 @@ export function initHeroMotion(reduced, scrollTriggerOk) {
     const ctasWrap = document.getElementById('ctc-hero-ctas');
     const ctasForCarousel = ctasWrap ? Array.from(ctasWrap.querySelectorAll('[data-cta="1"]')) : [];
     const dotsWrap = hero.querySelector('[data-ctc-hero-dots]');
-    const indicator = document.querySelector('[data-ctc-hero-scroll-indicator]');
+    const indicator = hero.querySelector('[data-ctc-hero-scroll-indicator]');
+    const emblem = hero.querySelector('[data-ctc-hero-emblem]');
+    const arcs = hero.querySelector('[data-ctc-hero-arcs]');
 
     const carouselSlides = readCarouselPayload();
     const bgSlides = Array.from(hero.querySelectorAll('.ctc-hero-slide'));
@@ -522,6 +569,8 @@ export function initHeroMotion(reduced, scrollTriggerOk) {
             ctasWrap,
             dotsWrap,
             indicator,
+            emblem,
+            arcs,
         });
     });
 }

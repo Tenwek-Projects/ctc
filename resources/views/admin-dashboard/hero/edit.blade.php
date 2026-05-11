@@ -18,7 +18,7 @@
                         <input type="radio" name="mode" value="video" class="mt-1" {{ old('mode', $mode) === 'video' ? 'checked' : '' }}>
                         <span class="min-w-0">
                             <span class="block font-semibold text-admin-dark">Video</span>
-                            <span class="block text-sm text-admin-muted">Use a URL (YouTube or direct MP4) or upload an MP4 from your computer.</span>
+                            <span class="block text-sm text-admin-muted">Use a URL (YouTube, HLS .m3u8, or direct MP4) or upload an MP4 from your computer.</span>
                         </span>
                     </label>
 
@@ -39,11 +39,11 @@
                         name="video_url"
                         type="text"
                         value="{{ old('video_url', $videoUrl) }}"
-                        placeholder="https://www.youtube.com/watch?v=... or https://your-domain/videos/hero.mp4"
+                        placeholder="YouTube, https://…/hero.m3u8 (HLS), or https://…/hero.mp4"
                         class="mt-1.5 block w-full rounded-xl border border-gray-300 px-4 py-3 text-sm text-admin-dark focus:border-admin-teal focus:ring-admin-teal"
                     />
                     @error('video_url')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror
-                        <p class="mt-2 text-xs text-admin-muted">Tip: a direct MP4 URL will play as a background video. YouTube URLs embed automatically.</p>
+                        <p class="mt-2 text-xs text-admin-muted">Tip: use an HLS manifest URL ending in <code class="text-[11px]">.m3u8</code> to stream in small segments (lighter than one huge MP4). YouTube URLs embed automatically.</p>
                     </div>
 
                     <div class="lg:col-span-5">

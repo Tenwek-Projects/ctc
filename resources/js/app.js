@@ -1,20 +1,30 @@
 import './bootstrap';
 import Alpine from 'alpinejs';
 import 'trix/dist/trix.esm.min.js';
-import 'trix/dist/trix.css';
-import { initCtcMotion } from './motion/index.js';
-import { initHeroMediaPreload } from './motion/hero.js';
 
 window.Alpine = Alpine;
 Alpine.start();
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    const isAdmin = document.body?.dataset?.ctcSite === 'admin';
     const hero = document.querySelector('[data-ctc-hero]');
-    if (hero && document.body?.dataset?.ctcSite !== 'admin') {
-        initHeroMediaPreload(hero);
+
+    let motion = { lenis: null, getScrollY: () => window.scrollY };
+
+    if (!isAdmin) {
+        if (hero) {
+            const [{ initHeroHls }, { initHeroMediaPreload }] = await Promise.all([
+                import('./hero-hls.js'),
+                import('./motion/hero.js'),
+            ]);
+            await initHeroHls();
+            initHeroMediaPreload(hero);
+        }
+
+        const { initCtcMotion } = await import('./motion/index.js');
+        motion = initCtcMotion() ?? motion;
     }
 
-    const motion = initCtcMotion();
     const getScrollY = motion?.getScrollY ?? (() => window.scrollY);
 
     const setTopbarVisibility = () => {

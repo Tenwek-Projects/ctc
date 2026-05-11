@@ -141,11 +141,20 @@
         </div>
     </section>
 
-    {{-- Impact --}}
-    <section class="py-16 lg:py-20">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    {{-- Impact: content over grayscale Africa map background (right), rays from Bomet --}}
+    <section class="relative overflow-hidden bg-white py-16 lg:py-20">
+        <p class="sr-only">Decorative background: map of Africa with paths from Bomet, Kenya suggesting regional and global reach.</p>
+        <div class="pointer-events-none absolute inset-0 z-0 select-none" aria-hidden="true">
+            <div class="absolute inset-0 bg-gradient-to-r from-white via-white/92 to-white/55 lg:via-white/78 lg:to-transparent"></div>
+            <div class="ctc-impact-map-bg absolute top-1/2 right-0 h-[min(118vw,620px)] w-[min(118vw,720px)] max-w-[200%] -translate-y-1/2 translate-x-[4%] sm:h-[min(95vw,580px)] sm:w-[min(95vw,680px)] sm:translate-x-[6%] lg:h-[min(72vw,640px)] lg:w-[min(72vw,760px)] lg:-translate-y-[48%] lg:translate-x-[2%]">
+                <x-home-impact-africa-map class="h-full w-full max-w-none" />
+            </div>
+        </div>
+
+        <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
             <x-section-title title="Our Impact in Africa" subtitle="The CTC is a regional leader in cardiothoracic surgery and training." />
-            <div class="max-w-3xl prose prose-lg text-gray-600">
+
+            <div class="mt-8 max-w-3xl prose prose-lg text-gray-600">
                 <p>
                     The Cardiothoracic Centre is a leading centre for life‑saving open‑heart surgical procedures in the region.
                     Beyond direct care, we serve as a training hub for African healthcare workers in prevention and management of heart disease,
@@ -153,7 +162,7 @@
                 </p>
             </div>
 
-            <div class="mt-10 grid gap-6 md:grid-cols-3 auto-rows-fr" data-ctc-stagger="0.1">
+            <div class="mt-10 grid gap-6 md:grid-cols-3 auto-rows-fr lg:mt-12" data-ctc-stagger="0.1">
                 <div class="h-full rounded-2xl bg-white border border-gray-200 shadow-sm p-6 flex flex-col">
                     <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Job creation</p>
                     <p class="mt-3 text-gray-700 text-sm leading-relaxed">With over <span class="font-semibold text-ctc-blue">300</span> tax‑paying Kenyan staff members, the centre contributes significantly as a regional employer.</p>

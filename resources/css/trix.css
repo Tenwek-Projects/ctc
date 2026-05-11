@@ -1,0 +1,2 @@
+/* Separate entry so @charset from Trix stays valid (must not follow Tailwind output). */
+@import 'trix/dist/trix.css';

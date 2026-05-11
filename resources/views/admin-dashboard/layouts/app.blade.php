@@ -7,14 +7,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/trix.css', 'resources/js/app.js'])
     <style>[x-cloak]{display:none!important}</style>
 </head>
-<body class="h-screen overflow-hidden bg-admin-bg text-admin-dark antialiased" data-ctc-site="admin" x-data="{ sidebarOpen: false, adminMenuOpen: false }">
-    <div class="flex h-screen">
-        {{-- Sidebar: fixed; internal scroll only --}}
-        <aside class="fixed inset-y-0 left-0 z-40 w-64 bg-admin-sidebar text-white transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:inset-auto flex flex-col"
-             :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
+<body class="h-screen overflow-hidden bg-admin-bg text-admin-dark antialiased" data-ctc-site="admin">
+    <div
+        class="flex h-screen"
+        x-data="{ sidebarOpen: false, adminMenuOpen: false }"
+        @resize.window="if (window.matchMedia('(min-width: 1024px)').matches) sidebarOpen = false"
+    >
+        {{-- Sidebar: off-canvas < lg. .is-open + CSS below avoid click-stealing when closed (no fragile data-* Alpine binding). --}}
+        <aside
+            data-ctc-admin-sidebar
+            class="fixed inset-y-0 left-0 flex w-64 shrink-0 flex-col bg-admin-sidebar text-white transition-transform duration-200 ease-in-out lg:pointer-events-auto lg:static lg:inset-auto lg:z-auto lg:translate-x-0 -translate-x-full"
+            :class="sidebarOpen ? 'is-open !translate-x-0 max-lg:z-50 max-lg:pointer-events-auto' : 'max-lg:z-0 max-lg:pointer-events-none'"
+        >
             <div class="flex h-16 items-center justify-between px-4 border-b border-white/15 lg:px-5">
                 <span class="font-bold text-white truncate">{{ config('ctc.name') }}</span>
                 <button type="button" @click="sidebarOpen = false" class="lg:hidden p-2 rounded-lg hover:bg-white/10 text-white" aria-label="Close menu">
@@ -26,11 +33,10 @@
             </div>
         </aside>
 
-        {{-- Overlay for mobile --}}
-        <div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-             class="fixed inset-0 z-30 bg-black/50 lg:hidden" @click="sidebarOpen = false" x-cloak></div>
-
-        <div class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+        <div
+            data-ctc-admin-main
+            class="relative z-10 flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden"
+        >
             {{-- Topbar: fixed within app shell --}}
             <header class="shrink-0 z-20 flex h-16 items-center justify-between gap-4 border-b border-gray-200/80 bg-white/85 backdrop-blur-xl px-4 shadow-[0_1px_0_rgba(15,23,42,0.04)] lg:px-8">
                 <button type="button" @click="sidebarOpen = true" class="lg:hidden p-2 rounded-lg text-admin-muted hover:bg-admin-bg hover:text-admin-teal transition-colors" aria-label="Open menu">

@@ -2,7 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 @import 'tailwindcss';
 @import 'lenis/dist/lenis.css';
-@import 'trix/dist/trix.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -343,6 +342,38 @@ body:not(.ctc-home) .ctc-site-header {
 
 body.ctc-home .ctc-topbar::before {
     opacity: 0.65;
+}
+
+/* Homepage: Our Impact — faint dotted country borders (Natural Earth 110m) */
+.ctc-impact-map-bg .ctc-impact-africa-countries {
+    opacity: 1;
+}
+
+.ctc-impact-map-bg .ctc-impact-country {
+    fill: none;
+    stroke: rgb(120 113 108 / 0.32);
+    stroke-width: 0.42;
+    stroke-dasharray: 1.25 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+
+.ctc-impact-ray {
+    stroke-dasharray: 3 6;
+    animation: ctc-impact-ray-flow 4s linear infinite;
+}
+
+@keyframes ctc-impact-ray-flow {
+    to {
+        stroke-dashoffset: -72;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctc-impact-ray {
+        animation: none;
+    }
 }
 
 body.ctc-home .ctc-topbar {
@@ -963,5 +994,18 @@ body[data-ctc-site="public"] .ctc-field:focus {
 
     .ctc-news-bouncy-card:hover {
         transform: none !important;
+    }
+}
+
+/* Admin: off-canvas sidebar must not sit above the main shell when “closed” (click-stealing / “dark overlay” reports). */
+@media (max-width: 1023.98px) {
+    body[data-ctc-site='admin'] [data-ctc-admin-main] {
+        position: relative;
+        z-index: 10;
+    }
+
+    body[data-ctc-site='admin'] [data-ctc-admin-sidebar]:not(.is-open) {
+        pointer-events: none !important;
+        z-index: 0 !important;
     }
 }

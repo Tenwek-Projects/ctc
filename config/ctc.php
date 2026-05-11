@@ -6,9 +6,11 @@ return [
     'tagline' => 'Excellence in Cardiothoracic Care in East Africa',
 
     /*
-    | Hero background video (landing page). YouTube URL or path under public/ (e.g. 'videos/hero.mp4').
-    | YouTube embeds autoplay muted and loop; use HD/4K source on YouTube for best quality.
-    | Leave null to use gradient-only background.
+    | Hero background video (landing page). YouTube URL, direct MP4 URL, or HLS manifest (.m3u8).
+    | For large files, prefer HLS: host a manifest + segments (small chunks); the site loads hls.js
+    | automatically when the URL ends in .m3u8. Example (after ffmpeg):
+    |   ffmpeg -i hero.mp4 -c copy -f hls -hls_time 4 -hls_list_size 0 -hls_segment_filename hero_%03d.ts hero.m3u8
+    | YouTube embeds autoplay muted and loop. Leave null to use gradient-only background.
     */
     'hero_video' => env('CTC_HERO_VIDEO', 'https://www.youtube.com/watch?v=_kRrI-5-SX0'),
 
