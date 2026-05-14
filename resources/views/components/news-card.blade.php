@@ -27,7 +27,7 @@
     </div>
     <div class="p-5">
         @if($type)
-            <span class="inline-block text-xs font-medium uppercase tracking-wide text-ctc-accent mb-2">{{ $type }}</span>
+            <span class="inline-block text-xs font-medium uppercase tracking-wide text-ctc-ruby mb-2">{{ $type }}</span>
         @endif
         <h3 class="text-lg font-semibold text-gray-900 group-hover:text-ctc-blue transition-colors">{{ $title }}</h3>
         @if($date)

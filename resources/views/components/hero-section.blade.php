@@ -56,7 +56,7 @@
     >
         <span class="sr-only">Loading hero media</span>
         <span
-            class="h-12 w-12 rounded-full border-2 border-white/20 border-t-[#e4c373] animate-spin motion-reduce:animate-none"
+            class="h-12 w-12 rounded-full border-2 border-white/20 border-t-ctc-ruby animate-spin motion-reduce:animate-none"
             aria-hidden="true"
         ></span>
     </div>
@@ -180,43 +180,18 @@
         </svg>
     </div>
 
-    {{-- Center: emblem, title, badge --}}
+    {{-- Center: flagship, title, badge --}}
     <div class="absolute inset-0 z-[3] flex items-center justify-center px-4 pb-24 sm:pb-28">
         <div class="text-center [perspective:1400px]" data-ctc-hero-headline>
-            <div class="mb-4 flex justify-center sm:mb-5" data-ctc-hero-emblem aria-hidden="true">
-                {{-- Stylized human heart: great vessels, atria, ventricles, anterior interventricular groove --}}
-                <svg
-                    class="h-[3.25rem] w-[2.85rem] drop-shadow-[0_6px_20px_rgba(228,195,115,0.35)] sm:h-[4rem] sm:w-[3.5rem]"
-                    viewBox="0 0 72 92"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <g stroke="#e4c373" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round">
-                        <!-- Aortic arch & ascending aorta -->
-                        <path d="M36 30V22c0-3 2.2-5.6 5-6.2a6 6 0 0 1 6.2 2.2l2.4 3.2" />
-                        <path d="M41.5 16.5c2.8-4.2 7.8-6.2 12.2-4.8 3.6 1 6.4 4.4 6.8 8.2" />
-                        <!-- Pulmonary trunk & branches -->
-                        <path d="M32.5 29.5 28 18.5c-0.8-2.2 0.6-4.6 2.8-5.2h1.2" />
-                        <path d="M27 20.5c-3-1.2-6.2 0.2-8 2.8" />
-                        <!-- Venous return (SVC region) -->
-                        <path d="M46.5 30.5 50.5 22" />
-                        <path d="M49 26.5l4.2-5.8" />
-                        <!-- Right atrium / auricle -->
-                        <path d="M30.5 32.5c-9 1.2-16.2 7.8-18.8 16.8-1.8 6.6-0.4 13.8 3.6 19.8" />
-                        <!-- Left ventricle (bulk, anterior view) -->
-                        <path d="M41 33.5c10.2 2.4 17.8 11 19.6 21 2 10.6-2.8 21.8-12.2 29.8" />
-                        <!-- Apex -->
-                        <path d="M16.2 68.5c5.4 9.6 14.8 17.2 19.8 20.5 5-3.3 14.4-10.9 19.8-20.5" />
-                        <!-- Anterior interventricular groove -->
-                        <path d="M38.5 36.5c-1.2 6.6-2.2 13.6-2.8 20.8-0.4 5.6-0.2 11.2 0.6 16.8" />
-                        <!-- Right ventricle surface detail -->
-                        <path d="M22.5 44c2.2 5.6 5.6 10.8 9.8 15.2" opacity="0.85" />
-                        <!-- Left ventricle surface detail -->
-                        <path d="M52.5 48c-1.8 6-5.2 11.6-9.6 16.2" opacity="0.85" />
-                        <!-- Coronary sulcus -->
-                        <path d="M24 38.5c6-2.8 13.2-3.8 20-2.8 12 1 23.2 4.2 32.8 9.2" opacity="0.75" />
-                    </g>
-                </svg>
+            <div class="mb-3 flex justify-center sm:mb-4" data-ctc-hero-flagship aria-hidden="true">
+                <img
+                    src="{{ asset('flagship.png') }}"
+                    alt=""
+                    width="320"
+                    height="120"
+                    decoding="async"
+                    class="h-auto w-[min(92vw,14rem)] max-h-24 object-contain object-center drop-shadow-[0_12px_36px_rgba(0,0,0,0.45)] sm:w-[min(88vw,16rem)] sm:max-h-28 md:w-[min(72vw,18rem)] md:max-h-32"
+                />
             </div>
             <h1 id="ctc-hero-title" class="font-sans font-extrabold tracking-tight leading-[1.05] text-white drop-shadow-[0_18px_45px_rgba(0,0,0,0.50)]" style="font-size:clamp(2.2rem,5.4vw,4.25rem);">
                 @foreach ($titleWords as $word)
@@ -241,28 +216,31 @@
                 <div class="hidden max-w-[42rem] md:block md:max-w-[44%]">
                     @if($description)
                         <div data-ctc-hero-desc-card class="rounded-xl px-1 py-1 sm:px-0">
-                            <p id="ctc-hero-description" class="text-[0.95rem] font-medium leading-[1.75] text-white/95 drop-shadow-[0_14px_40px_rgba(0,0,0,0.45)] sm:text-[1rem]">
+                            <p id="ctc-hero-description" class="text-[0.95rem] font-normal leading-[1.38] text-white/95 drop-shadow-[0_14px_40px_rgba(0,0,0,0.45)] sm:text-[1rem] sm:leading-[1.36]">
                                 {{ $description }}
                             </p>
                         </div>
                     @endif
                 </div>
 
-                <div class="flex w-full flex-wrap items-center justify-start gap-2 sm:gap-3 md:gap-4 md:justify-end">
-                    <div id="ctc-hero-ctas" class="flex min-w-0 w-full flex-1 flex-row items-stretch justify-center gap-2 sm:w-auto sm:flex-initial sm:gap-3 md:gap-4">
+                <div class="flex w-full flex-wrap items-center justify-start gap-1.5 sm:gap-2 md:gap-3 md:justify-end">
+                    <div id="ctc-hero-ctas" class="flex min-w-0 w-full flex-1 flex-row items-stretch justify-center gap-1.5 sm:w-auto sm:flex-initial sm:gap-2 md:gap-3">
                         @if($primaryBtn)
                             <a href="{{ $primaryBtn['url'] ?? '#' }}"
                                data-cta="1"
-                               class="inline-flex min-h-[2.5rem] min-w-0 flex-1 basis-0 items-center justify-center rounded-lg border border-white/90 bg-black/35 px-2 py-2 text-[0.62rem] font-semibold uppercase leading-tight tracking-[0.08em] text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] backdrop-blur-md transition hover:bg-black/45 hover:border-white sm:min-h-[3rem] sm:flex-none sm:basis-auto sm:rounded-xl sm:px-6 sm:py-3.5 sm:text-xs sm:tracking-[0.18em] md:px-7 md:text-sm
-                                      focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-black/50">
-                                {{ $primaryBtn['label'] ?? 'Book appointment' }}
+                               class="ctc-hero-cta-book relative inline-flex min-h-[2rem] min-w-0 flex-1 basis-0 items-center justify-center rounded-md bg-transparent px-1 py-1 text-[0.52rem] font-semibold uppercase leading-tight tracking-[0.07em] text-[#fecaca] shadow-none transition-[outline,outline-offset] duration-200 sm:min-h-[2.375rem] sm:flex-none sm:basis-auto sm:rounded-lg sm:px-3.5 sm:py-2 sm:text-[0.625rem] sm:tracking-[0.14em] md:px-4 md:text-[0.6875rem]
+                                      focus:outline-none focus-visible:ring-2 focus-visible:ring-[#b33127] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent">
+                                <span class="relative z-[1] inline-flex min-w-0 items-center justify-center gap-0.5 sm:gap-1">
+                                    <x-icon-calendar class="h-2.5 w-2.5 shrink-0 sm:h-3 sm:w-3" />
+                                    <span>{{ $primaryBtn['label'] ?? 'Book appointment' }}</span>
+                                </span>
                             </a>
                         @endif
                         @if($secondaryBtn)
                             <a href="{{ $secondaryBtn['url'] ?? '#' }}"
                                data-cta="2"
-                               class="inline-flex min-h-[2.5rem] min-w-0 flex-1 basis-0 items-center justify-center rounded-lg border border-[#e4c373]/90 bg-[#e4c373] px-2 py-2 text-[0.62rem] font-semibold uppercase leading-tight tracking-[0.08em] text-ctc-blue shadow-[0_18px_50px_rgba(0,0,0,0.28)] transition hover:bg-[#ebd088] hover:border-[#ebd088] sm:min-h-[3rem] sm:flex-none sm:basis-auto sm:rounded-xl sm:px-6 sm:py-3.5 sm:text-xs sm:tracking-[0.18em] md:px-7 md:text-sm
-                                      focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e4c373] focus-visible:ring-offset-2 focus-visible:ring-offset-black/40">
+                               class="inline-flex min-h-[2rem] min-w-0 flex-1 basis-0 items-center justify-center rounded-md border-2 border-[#e4c373] bg-transparent px-1 py-1 text-[0.52rem] font-semibold uppercase leading-tight tracking-[0.07em] text-[#e4c373] shadow-none transition hover:bg-[#e4c373]/15 hover:border-[#ebd088] sm:min-h-[2.375rem] sm:flex-none sm:basis-auto sm:rounded-lg sm:px-3.5 sm:py-2 sm:text-[0.625rem] sm:tracking-[0.14em] md:px-4 md:text-[0.6875rem]
+                                      focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e4c373] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent">
                                 {{ $secondaryBtn['label'] ?? 'Refer a Patient' }}
                             </a>
                         @endif

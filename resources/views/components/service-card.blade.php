@@ -32,7 +32,7 @@
         @endphp
         @if($primaryHref && $primaryHref !== '#')
             <a href="{{ $primaryHref }}"
-               class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-ctc-blue/80 hover:text-ctc-blue transition-colors">
+               class="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-ctc-blue/80 hover:text-ctc-ruby transition-colors">
                 Learn more
                 <svg class="w-4 h-4 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />

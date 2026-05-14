@@ -59,9 +59,9 @@
                     <div class="h-full rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
                         <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">Talk to us</p>
                         <p class="mt-3 text-sm text-gray-600">
-                            <a class="font-semibold text-ctc-blue hover:text-ctc-magenta hover:underline transition-colors" href="tel:+254728091900">+254 728 091 900</a>
+                            <a class="font-semibold text-ctc-blue hover:text-ctc-ruby hover:underline transition-colors" href="tel:+254728091900">+254 728 091 900</a>
                             <span class="text-gray-400">•</span>
-                            <a class="font-semibold text-ctc-blue hover:text-ctc-magenta hover:underline transition-colors" href="mailto:customer.experience@tenwekhosp.org">customer.experience@tenwekhosp.org</a>
+                            <a class="font-semibold text-ctc-blue hover:text-ctc-ruby hover:underline transition-colors" href="mailto:customer.experience@tenwekhosp.org">customer.experience@tenwekhosp.org</a>
                         </p>
                         <p class="mt-2 text-sm text-gray-600">
                             Visit: <span class="font-medium text-gray-800">Bomet County, Kenya</span> • <span class="font-medium text-gray-800">P.O Box 39-20400 Bomet</span>

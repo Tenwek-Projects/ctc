@@ -24,8 +24,9 @@
     <section class="py-14 lg:py-20 bg-gradient-to-b from-white to-ctc-grey-light/40">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-6xl mx-auto">
-                <p class="text-center text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent max-w-2xl mx-auto">
-                    Request a visit
+                <p class="flex items-center justify-center gap-2 text-center text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-ruby max-w-2xl mx-auto">
+                    <x-icon-calendar class="h-4 w-4 shrink-0 text-ctc-ruby" />
+                    <span>Request a visit</span>
                 </p>
                 <p class="mt-4 text-center text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
                     Share your details and preferred timing. Our coordination team will review your request and contact you, usually within a few business days, to confirm or suggest alternatives.
@@ -145,7 +146,8 @@
                                             Submitting this form does not guarantee a specific slot. See our <a href="{{ route('terms-of-service') }}" class="text-ctc-blue font-medium hover:underline">terms</a> and <a href="{{ route('privacy-policy') }}" class="text-ctc-blue font-medium hover:underline">privacy policy</a>.
                                         </p>
                                         <button type="submit"
-                                                class="ctc-magnetic inline-flex items-center justify-center px-8 py-3.5 rounded-xl font-semibold text-sm bg-ctc-blue text-white hover:bg-ctc-blue-dark shadow-lg shadow-ctc-blue/20 transition-colors shrink-0">
+                                                class="ctc-magnetic inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-semibold text-sm bg-ctc-blue text-white hover:bg-ctc-blue-dark shadow-lg shadow-ctc-blue/20 transition-colors shrink-0">
+                                            <x-icon-calendar class="h-4 w-4 shrink-0 opacity-95" />
                                             Submit request
                                         </button>
                                     </div>

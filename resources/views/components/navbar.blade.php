@@ -1,16 +1,10 @@
 <nav class="ctc-navbar sticky top-0 z-50" role="navigation" aria-label="Main navigation">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16 lg:h-18">
+        <div class="flex h-16 items-center justify-between gap-3">
             {{-- Logo / Brand --}}
-            <a href="{{ route('home') }}" class="flex items-center ctc-navbar__brand font-headline tracking-tight transition-colors">
-                <span class="leading-[1.05]">
-                    <span class="block font-extrabold text-base sm:text-lg text-gray-900">
-                        {{ config('ctc.name') }}
-                    </span>
-                    <span class="block text-xs sm:text-sm font-semibold text-gray-500">
-                        {{ config('ctc.hospital') }}
-                    </span>
-                </span>
+            <a href="{{ route('home') }}" class="ctc-navbar__brand flex min-w-0 max-w-[calc(100%-3.25rem)] items-center gap-0 font-headline transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ctc-blue focus-visible:ring-offset-2 rounded-md sm:max-w-[calc(100%-4rem)] lg:max-w-[min(100%,28rem)]">
+                <span class="sr-only">AGC Tenwek Cardiothoracic Centre, {{ config('ctc.hospital') }}, home</span>
+                <x-site-brand-lockup class="min-w-0" emphasize-logo />
             </a>
 
             {{-- Desktop nav --}}

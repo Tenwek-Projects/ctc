@@ -20,7 +20,7 @@
 
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div class="max-w-4xl mx-auto text-center rounded-3xl border border-white/10 bg-white/5 shadow-[0_30px_80px_rgba(18,18,74,0.35)] backdrop-blur-xl px-6 sm:px-10 py-10 sm:py-12">
-        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent/95">Support</p>
+        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-ruby/95">Support</p>
         <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold font-headline tracking-tight mb-4">{{ $title }}</h2>
         @if($description)
             <p class="text-[1.05rem] sm:text-xl text-white/80 max-w-2xl mx-auto mb-8 leading-relaxed">{{ $description }}</p>

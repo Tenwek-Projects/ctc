@@ -23,6 +23,8 @@
     /* Gold accent (CTC) */
     --color-ctc-gold: #e4c373;
     --color-ctc-accent: var(--color-ctc-gold);
+    /* Ruby accent — use for text, borders, focus; avoid large fills */
+    --color-ctc-ruby: #b33127;
     /* Patient information & care highlights (magenta / rose) */
     --color-ctc-magenta: #b83280;
     --color-ctc-magenta-light: #d9469a;
@@ -94,14 +96,15 @@ body[data-ctc-site="public"] .ctc-navbar::after {
     pointer-events: none;
     background: linear-gradient(
         90deg,
-        transparent 5%,
-        rgba(184, 50, 128, 0.28) 50%,
-        transparent 95%
+        transparent 0%,
+        rgba(179, 49, 39, 0.22) 38%,
+        rgba(184, 50, 128, 0.26) 62%,
+        transparent 100%
     );
 }
 
 body[data-ctc-site="public"] footer[role='contentinfo'] {
-    box-shadow: inset 0 1px 0 rgba(184, 50, 128, 0.14);
+    box-shadow: inset 0 1px 0 rgba(179, 49, 39, 0.22), inset 0 2px 0 rgba(184, 50, 128, 0.08);
 }
 
 /* Admin: Trix editor polish (match dashboard UI) */
@@ -468,7 +471,7 @@ body.ctc-nav-fixed .ctc-navbar {
 }
 .ctc-nav-link.is-active {
     color: #1a1a68;
-    border-bottom-color: rgba(98, 163, 161, 1); /* ctc-secondary */
+    border-bottom-color: rgba(179, 49, 39, 0.88);
 }
 .ctc-navbar__menu-btn { color: rgba(75, 85, 99, 0.95); }
 .ctc-navbar__menu-btn:hover { color: #1a1a68; background: rgba(243, 244, 246, 0.9); }
@@ -479,7 +482,7 @@ body.ctc-nav-fixed .ctc-navbar {
 }
 .ctc-navbar__mobile-link { color: #1a1a68; }
 .ctc-navbar__mobile-link:hover { color: #12124a; background: rgba(243, 244, 246, 0.9); }
-.ctc-navbar__mobile-link.is-active { color: #1a1a68; background: rgba(243, 244, 246, 0.9); }
+.ctc-navbar__mobile-link.is-active { color: #1a1a68; background: rgba(243, 244, 246, 0.9); box-shadow: inset 3px 0 0 rgba(179, 49, 39, 0.88); }
 
 /* ============================================================
    Mega dropdown (Tenwek-inspired)
@@ -517,7 +520,7 @@ body.ctc-nav-fixed .ctc-navbar {
     content: "";
     display: block;
     height: 3px;
-    background: linear-gradient(90deg, rgba(228,195,115,0.95), rgba(98,163,161,0.95));
+    background: linear-gradient(90deg, rgba(179, 49, 39, 0.95), rgba(98,163,161,0.95));
     opacity: 0.65;
 }
 
@@ -547,7 +550,7 @@ body.ctc-nav-fixed .ctc-navbar {
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.22em;
-    color: rgba(228, 195, 115, 0.95); /* ctc-gold */
+    color: #b33127;
     padding-bottom: 0.65rem;
     margin-bottom: 0.65rem;
     border-bottom: 1px solid rgba(17, 24, 39, 0.06);
@@ -592,19 +595,19 @@ body.ctc-nav-fixed .ctc-navbar {
     height: 0.32rem;
     border-radius: 999px;
     background: rgba(98, 163, 161, 0.95); /* ctc-secondary */
-    box-shadow: 0 0 0 4px rgba(228, 195, 115, 0.18); /* gold halo */
+    box-shadow: 0 0 0 4px rgba(179, 49, 39, 0.18);
     transform: translateY(-50%);
     opacity: 0.85;
 }
 
 .ctc-mega-link:hover {
-    background: rgba(228, 195, 115, 0.14);
+    background: rgba(179, 49, 39, 0.14);
     color: #12124a;
     transform: translateX(4px);
 }
 
 .ctc-mega-link:hover::before {
-    background: rgba(228, 195, 115, 0.95); /* gold on hover */
+    background: rgba(179, 49, 39, 0.95);
     box-shadow: 0 0 0 4px rgba(98, 163, 161, 0.16); /* teal halo */
     opacity: 1;
 }
@@ -716,6 +719,73 @@ body.ctc-nav-fixed .ctc-navbar {
     width: 2rem;
     background: rgba(255, 255, 255, 0.92) !important;
     border-color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* Hero "Book appointment": animated border only (no fill / no filter on whole button) */
+@property --ctc-book-border-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+}
+
+@keyframes ctc-hero-book-border-spin {
+    to {
+        --ctc-book-border-angle: 360deg;
+    }
+}
+
+a.ctc-hero-cta-book {
+    position: relative;
+    isolation: isolate;
+    border: none;
+    background: transparent;
+    background-image: none;
+}
+
+/* Ring: conic gradient masked to a 2px stroke only (center never painted). */
+a.ctc-hero-cta-book::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(
+        from var(--ctc-book-border-angle),
+        #b33127,
+        #d14336,
+        #7a241c,
+        #e85d52,
+        #9e2a22,
+        #b33127
+    );
+    -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    animation: ctc-hero-book-border-spin 12s linear infinite;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    a.ctc-hero-cta-book:hover {
+        outline: 1px solid rgba(179, 49, 39, 0.75);
+        outline-offset: 3px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    a.ctc-hero-cta-book::before {
+        display: none;
+    }
+
+    a.ctc-hero-cta-book {
+        border: 2px solid #b33127;
+    }
 }
 
 .ctc-btn-shine {

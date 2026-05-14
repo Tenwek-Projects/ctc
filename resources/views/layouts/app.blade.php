@@ -41,8 +41,8 @@
     <meta name="twitter:image" content="{{ $seo['twitter']['image'] ?? url('/ctc.jpg') }}">
 
     {{-- Favicons --}}
-    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="{{ asset('ctc.jpg') }}">
+    <link rel="icon" href="{{ asset('flagship.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('flagship.png') }}">
     <meta name="theme-color" content="#12124A">
 
     {{-- Performance hints --}}

@@ -28,7 +28,7 @@
         <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden="true"></div>
     </div>
     <div class="p-5">
-        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent/90">Specialist</p>
+        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-ruby/90">Specialist</p>
         <h3 class="mt-2 text-lg font-semibold text-gray-900">{{ $name }}</h3>
         <p class="text-ctc-blue font-medium text-sm mt-0.5">{{ $title }}</p>
         @if($specialization)

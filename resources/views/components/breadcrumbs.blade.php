@@ -13,7 +13,7 @@
                 @endphp
                 <li class="inline-flex items-center gap-2">
                     @if(!$isLast && $url)
-                        <a href="{{ $url }}" class="hover:text-white transition-colors underline decoration-white/20 hover:decoration-white/50 underline-offset-4">
+                        <a href="{{ $url }}" class="hover:text-white transition-colors underline decoration-white/20 hover:decoration-ctc-ruby/80 underline-offset-4">
                             {{ $label }}
                         </a>
                         <span class="text-white/40" aria-hidden="true">/</span>
