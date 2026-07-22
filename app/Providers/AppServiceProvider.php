@@ -48,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
                 'image' => $data['seoImage'] ?? null,
                 'breadcrumbs' => $data['breadcrumbs'] ?? null,
                 'schema' => $data['seoSchema'] ?? null,
+                'pageTitle' => $data['pageTitle'] ?? null,
             ]);
             $view->with('seo', $seo);
         });

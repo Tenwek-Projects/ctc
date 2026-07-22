@@ -6,31 +6,16 @@
     $canonicalUrl = $activeServiceCategory
         ? route('services.category', ['serviceCategory' => $activeServiceCategory], true)
         : route('services', [], true);
-    $ogImage = $categoryPage?->featuredImageUrl() ?: \App\Support\PageBanner::urlFor($pageBannerKey ?? 'services');
-    $documentTitle = $pageTitle . ' | ' . config('ctc.name') . ' | ' . config('ctc.hospital');
 @endphp
 
 @push('head')
     <link rel="canonical" href="{{ $canonicalUrl }}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ $canonicalUrl }}">
-    <meta property="og:title" content="{{ $documentTitle }}">
-    <meta property="og:description" content="{{ $metaDescription }}">
-    @if($ogImage)
-        <meta property="og:image" content="{{ $ogImage }}">
-    @endif
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $documentTitle }}">
-    <meta name="twitter:description" content="{{ $metaDescription }}">
-    @if($ogImage)
-        <meta name="twitter:image" content="{{ $ogImage }}">
-    @endif
     @if($activeServiceCategory && $categoryPage)
         @php
             $jsonLd = [
                 '@context' => 'https://schema.org',
                 '@type' => 'MedicalWebPage',
-                'name' => $pageTitle,
+                'name' => \App\Support\Seo\Seo::brandTitle($pageTitle),
                 'description' => $metaDescription,
                 'url' => $canonicalUrl,
                 'isPartOf' => [
@@ -122,10 +107,41 @@
             @else
                 <div class="max-w-4xl">
                     <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Clinical care</p>
-                    <h2 class="mt-3 text-2xl sm:text-3xl font-headline font-extrabold tracking-tight text-ctc-blue">Comprehensive heart & chest services</h2>
-                    <p class="mt-4 text-gray-600 leading-relaxed">
-                        Explore our core service areas below. Each service is designed around safe, evidence‑based care, from diagnosis through surgery and follow‑up.
-                    </p>
+                    <h2 class="mt-3 text-2xl sm:text-3xl font-headline font-extrabold tracking-tight text-ctc-blue">
+                        Compassionate care, every step of the way
+                    </h2>
+                    <ul class="mt-6 space-y-4 text-gray-600 leading-relaxed">
+                        <li class="flex items-start gap-3">
+                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]" aria-hidden="true"></span>
+                            <span>
+                                At AGC Tenwek Cardiothoracic Centre, every service is delivered with one purpose: to provide safe, evidence-based, and compassionate care that restores health and transforms lives. From your first consultation to your final follow-up visit, we are committed to walking alongside you and your family with excellence, integrity, and hope.
+                            </span>
+                        </li>
+                    </ul>
+
+                    <h3 class="mt-10 text-xl sm:text-2xl font-headline font-extrabold tracking-tight text-ctc-blue">
+                        Comprehensive cardiothoracic care
+                    </h3>
+                    <ul class="mt-6 space-y-4 text-gray-600 leading-relaxed">
+                        <li class="flex items-start gap-3">
+                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]" aria-hidden="true"></span>
+                            <span>
+                                At AGC Tenwek Cardiothoracic Centre, we provide comprehensive, specialized care for patients with heart, chest, and vascular conditions. Our multidisciplinary team combines clinical expertise, advanced technology, and compassionate, Christ-centered care to deliver exceptional outcomes for patients of all ages.
+                            </span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]" aria-hidden="true"></span>
+                            <span>
+                                Whether you require preventive heart care, advanced diagnostics, minimally invasive procedures, or complex surgery, we are committed to providing personalized treatment tailored to your unique needs.
+                            </span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]" aria-hidden="true"></span>
+                            <span>
+                                Our integrated approach ensures that every patient receives seamless care from diagnosis and treatment to recovery and long-term follow-up — all under one roof.
+                            </span>
+                        </li>
+                    </ul>
                 </div>
             @endif
 

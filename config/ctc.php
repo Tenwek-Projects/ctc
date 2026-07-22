@@ -126,40 +126,17 @@ return [
             'label' => 'Our Services',
             'route' => 'services',
             'dropdown' => 'mega',
-            'mega_max_w' => 920,
+            'mega_cols' => 4,
+            'mega_max_w' => 1100,
             'groups' => [
                 [
-                    'title' => 'Cardiac Surgery',
+                    'title' => 'Overview',
                     'links' => [
                         [
-                            'label' => 'Explore cardiac surgery',
-                            'route' => 'services.category',
-                            'route_params' => ['serviceCategory' => 'cardiac-surgery'],
-                            'description' => 'Adult and paediatric heart procedures, valves, and bypass.',
+                            'label' => 'Services overview',
+                            'route' => 'services',
+                            'description' => 'Compassionate cardiothoracic care from consultation to follow-up.',
                         ],
-                    ],
-                ],
-                [
-                    'title' => 'Thoracic Surgery',
-                    'links' => [
-                        [
-                            'label' => 'Explore thoracic surgery',
-                            'route' => 'services.category',
-                            'route_params' => ['serviceCategory' => 'thoracic-surgery'],
-                            'description' => 'Lung, chest wall, and mediastinal surgical care.',
-                        ],
-                    ],
-                ],
-                [
-                    'title' => 'Diagnostics & pathway',
-                    'links' => [
-                        [
-                            'label' => 'Diagnostics',
-                            'route' => 'services.category',
-                            'route_params' => ['serviceCategory' => 'diagnostics'],
-                            'description' => 'Imaging and testing for accurate diagnosis.',
-                        ],
-                        ['label' => 'All services', 'route' => 'services'],
                         [
                             'label' => 'Book appointment',
                             'route' => 'book-appointment',
@@ -167,6 +144,75 @@ return [
                         ],
                         ['label' => 'Refer a Patient', 'route' => 'patient-information'],
                         ['label' => 'International Patients', 'route' => 'international-patients'],
+                    ],
+                ],
+                [
+                    'title' => 'Cardiology',
+                    'links' => [
+                        [
+                            'label' => 'Adult Cardiology',
+                            'route' => 'services.show',
+                            'route_params' => ['service' => 'adult-cardiology'],
+                            'description' => 'Prevention, diagnosis, and treatment of adult heart disease.',
+                        ],
+                        [
+                            'label' => 'Pediatric Cardiology',
+                            'route' => 'services.show',
+                            'route_params' => ['service' => 'pediatric-cardiology'],
+                            'description' => 'Congenital and acquired heart care for children.',
+                        ],
+                        [
+                            'label' => 'Cath Lab',
+                            'route' => 'services.show',
+                            'route_params' => ['service' => 'cardiac-catheterization-laboratory'],
+                            'description' => 'Minimally invasive diagnostic and interventional procedures.',
+                        ],
+                    ],
+                ],
+                [
+                    'title' => 'Surgery & critical care',
+                    'links' => [
+                        [
+                            'label' => 'Cardiac Surgery',
+                            'route' => 'services.show',
+                            'route_params' => ['service' => 'cardiac-surgical-care'],
+                            'description' => 'Adult and paediatric heart surgery with full perioperative support.',
+                        ],
+                        [
+                            'label' => 'Thoracic Surgery',
+                            'route' => 'services.show',
+                            'route_params' => ['service' => 'thoracic-surgical-care'],
+                            'description' => 'Lung, chest wall, mediastinum, diaphragm, and oesophagus.',
+                        ],
+                        [
+                            'label' => 'Intensive Care Unit (ICU)',
+                            'route' => 'services.show',
+                            'route_params' => ['service' => 'intensive-care-unit'],
+                            'description' => 'Round-the-clock critical care after major procedures.',
+                        ],
+                    ],
+                ],
+                [
+                    'title' => 'Diagnostics & support',
+                    'links' => [
+                        [
+                            'label' => 'Diagnostic Imaging',
+                            'route' => 'services.show',
+                            'route_params' => ['service' => 'diagnostic-imaging'],
+                            'description' => 'CT, echo, ultrasound, X-ray, and fluoroscopy.',
+                        ],
+                        [
+                            'label' => 'Laboratory Services',
+                            'route' => 'services.show',
+                            'route_params' => ['service' => 'laboratory-services'],
+                            'description' => 'Chemistry, haematology, microbiology, and more.',
+                        ],
+                        [
+                            'label' => 'Endoscopy',
+                            'route' => 'services.show',
+                            'route_params' => ['service' => 'endoscopy'],
+                            'description' => 'Diagnostic and therapeutic gastrointestinal procedures.',
+                        ],
                     ],
                 ],
             ],
@@ -182,13 +228,22 @@ return [
                 [
                     'title' => 'Training',
                     'links' => [
-                        ['label' => 'Training overview', 'route' => 'training'],
-                        ['label' => 'Fellowship & rotations', 'route' => 'training.fellowship-rotations'],
+                        ['label' => 'Training overview', 'route' => 'training', 'description' => 'Education & training at the CTC.'],
+                        [
+                            'label' => 'Cardiothoracic Surgery Fellowship',
+                            'route' => 'training.fellowship-rotations',
+                            'description' => 'PAACS fellowship in collaboration with COSECSA.',
+                        ],
                     ],
                 ],
                 [
                     'title' => 'Perfusion School',
                     'links' => [
+                        [
+                            'label' => 'Perfusion Training Program',
+                            'route' => 'training.perfusion',
+                            'description' => 'Classroom, simulation, and clinical perfusion training.',
+                        ],
                         [
                             'label' => 'Apply online',
                             'route' => 'college.apply.landing',
@@ -238,9 +293,11 @@ return [
                 'title' => 'Services',
                 'links' => [
                     ['label' => 'All services', 'route' => 'services'],
-                    ['label' => 'Cardiac Surgery', 'url' => '/services/cardiac-surgery'],
-                    ['label' => 'Thoracic Surgery', 'url' => '/services/thoracic-surgery'],
-                    ['label' => 'Diagnostics', 'url' => '/services/diagnostics'],
+                    ['label' => 'Adult Cardiology', 'url' => '/services/adult-cardiology'],
+                    ['label' => 'Cardiac Surgery', 'url' => '/services/cardiac-surgical-care'],
+                    ['label' => 'Thoracic Surgery', 'url' => '/services/thoracic-surgical-care'],
+                    ['label' => 'Cath Lab', 'url' => '/services/cardiac-catheterization-laboratory'],
+                    ['label' => 'Diagnostic Imaging', 'url' => '/services/diagnostic-imaging'],
                     ['label' => 'Book appointment', 'route' => 'book-appointment'],
                     ['label' => 'Patient Information', 'route' => 'patient-information'],
                 ],
@@ -263,8 +320,8 @@ return [
                     ['label' => 'Support the CTC', 'route' => 'support'],
                     ['label' => 'Training & Research', 'route' => 'training-research'],
                     ['label' => 'Training', 'route' => 'training'],
-                    ['label' => 'Fellowship & rotations', 'route' => 'training.fellowship-rotations'],
-                    ['label' => 'Perfusion School', 'route' => 'college.apply.landing'],
+                    ['label' => 'Surgery Fellowship', 'route' => 'training.fellowship-rotations'],
+                    ['label' => 'Perfusion Training', 'route' => 'training.perfusion'],
                     ['label' => 'Apply online', 'route' => 'college.apply.landing'],
                     ['label' => 'Research', 'route' => 'research'],
                     ['label' => 'Publications', 'route' => 'research.publications'],

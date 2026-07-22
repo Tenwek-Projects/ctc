@@ -118,7 +118,13 @@
                             <ul class="divide-y divide-gray-100">
                                 <li>
                                     <a href="{{ route('training.fellowship-rotations') }}" class="flex items-center justify-between gap-3 px-5 py-4 transition hover:bg-ctc-grey-light/60">
-                                        <span class="text-sm font-semibold text-ctc-blue">Fellowship &amp; rotations</span>
+                                        <span class="text-sm font-semibold text-ctc-blue">Surgery Fellowship</span>
+                                        <svg class="h-4 w-4 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('training.perfusion') }}" class="flex items-center justify-between gap-3 px-5 py-4 transition hover:bg-ctc-grey-light/60">
+                                        <span class="text-sm font-semibold text-ctc-blue">Perfusion Training</span>
                                         <svg class="h-4 w-4 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
                                     </a>
                                 </li>

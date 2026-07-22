@@ -5,12 +5,14 @@
     'detailUrl' => null,
     'id' => null,
     'magentaLine' => false,
+    'excerptLimit' => 220,
 ])
 
 @php
     $url = $url ?? '#';
     $detailUrl = $detailUrl ?? null;
-    $descriptionPlain = $description ? \Illuminate\Support\Str::limit(trim(strip_tags($description)), 220) : null;
+    $limit = max(60, (int) $excerptLimit);
+    $descriptionPlain = $description ? \Illuminate\Support\Str::limit(trim(strip_tags($description)), $limit) : null;
 @endphp
 
 <div

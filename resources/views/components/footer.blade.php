@@ -31,7 +31,7 @@
     };
 @endphp
 
-<footer class="bg-ctc-blue-dark text-white mt-auto overflow-hidden relative border-t-4 border-ctc-secondary" role="contentinfo">
+<footer class="bg-ctc-blue-dark text-white mt-auto overflow-hidden relative border-t-4 border-ctc-ruby" role="contentinfo">
     <div class="absolute inset-0 opacity-[0.06] pointer-events-none" aria-hidden="true">
         <svg width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 100 100">
             <path d="M0 100 Q 50 0 100 100" fill="none" stroke="white" stroke-width=".2" />

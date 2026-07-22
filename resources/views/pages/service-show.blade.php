@@ -27,15 +27,24 @@
                         </h2>
 
                         @if($service->description)
-                            <div class="mt-4 prose prose-slate max-w-none text-[1.05rem]
+                            <div class="ctc-service-prose mt-6 prose prose-slate max-w-none text-[1.05rem]
                                         prose-headings:font-headline prose-headings:text-ctc-blue
-                                        prose-p:text-gray-700 prose-p:leading-relaxed
-                                        prose-a:text-ctc-secondary prose-strong:text-ctc-blue">
+                                        prose-headings:mt-8 prose-headings:mb-3
+                                        prose-p:text-gray-700 prose-p:leading-relaxed prose-p:my-5
+                                        prose-ul:my-5 prose-ul:space-y-2.5
+                                        prose-li:text-gray-700 prose-li:leading-relaxed prose-li:marker:text-ctc-ruby
+                                        prose-strong:text-ctc-blue prose-strong:font-semibold
+                                        prose-a:text-ctc-secondary prose-a:font-semibold">
                                 {!! $service->description !!}
                             </div>
                         @endif
 
-                        <div class="mt-8 prose prose-slate max-w-none prose-headings:font-headline prose-headings:text-ctc-blue prose-p:text-gray-700 prose-p:leading-relaxed">
+                        <div class="ctc-service-prose mt-10 border-t border-gray-100 pt-8 prose prose-slate max-w-none
+                                    prose-headings:font-headline prose-headings:text-ctc-blue
+                                    prose-headings:mt-8 prose-headings:mb-3 first:prose-headings:mt-0
+                                    prose-p:text-gray-700 prose-p:leading-relaxed prose-p:my-5
+                                    prose-ul:my-5 prose-ul:space-y-2.5
+                                    prose-li:text-gray-700 prose-li:leading-relaxed">
                             <h3>What this service includes</h3>
                             <p>
                                 Our team provides patient‑centred evaluation, safe peri‑operative care, and follow‑up planning. We work with referring clinicians
@@ -95,7 +104,7 @@
                                     <a href="{{ route('services.show', $r) }}" class="block group">
                                         <p class="text-sm font-semibold text-gray-900 group-hover:text-ctc-blue transition-colors line-clamp-2">{{ $r->name }}</p>
                                         @if($r->description)
-                                            <p class="mt-1 text-xs text-gray-500 line-clamp-2">{{ $r->description }}</p>
+                                            <p class="mt-1 text-xs text-gray-500 line-clamp-2">{{ str($r->description)->stripTags()->limit(120) }}</p>
                                         @endif
                                     </a>
                                 @empty

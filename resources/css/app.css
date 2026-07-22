@@ -485,31 +485,66 @@ body.ctc-nav-fixed .ctc-navbar {
 .ctc-navbar__mobile-link.is-active { color: #1a1a68; background: rgba(243, 244, 246, 0.9); box-shadow: inset 3px 0 0 rgba(179, 49, 39, 0.88); }
 
 /* ============================================================
-   Mega dropdown (Tenwek-inspired)
+   Mega / simple dropdown — premium, reduced-motion safe
    ============================================================ */
 
 .ctc-dropdown {
-    transform: translateY(-6px);
-    transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate3d(0, -10px, 0) scale(0.985);
+    transform-origin: top center;
+    transition:
+        opacity 220ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0ms linear 220ms;
 }
 
-/* Open dropdown on keyboard focus too */
-.group:focus-within .ctc-dropdown {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: translateY(0) !important;
+.ctc-dropdown__panel {
+    transition:
+        opacity 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translate3d(0, 6px, 0);
+    opacity: 0.92;
 }
 
-.group:hover .ctc-dropdown {
-    transform: translateY(0);
+.ctc-nav-chevron {
+    transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1), opacity 200ms ease;
+}
+
+/* Open on hover and keyboard focus */
+.group:hover > .ctc-dropdown,
+.group:focus-within > .ctc-dropdown {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate3d(0, 0, 0) scale(1);
+    transition:
+        opacity 200ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0ms linear 0ms;
+}
+
+.group:hover > .ctc-dropdown .ctc-dropdown__panel,
+.group:focus-within > .ctc-dropdown .ctc-dropdown__panel {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    box-shadow: 0 28px 64px rgba(18, 18, 74, 0.16), 0 8px 20px rgba(18, 18, 74, 0.08);
+}
+
+.group:hover > .ctc-nav-link .ctc-nav-chevron,
+.group:focus-within > .ctc-nav-link .ctc-nav-chevron {
+    transform: rotate(180deg);
+    opacity: 0.9;
 }
 
 .ctc-mega-panel {
     width: min(92vw, var(--ctc-mega-max-w, 880px));
-    background: rgba(255, 255, 255, 0.96);
+    background: rgba(255, 255, 255, 0.97);
     border: 1px solid rgba(17, 24, 39, 0.08);
     border-radius: 1.5rem;
-    box-shadow: 0 40px 80px rgba(18, 18, 74, 0.18);
+    box-shadow: 0 24px 56px rgba(18, 18, 74, 0.12), 0 6px 16px rgba(18, 18, 74, 0.06);
     backdrop-filter: blur(16px) saturate(180%);
     -webkit-backdrop-filter: blur(16px) saturate(180%);
     overflow: hidden;
@@ -520,7 +555,7 @@ body.ctc-nav-fixed .ctc-navbar {
     content: "";
     display: block;
     height: 3px;
-    background: linear-gradient(90deg, rgba(179, 49, 39, 0.95), rgba(98,163,161,0.95));
+    background: linear-gradient(90deg, rgba(179, 49, 39, 0.95), rgba(98, 163, 161, 0.95));
     opacity: 0.65;
 }
 
@@ -531,18 +566,64 @@ body.ctc-nav-fixed .ctc-navbar {
     padding: 1.35rem 1.5rem;
 }
 
-/* Reduce motion preference */
+.ctc-mega-col {
+    min-width: 0;
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+    transition:
+        opacity 240ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.group:hover .ctc-mega-col,
+.group:focus-within .ctc-mega-col {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+.group:hover .ctc-mega-col:nth-child(1),
+.group:focus-within .ctc-mega-col:nth-child(1) { transition-delay: 30ms; }
+.group:hover .ctc-mega-col:nth-child(2),
+.group:focus-within .ctc-mega-col:nth-child(2) { transition-delay: 60ms; }
+.group:hover .ctc-mega-col:nth-child(3),
+.group:focus-within .ctc-mega-col:nth-child(3) { transition-delay: 90ms; }
+.group:hover .ctc-mega-col:nth-child(4),
+.group:focus-within .ctc-mega-col:nth-child(4) { transition-delay: 120ms; }
+
+/* Reduce motion preference — keep menus usable, skip motion */
 @media (prefers-reduced-motion: reduce) {
     .ctc-dropdown,
+    .ctc-dropdown__panel,
+    .ctc-nav-chevron,
+    .ctc-mega-col,
     .ctc-mega-link,
     .ctc-mega-link:hover {
         transition: none !important;
+        transition-delay: 0ms !important;
         transform: none !important;
     }
-}
 
-.ctc-mega-col {
-    min-width: 0;
+    .ctc-dropdown {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    .group:hover > .ctc-dropdown,
+    .group:focus-within > .ctc-dropdown {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    .ctc-mega-col,
+    .group:hover .ctc-mega-col,
+    .group:focus-within .ctc-mega-col,
+    .ctc-dropdown__panel,
+    .group:hover > .ctc-dropdown .ctc-dropdown__panel,
+    .group:focus-within > .ctc-dropdown .ctc-dropdown__panel {
+        opacity: 1;
+    }
 }
 
 .ctc-mega-title {
@@ -570,7 +651,7 @@ body.ctc-nav-fixed .ctc-navbar {
     color: rgba(26, 26, 104, 0.7);
     padding: 0.25rem 0.1rem 0.25rem 0.95rem;
     border-radius: 0.6rem;
-    transition: color 160ms ease, transform 160ms ease, background-color 160ms ease;
+    transition: color 180ms cubic-bezier(0.22, 1, 0.36, 1), transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background-color 180ms ease;
 }
 
 .ctc-mega-link__label {
@@ -652,6 +733,46 @@ body.ctc-nav-fixed .ctc-navbar {
     margin-bottom: 1.35rem !important;
     line-height: 1.75;
     color: rgb(55 65 81);
+}
+
+/* Service detail pages: clear paragraph / list rhythm */
+.prose.ctc-service-prose > :first-child {
+    margin-top: 0 !important;
+}
+
+.prose.ctc-service-prose p {
+    margin-top: 0 !important;
+    margin-bottom: 1.35rem !important;
+    line-height: 1.8;
+}
+
+.prose.ctc-service-prose p + p {
+    margin-top: 0.15rem !important;
+}
+
+.prose.ctc-service-prose ul,
+.prose.ctc-service-prose ol {
+    margin-top: 0.85rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.prose.ctc-service-prose li {
+    margin-top: 0.45rem !important;
+    margin-bottom: 0.45rem !important;
+    line-height: 1.7;
+}
+
+.prose.ctc-service-prose h3 {
+    margin-top: 2rem !important;
+    margin-bottom: 0.85rem !important;
+}
+
+.prose.ctc-service-prose h3:first-child {
+    margin-top: 0 !important;
+}
+
+.prose.ctc-service-prose > :last-child {
+    margin-bottom: 0 !important;
 }
 
 .prose.ctc-service-category-prose p:first-of-type {

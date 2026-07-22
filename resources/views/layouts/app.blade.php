@@ -21,14 +21,22 @@
 
     @stack('head')
 
-    <title>{{ $seo['title'] ?? (trim($__env->yieldContent('title')) ? trim($__env->yieldContent('title')).' | ' : '').config('ctc.name').' | '.config('ctc.hospital') }}</title>
+    @php
+        $yieldedTitle = trim($__env->yieldContent('title'));
+        $documentTitle = \App\Support\Seo\Seo::documentTitle(
+            $yieldedTitle !== '' ? $yieldedTitle : null,
+            $seo['page_segment'] ?? ($seo['title'] ?? null),
+            request()->route()?->getName()
+        );
+    @endphp
+    <title>{{ $documentTitle }}</title>
 
     {{-- Open Graph --}}
     <meta property="og:type" content="{{ $seo['og']['type'] ?? 'website' }}">
     <meta property="og:site_name" content="{{ $seo['og']['site_name'] ?? config('ctc.name') }}">
     <meta property="og:locale" content="{{ $seo['og']['locale'] ?? str_replace('_','-',app()->getLocale()) }}">
     <meta property="og:url" content="{{ $seo['og']['url'] ?? request()->url() }}">
-    <meta property="og:title" content="{{ $seo['og']['title'] ?? ($seo['title'] ?? config('ctc.name')) }}">
+    <meta property="og:title" content="{{ $documentTitle }}">
     <meta property="og:description" content="{{ $seo['og']['description'] ?? ($seo['description'] ?? config('ctc.tagline')) }}">
     <meta property="og:image" content="{{ $seo['og']['image'] ?? url('/ctc.jpg') }}">
     <meta property="og:image:width" content="1200">
@@ -36,7 +44,7 @@
 
     {{-- Twitter/X --}}
     <meta name="twitter:card" content="{{ $seo['twitter']['card'] ?? 'summary_large_image' }}">
-    <meta name="twitter:title" content="{{ $seo['twitter']['title'] ?? ($seo['title'] ?? config('ctc.name')) }}">
+    <meta name="twitter:title" content="{{ $documentTitle }}">
     <meta name="twitter:description" content="{{ $seo['twitter']['description'] ?? ($seo['description'] ?? config('ctc.tagline')) }}">
     <meta name="twitter:image" content="{{ $seo['twitter']['image'] ?? url('/ctc.jpg') }}">
 

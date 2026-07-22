@@ -19,7 +19,6 @@ use App\Models\Service;
 use App\Models\ServiceCategoryPage;
 use App\Models\SiteSetting;
 use App\Models\TeamMember;
-use App\Models\TrainingProgram;
 use App\Support\LegalPageContent;
 use App\Support\PublicAssetUrl;
 use App\Support\Seo\Seo;
@@ -183,7 +182,9 @@ class PageController extends Controller
     {
         $metaDescription = $teamMember->bio
             ? str($teamMember->bio)->stripTags()->limit(160)
-            : (($teamMember->specialization ?: $teamMember->title) ? ("Meet {$teamMember->name}, {$teamMember->title} at Tenwek Cardiothoracic Centre.") : "Meet {$teamMember->name} at Tenwek Cardiothoracic Centre.");
+            : (($teamMember->specialization ?: $teamMember->title)
+                ? ("Meet {$teamMember->name}, {$teamMember->title} at the Cardiothoracic Centre.")
+                : "Meet {$teamMember->name} at the Cardiothoracic Centre.");
 
         $related = TeamMember::query()
             ->visible()
@@ -192,7 +193,9 @@ class PageController extends Controller
             ->take(6)
             ->get();
 
-        return view('pages.specialist-show', compact('teamMember', 'related', 'metaDescription'));
+        $pageTitle = $teamMember->name;
+
+        return view('pages.specialist-show', compact('teamMember', 'related', 'metaDescription', 'pageTitle'));
     }
 
     public function services()
@@ -225,7 +228,7 @@ class PageController extends Controller
 
         $categoryLabel = $activeCategory ? ($categoryLabels[$activeCategory] ?? null) : null;
 
-        $defaultMeta = 'Explore cardiothoracic services at Tenwek CTC: cardiac surgery, thoracic surgery, and diagnostics, with patient-centered care and specialist expertise.';
+        $defaultMeta = 'Compassionate, evidence-based cardiothoracic care at AGC Tenwek Cardiothoracic Centre — from consultation and diagnostics through surgery and long-term follow-up.';
 
         $metaByCategory = [
             Service::CATEGORY_CARDIAC => 'Cardiac surgery services at Tenwek CTC: adult and paediatric heart surgery, valve procedures, and congenital care with specialist teams.',
@@ -238,7 +241,7 @@ class PageController extends Controller
             : $defaultMeta;
 
         $pageTitle = $categoryLabel
-            ? ($categoryLabel.' | '.config('ctc.name'))
+            ? $categoryLabel
             : 'Our Services';
 
         $activeServiceCategory = $activeCategory ? match ($activeCategory) {
@@ -255,7 +258,7 @@ class PageController extends Controller
         if ($categoryPage) {
             $metaDescription = $categoryPage->meta_description;
             $pageTitle = $categoryPage->meta_title
-                ?: (($categoryPage->intro_heading ?: $categoryLabel).' | '.config('ctc.name'));
+                ?: ($categoryPage->intro_heading ?: $categoryLabel ?: 'Our Services');
         }
 
         $pageBannerKey = match ($activeCategory) {
@@ -264,6 +267,9 @@ class PageController extends Controller
             Service::CATEGORY_DIAGNOSTICS => 'services_diagnostics',
             default => 'services',
         };
+
+        $seoImage = $categoryPage?->featuredImageUrl()
+            ?: \App\Support\PageBanner::urlFor($pageBannerKey);
 
         return view('pages.services', compact(
             'cardiac',
@@ -276,6 +282,7 @@ class PageController extends Controller
             'metaDescription',
             'pageTitle',
             'pageBannerKey',
+            'seoImage',
         ));
     }
 
@@ -291,9 +298,11 @@ class PageController extends Controller
 
         $metaDescription = $service->description
             ? str($service->description)->stripTags()->limit(160)
-            : ('Learn more about '.$service->name.' at Tenwek Cardiothoracic Centre.');
+            : ('Learn more about '.$service->name.' at the Cardiothoracic Centre, Tenwek Hospital.');
 
-        return view('pages.service-show', compact('service', 'related', 'metaDescription'));
+        $pageTitle = $service->name;
+
+        return view('pages.service-show', compact('service', 'related', 'metaDescription', 'pageTitle'));
     }
 
     public function patientInformation()
@@ -303,11 +312,9 @@ class PageController extends Controller
 
     public function training()
     {
-        $programs = TrainingProgram::query()->visible()->ordered()->get();
+        $metaDescription = 'Education and training at AGC Tenwek Cardiothoracic Centre: shaping the future of cardiothoracic care through fellowship and perfusion programmes.';
 
-        $metaDescription = 'Training Hands, Shaping Hearts — Equipping Tomorrow’s Healers Today. CTC is a regional training hub offering accredited Medical Education and Fellowship programs in Cardiothoracic Surgery and Cardiovascular Perfusion.';
-
-        return view('pages.training', compact('programs', 'metaDescription'));
+        return view('pages.training', compact('metaDescription'));
     }
 
     public function research()
@@ -317,9 +324,16 @@ class PageController extends Controller
 
     public function trainingFellowshipRotations()
     {
-        $metaDescription = 'Fellowship and rotations at Tenwek CTC: supervised clinical training in adult and paediatric cardiac surgery, thoracic surgery, and perioperative care in East Africa.';
+        $metaDescription = 'Cardiothoracic Surgery Fellowship at AGC Tenwek Cardiothoracic Centre through PAACS in collaboration with COSECSA.';
 
         return view('pages.training-fellowship-rotations', compact('metaDescription'));
+    }
+
+    public function trainingPerfusion()
+    {
+        $metaDescription = 'Cardiovascular Perfusion Training Program at AGC Tenwek Cardiothoracic Centre: classroom, simulation, and clinical experience for open-heart surgery support.';
+
+        return view('pages.training-perfusion', compact('metaDescription'));
     }
 
     public function researchPublications()
@@ -446,8 +460,9 @@ class PageController extends Controller
         ];
 
         $seoImage = $article->featured_image_url;
+        $pageTitle = $article->title;
 
-        return view('pages.news-show', compact('article', 'recent', 'metaDescription', 'seoSchema', 'breadcrumbs', 'seoImage'));
+        return view('pages.news-show', compact('article', 'recent', 'metaDescription', 'seoSchema', 'breadcrumbs', 'seoImage', 'pageTitle'));
     }
 
     public function gallery()

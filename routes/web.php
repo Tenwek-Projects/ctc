@@ -63,6 +63,7 @@ Route::get('/international-patients', [PageController::class, 'internationalPati
 Route::get('/training-research', [PageController::class, 'trainingResearch'])->name('training-research');
 Route::get('/training', [PageController::class, 'training'])->name('training');
 Route::get('/training/fellowship-and-rotations', [PageController::class, 'trainingFellowshipRotations'])->name('training.fellowship-rotations');
+Route::get('/training/cardiovascular-perfusion', [PageController::class, 'trainingPerfusion'])->name('training.perfusion');
 Route::get('/research', [PageController::class, 'research'])->name('research');
 Route::get('/research/publications', [PageController::class, 'researchPublications'])->name('research.publications');
 Route::get('/impact', [PageController::class, 'impact'])->name('impact');

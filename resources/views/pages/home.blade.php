@@ -164,6 +164,7 @@
                                 :url="route('services') . '#' . $service->slug"
                                 :detailUrl="route('services.show', $service)"
                                 :magentaLine="$loop->first"
+                                :excerptLimit="110"
                             />
                         @endforeach
                     </div>
