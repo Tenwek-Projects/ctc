@@ -305,7 +305,7 @@ class PageController extends Controller
     {
         $programs = TrainingProgram::query()->visible()->ordered()->get();
 
-        $metaDescription = 'Training at Tenwek CTC: fellowship, rotations, visiting surgeons programme, and medical student placements, building cardiothoracic capacity for Africa.';
+        $metaDescription = 'Training Hands, Shaping Hearts — Equipping Tomorrow’s Healers Today. CTC is a regional training hub offering accredited Medical Education and Fellowship programs in Cardiothoracic Surgery and Cardiovascular Perfusion.';
 
         return view('pages.training', compact('programs', 'metaDescription'));
     }

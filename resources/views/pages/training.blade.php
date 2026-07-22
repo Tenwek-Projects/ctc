@@ -9,7 +9,7 @@
 @section('content')
     @include('components.page-banner', [
         'title' => 'Training',
-        'subtitle' => config('ctc.name'),
+        'subtitle' => 'Training Hands, Shaping Hearts',
         'bannerKey' => 'training',
     ])
 
@@ -21,27 +21,47 @@
                         <div class="max-w-2xl">
                             <p class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-900">
                                 <span class="h-1.5 w-1.5 rounded-full bg-emerald-600"></span>
-                                Training & capacity building
+                                Regional training hub
                             </p>
                             <h2 class="mt-4 text-3xl sm:text-4xl font-semibold tracking-tight text-gray-900">
-                                Forming the next generation of cardiothoracic leaders for Africa.
+                                Training Hands, Shaping Hearts —
+                                <span class="block text-ctc-blue">Equipping Tomorrow’s Healers Today</span>
                             </h2>
                             <p class="mt-4 text-base sm:text-lg text-gray-600 leading-relaxed">
-                                Tenwek CTC provides structured learning and supervised clinical exposure, combining high-volume service, strong mentorship,
-                                and opportunities to contribute to outcomes-focused research.
+                                In addition to patient care, the CTC serves as a regional training hub, equipping healthcare professionals with the
+                                expertise needed to address the increasing prevalence of heart diseases.
                             </p>
+                            <p class="mt-3 text-base sm:text-lg text-gray-600 leading-relaxed">
+                                CTC offers advanced accredited Medical Education and Fellowship training programs for Cardiothoracic Surgery and
+                                Cardiovascular Perfusion.
+                            </p>
+                            <div class="mt-6 flex flex-wrap gap-3">
+                                <a href="{{ route('college.apply.landing') }}"
+                                   class="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold bg-ctc-blue text-white hover:bg-ctc-blue-dark transition-colors">
+                                    Apply online
+                                </a>
+                                <a href="{{ route('contact') }}"
+                                   class="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold border border-gray-300 bg-white text-gray-800 hover:border-ctc-blue/40 hover:text-ctc-blue transition-colors">
+                                    Enquire about training
+                                </a>
+                            </div>
                         </div>
 
                         <div class="mt-8 grid sm:grid-cols-2 gap-4">
                             <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
-                                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Clinical exposure</p>
-                                <p class="mt-2 text-sm text-gray-700">Adult & paediatric cardiac surgery, thoracic surgery, perioperative care, and diagnostics.</p>
+                                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Cardiothoracic Surgery</p>
+                                <p class="mt-2 text-sm text-gray-700">Advanced accredited medical education and fellowship training for tomorrow’s surgical leaders.</p>
                                 <div class="mt-4 h-1 w-12 rounded-full bg-[var(--color-ctc-gold)]"></div>
                             </div>
                             <div class="rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
-                                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Mentorship</p>
-                                <p class="mt-2 text-sm text-gray-700">Learn with a multidisciplinary team: surgeons, anaesthesia, ICU, nursing, and perfusion.</p>
+                                <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Cardiovascular Perfusion</p>
+                                <p class="mt-2 text-sm text-gray-700">Accredited training that builds the perfusion expertise essential to safe cardiac surgery.</p>
                                 <div class="mt-4 h-1 w-12 rounded-full bg-ctc-blue"></div>
+                                <a href="{{ route('college.apply.landing') }}"
+                                   class="mt-5 inline-flex items-center text-sm font-semibold text-ctc-blue hover:underline">
+                                    Apply online
+                                    <span aria-hidden="true" class="ml-1">→</span>
+                                </a>
                             </div>
                         </div>
 
@@ -158,9 +178,22 @@
     </section>
 
     <x-cta-section
-        title="Interested in training with us?"
-        description="Contact us for fellowship, rotations, and visiting programme inquiries."
+        title="Train with us"
+        badgeLeft="Train"
+        badgeRight="with us"
+        headline="Ready to grow as a cardiothoracic clinician?"
+        description="Join accredited Medical Education and Fellowship pathways at a regional hub shaping heart care across Africa."
         buttonLabel="Make an enquiry"
         :buttonUrl="route('contact')"
+        secondaryLabel="Apply to Perfusion School"
+        :secondaryUrl="route('college.apply.landing')"
+        :image="asset('hero.jpg')"
+        imageAlt="Training at AGC Tenwek Cardiothoracic Centre"
+        :points="[
+            ['title' => 'Cardiothoracic Surgery', 'text' => 'Fellowship and medical education grounded in high-volume clinical care.'],
+            ['title' => 'Cardiovascular Perfusion', 'text' => 'Accredited training for the specialists who power safe cardiac surgery.'],
+            ['title' => 'Mentored practice', 'text' => 'Learn beside a multidisciplinary team in a mission-driven centre.'],
+            ['title' => 'Regional impact', 'text' => 'Build skills that strengthen heart care where it is needed most.'],
+        ]"
     />
 @endsection

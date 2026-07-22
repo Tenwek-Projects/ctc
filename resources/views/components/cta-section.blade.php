@@ -104,8 +104,12 @@
                     </span>
                 </div>
 
+                <p class="mt-5 font-headline text-2xl font-extrabold tracking-tight text-ctc-blue sm:text-3xl lg:text-[2rem] lg:leading-tight">
+                    {{ $displayHeadline }}
+                </p>
+
                 @if($description)
-                    <p class="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-gray-600 sm:text-lg">
+                    <p class="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-gray-600 sm:text-lg">
                         {{ $description }}
                     </p>
                 @endif
