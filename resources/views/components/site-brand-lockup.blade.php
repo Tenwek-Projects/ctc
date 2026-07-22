@@ -52,8 +52,5 @@
         <span class="mt-0.5 block font-bold uppercase tracking-wide {{ $line2 }} text-[0.58rem] sm:text-[0.65rem] md:text-xs">
             Cardiothoracic Centre
         </span>
-        <span class="mt-0.5 block font-medium {{ $line3 }} text-[0.55rem] sm:text-[0.6rem] md:text-[0.7rem]">
-            Healing Hearts<span class="mx-1 inline text-ctc-ruby" aria-hidden="true">•</span>Transforming Lives
-        </span>
     </div>
 </div>

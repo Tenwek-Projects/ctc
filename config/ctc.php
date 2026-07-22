@@ -15,6 +15,11 @@ return [
     'hero_video' => env('CTC_HERO_VIDEO', 'https://www.youtube.com/watch?v=_kRrI-5-SX0'),
 
     /*
+    | Hero background image (landing page). Used when hero mode is "image".
+    */
+    'hero_image' => env('CTC_HERO_IMAGE', 'hero.jpg'),
+
+    /*
     | Banner image for inner pages (About, Team, Services, etc.). Used with a gradient overlay.
     */
     'page_banner_image' => env('CTC_PAGE_BANNER_IMAGE', 'https://tenwekhosp.org/wp-content/uploads/2024/03/DJI_0855.jpg'),
@@ -31,6 +36,23 @@ return [
     ],
 
     'demo_surgeries' => (int) env('CTC_DEMO_SURGERIES', 5000),
+
+    /*
+    | Team / specialists groups (display order on public Specialists page).
+    | Keys are stored on team_members.team_group.
+    */
+    'team_groups' => [
+        'cardiothoracic_centre' => 'Cardiothoracic Centre',
+        'senior_leadership' => 'Senior Leadership Team',
+        'cardiothoracic_surgeons' => 'Cardiothoracic Surgeons',
+        'cardiothoracic_fellows' => 'Cardiothoracic Fellows',
+        'cardiology' => 'Cardiology Department',
+        'endoscopy' => 'Endoscopy Department',
+        'paediatric_cardiologist' => 'Paediatric Cardiologist',
+        'perfusion' => 'Perfusion',
+        'anesthesia' => 'Anesthesia',
+        'pharmacy' => 'Pharmacy',
+    ],
 
     'contact' => [
         'address' => 'P.O Box 39, Bomet, Kenya, 036',
@@ -58,6 +80,10 @@ return [
     'college_website' => [
         'url' => env('CTC_COLLEGE_WEBSITE_URL'),
         'label' => env('CTC_COLLEGE_WEBSITE_LABEL', 'Tenwek College'),
+    ],
+
+    'college_application' => [
+        'max_file_mb' => (int) env('CTC_COLLEGE_APPLICATION_MAX_FILE_MB', 5),
     ],
 
     /*
@@ -150,12 +176,25 @@ return [
             'label' => 'Training & Research',
             'route' => 'training-research',
             'dropdown' => 'mega',
+            'mega_cols' => 4,
+            'mega_max_w' => 980,
             'groups' => [
                 [
                     'title' => 'Training',
                     'links' => [
                         ['label' => 'Training overview', 'route' => 'training'],
                         ['label' => 'Fellowship & rotations', 'route' => 'training.fellowship-rotations'],
+                    ],
+                ],
+                [
+                    'title' => 'Perfusion School',
+                    'links' => [
+                        [
+                            'label' => 'Apply online',
+                            'route' => 'college.apply.landing',
+                            'description' => 'Start or resume your application for the current intake.',
+                            'cta' => true,
+                        ],
                     ],
                 ],
                 [
@@ -225,6 +264,8 @@ return [
                     ['label' => 'Training & Research', 'route' => 'training-research'],
                     ['label' => 'Training', 'route' => 'training'],
                     ['label' => 'Fellowship & rotations', 'route' => 'training.fellowship-rotations'],
+                    ['label' => 'Perfusion School', 'route' => 'college.apply.landing'],
+                    ['label' => 'Apply online', 'route' => 'college.apply.landing'],
                     ['label' => 'Research', 'route' => 'research'],
                     ['label' => 'Publications', 'route' => 'research.publications'],
                 ],

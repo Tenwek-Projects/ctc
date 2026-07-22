@@ -17,6 +17,29 @@
             </div>
         </div>
 
+        @if($executiveBrochure)
+            <div class="rounded-xl bg-admin-surface border border-gray-200 shadow-sm p-6">
+                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-xs font-extrabold uppercase tracking-[0.22em] text-admin-muted">Download monitoring</p>
+                        <h3 class="mt-2 text-lg font-semibold text-admin-dark">{{ $executiveBrochure->title }}</h3>
+                        <p class="mt-1 text-sm text-admin-muted">
+                            Tracked downloads from the About page button
+                            @unless($executiveBrochure->existsOnDisk())
+                                <span class="text-amber-700">· PDF file missing from public folder</span>
+                            @endunless
+                        </p>
+                    </div>
+                    <div class="rounded-xl border border-gray-200 bg-gray-50 px-5 py-4 text-center">
+                        <p class="text-3xl font-extrabold tabular-nums text-admin-dark">{{ number_format($executiveBrochure->download_count) }}</p>
+                        <p class="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-admin-muted">
+                            {{ $executiveBrochure->download_count === 1 ? 'Download' : 'Downloads' }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         <div class="rounded-xl bg-admin-surface border border-gray-200 shadow-sm p-6">
             <form action="{{ route('admin-dashboard.about-intro.update') }}" method="post" enctype="multipart/form-data" class="space-y-5">
                 @csrf

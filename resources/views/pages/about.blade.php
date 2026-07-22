@@ -40,6 +40,33 @@
                             <span class="leading-relaxed">{{ $whoWeAre['bullets'][2] ?? 'Training and mentorship that strengthens local capacity across Africa.' }}</span>
                         </li>
                     </ul>
+
+                    @if($executiveBrochure?->existsOnDisk())
+                        <div class="mt-8 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+                            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                                <div class="min-w-0">
+                                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">Resources</p>
+                                    <h3 class="mt-2 font-headline text-lg font-extrabold tracking-tight text-ctc-blue">
+                                        {{ $executiveBrochure->title }}
+                                    </h3>
+                                    <p class="mt-1 text-sm text-gray-600">
+                                        Download our PDF overview of the Centre, programmes, and care pathways.
+                                    </p>
+                                    <p class="mt-2 text-xs font-medium text-gray-500">
+                                        <span class="tabular-nums text-ctc-blue">{{ number_format($executiveBrochure->download_count) }}</span>
+                                        {{ $executiveBrochure->download_count === 1 ? 'download' : 'downloads' }}
+                                    </p>
+                                </div>
+                                <a href="{{ route('downloads.show', $executiveBrochure->slug) }}"
+                                   class="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-ctc-blue px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-ctc-blue-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-ctc-blue focus-visible:ring-offset-2">
+                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                                    </svg>
+                                    Download PDF
+                                </a>
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="lg:col-span-6">
@@ -176,14 +203,14 @@
                         </p>
 
                         <h3 class="mt-2 text-xl font-semibold text-ctc-blue">
-                            {{ $purpose['mission']['title'] ?? 'Excellent, compassionate care' }}
+                            {{ $purpose['mission']['title'] ?? 'A Christian community' }}
                         </h3>
 
                         <div class="mt-3 prose prose-sm max-w-none text-gray-600 leading-relaxed prose-p:my-2 prose-headings:font-headline prose-headings:text-ctc-blue prose-a:text-ctc-secondary">
                             @if(!empty($purpose['mission']['body']))
                                 {!! $purpose['mission']['body'] !!}
                             @else
-                                <p>To provide excellent, compassionate cardiothoracic care to all who need it, and to train the next generation of surgeons and healthcare workers for Africa.</p>
+                                <p>A Christian community committed to excellence in compassionate healthcare, spiritual ministry and training for service in the glory of God.</p>
                             @endif
                         </div>
                     </div>
@@ -194,14 +221,14 @@
                         </p>
 
                         <h3 class="mt-2 text-xl font-semibold text-ctc-blue">
-                            {{ $purpose['vision']['title'] ?? 'Access for every patient' }}
+                            {{ $purpose['vision']['title'] ?? 'Christ-transformed health, lives and world' }}
                         </h3>
 
                         <div class="mt-3 prose prose-sm max-w-none text-gray-600 leading-relaxed prose-p:my-2 prose-headings:font-headline prose-headings:text-ctc-blue prose-a:text-ctc-secondary">
                             @if(!empty($purpose['vision']['body']))
                                 {!! $purpose['vision']['body'] !!}
                             @else
-                                <p>A region where every person has access to life‑saving heart and chest surgery, delivered by well‑trained local teams.</p>
+                                <p>Christ-transformed health, lives and world.</p>
                             @endif
                         </div>
                     </div>
@@ -227,18 +254,18 @@
 
                             <div class="lg:col-span-7">
                                 <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-blue/75">
-                                    {{ $purpose['right']['kicker'] ?? 'How we work' }}
+                                    {{ $purpose['right']['kicker'] ?? 'Purpose Statement' }}
                                 </p>
 
                                 <h3 class="mt-2 text-xl font-semibold text-ctc-blue">
-                                    {{ $purpose['right']['title'] ?? 'What patients can expect' }}
+                                    {{ $purpose['right']['title'] ?? 'Purpose Statement & Golden Rules' }}
                                 </h3>
 
                                 <div class="mt-3 prose prose-sm max-w-none text-gray-600 leading-relaxed prose-p:my-2 prose-headings:font-headline prose-headings:text-ctc-blue prose-a:text-ctc-secondary">
                                     @if(!empty($purpose['right']['body']))
                                         {!! $purpose['right']['body'] !!}
                                     @else
-                                        <p>Clear communication, safety‑first protocols, and coordinated care from referral through recovery.</p>
+                                        <p>To glorify God through provision of holistic (physical, mental, emotional, social, and spiritual) patient- and family-centered cardiothoracic care.</p>
                                     @endif
                                 </div>
                             </div>
@@ -264,31 +291,31 @@
 
                             <div class="rounded-xl bg-white/60 ring-1 ring-white/30 px-4 py-3">
                                 <p class="font-semibold text-ctc-blue underline decoration-ctc-accent/70 decoration-2 underline-offset-4">
-                                    Clear communication
+                                    Holistic care
                                 </p>
 
                                 <p class="mt-1 text-gray-600 text-[0.9rem] leading-relaxed">
-                                    We explain options and next steps.
+                                    Physical, mental, emotional, social, and spiritual.
                                 </p>
                             </div>
 
                             <div class="rounded-xl bg-white/60 ring-1 ring-white/30 px-4 py-3">
                                 <p class="font-semibold text-ctc-blue underline decoration-ctc-accent/70 decoration-2 underline-offset-4">
-                                    Safety-first
+                                    Patient-centered
                                 </p>
 
                                 <p class="mt-1 text-gray-600 text-[0.9rem] leading-relaxed">
-                                    Protocols and teamwork across care.
+                                    Care shaped around patients and families.
                                 </p>
                             </div>
 
                             <div class="rounded-xl bg-white/60 ring-1 ring-white/30 px-4 py-3">
                                 <p class="font-semibold text-ctc-blue underline decoration-ctc-accent/70 decoration-2 underline-offset-4">
-                                    Continuity
+                                    For God's glory
                                 </p>
 
                                 <p class="mt-1 text-gray-600 text-[0.9rem] leading-relaxed">
-                                    Follow-up from surgery to recovery.
+                                    Serving with excellence and compassion.
                                 </p>
                             </div>
 
@@ -300,10 +327,23 @@
         </div>
     </section>
 
-    @include('components.cta-section', [
-        'title' => 'Need help or want to partner?',
-        'description' => 'For referrals, international patient enquiries, training opportunities, or partnership conversations, reach out to our team.',
-        'buttonLabel' => 'Contact us',
-        'buttonUrl' => route('contact'),
-    ])
+    <x-cta-section
+        title="Need help or want to partner?"
+        badgeLeft="Help"
+        badgeRight="or partner"
+        headline="Need help or want to partner?"
+        description="For referrals, international patient enquiries, training opportunities, or partnership conversations, reach out to our team."
+        buttonLabel="Contact us"
+        :buttonUrl="route('contact')"
+        secondaryLabel="Book appointment"
+        :secondaryUrl="route('book-appointment')"
+        :image="($purpose['right']['image'] ?? null) ?: ($whoWeAre['images']['main'] ?? null) ?: asset('hero.jpg')"
+        imageAlt="Partnering with AGC Tenwek Cardiothoracic Centre"
+        :points="[
+            ['title' => 'Referrals', 'text' => 'Coordinate patient referrals with our clinical team.'],
+            ['title' => 'International patients', 'text' => 'Guidance for travel, care planning, and support.'],
+            ['title' => 'Training', 'text' => 'Explore fellowship, rotations, and capacity building.'],
+            ['title' => 'Partnerships', 'text' => 'Work with us across clinical care, research, and mission.'],
+        ]"
+    />
 @endsection

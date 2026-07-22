@@ -7,10 +7,11 @@
 @section('hero')
     @include('components.hero-section', [
         'title' => $heroTitle ?? 'Cardiothoracic Centre',
-        'subtitle' => $heroSubtitle ?? 'Tenwek Hospital',
-        'description' => $heroDescription ?? 'A beacon of hope and healing for patients with heart disease across Sub‑Saharan Africa. We provide life‑saving open‑heart and thoracic care, and train African healthcare professionals to expand access to treatment.',
-        'mode' => $heroMode ?? 'video',
+        'subtitle' => null,
+        'description' => 'Healing Hearts ~ Transforming Lives',
+        'mode' => $heroMode ?? 'image',
         'video' => $heroVideoUrl ?? null,
+        'image' => $heroImageUrl ?? asset('hero.jpg'),
         'slides' => $heroSlides ?? collect(),
         'buttons' => [
             ['label' => 'Book appointment', 'url' => route('book-appointment'), 'primary' => true],
@@ -42,9 +43,23 @@
                         Built to expand access to advanced cardiac care in Africa
                     </h2>
                     <p class="mt-4 text-gray-600 leading-relaxed">
-                        The Cardiothoracic Centre at Tenwek Hospital was established through the vision of the Hospital’s Board and Management
-                        to construct a specialised facility dedicated to cardiothoracic care, addressing the pressing need for advanced cardiac treatment
-                        in Kenya and across the continent.
+                        At AGC Tenwek Cardiothoracic Centre, we are dedicated to
+                        delivering compassionate, high-quality healthcare to our
+                        community and beyond. As a leading Cardiothoracic
+                        Centre, we offer a wide range of specialized medical and
+                        Surgical services, state-of-the-art facilities, and a team of
+                        skilled professionals committed to excellence.
+                    </p>
+                    <p class="mt-4 text-gray-600 leading-relaxed">
+                        Guided by our core values, we handle every patient with
+                        dignity, respect, and personalized attention. Our mission is
+                        not only to heal but also to bring hope and holistic wellness
+                        to those we serve.
+                    </p>
+                    <p class="mt-4 text-gray-600 leading-relaxed">
+                        We are more than a Cardiothoracic Centre, we are a
+                        beacon of care, a hub of healing, and a trusted partner on
+                        your journey to better health.
                     </p>
                 </div>
                 <div class="lg:col-span-5 h-full flex flex-col gap-4">
@@ -58,14 +73,49 @@
                     </div>
                     <div class="h-full rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
                         <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">Talk to us</p>
-                        <p class="mt-3 text-sm text-gray-600">
-                            <a class="font-semibold text-ctc-blue hover:text-ctc-ruby hover:underline transition-colors" href="tel:+254728091900">+254 728 091 900</a>
-                            <span class="text-gray-400">•</span>
-                            <a class="font-semibold text-ctc-blue hover:text-ctc-ruby hover:underline transition-colors" href="mailto:customer.experience@tenwekhosp.org">customer.experience@tenwekhosp.org</a>
-                        </p>
-                        <p class="mt-2 text-sm text-gray-600">
-                            Visit: <span class="font-medium text-gray-800">Bomet County, Kenya</span> • <span class="font-medium text-gray-800">P.O Box 39-20400 Bomet</span>
-                        </p>
+                        <ul class="mt-4 space-y-2.5">
+                            <li>
+                                <a href="tel:+254728091900"
+                                   class="group flex items-center gap-3 rounded-xl border border-transparent px-2.5 py-2.5 -mx-2.5 transition-colors hover:border-ctc-secondary/25 hover:bg-ctc-grey-light/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-ctc-blue focus-visible:ring-offset-2">
+                                    <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ctc-secondary/12 text-ctc-blue ring-1 ring-ctc-secondary/20" aria-hidden="true">
+                                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                                        </svg>
+                                    </span>
+                                    <span class="min-w-0">
+                                        <span class="block text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400">Phone</span>
+                                        <span class="mt-0.5 block text-sm font-semibold text-ctc-blue transition-colors group-hover:text-ctc-ruby">+254 728 091 900</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:customer.experience@tenwekhosp.org"
+                                   class="group flex items-center gap-3 rounded-xl border border-transparent px-2.5 py-2.5 -mx-2.5 transition-colors hover:border-ctc-secondary/25 hover:bg-ctc-grey-light/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-ctc-blue focus-visible:ring-offset-2">
+                                    <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ctc-secondary/12 text-ctc-blue ring-1 ring-ctc-secondary/20" aria-hidden="true">
+                                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                                        </svg>
+                                    </span>
+                                    <span class="min-w-0">
+                                        <span class="block text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400">Email</span>
+                                        <span class="mt-0.5 block break-all text-sm font-semibold text-ctc-blue transition-colors group-hover:text-ctc-ruby">customer.experience@tenwekhosp.org</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="flex items-start gap-3 px-2.5 py-2.5 -mx-2.5">
+                                <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ctc-secondary/12 text-ctc-blue ring-1 ring-ctc-secondary/20" aria-hidden="true">
+                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                                    </svg>
+                                </span>
+                                <span class="min-w-0 pt-0.5">
+                                    <span class="block text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400">Visit</span>
+                                    <span class="mt-0.5 block text-sm font-semibold text-ctc-blue">Bomet County, Kenya</span>
+                                    <span class="mt-0.5 block text-xs text-gray-500">P.O Box 39-20400 Bomet</span>
+                                </span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -125,12 +175,14 @@
     {{-- Team preview --}}
     <section class="py-16 lg:py-20 bg-ctc-grey-light">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <x-section-title title="Our Team" subtitle="Dedicated surgeons and specialists committed to excellence." />
+            <x-section-title title="Our Team" subtitle="A multidisciplinary care team committed to excellence in heart and chest care." />
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" data-ctc-stagger="0.09">
                 @foreach($team as $member)
                     <x-team-card
                         :name="$member->name"
+                        :credentials="$member->credentials"
                         :title="$member->title"
+                        :groupLabel="$member->team_group_label"
                         :specialization="$member->specialization"
                         :bio="$member->bio"
                         :photo="$member->photo"
@@ -163,18 +215,83 @@
             </div>
 
             <div class="mt-10 grid gap-6 md:grid-cols-3 auto-rows-fr lg:mt-12" data-ctc-stagger="0.1">
-                <div class="h-full rounded-2xl bg-white border border-gray-200 shadow-sm p-6 flex flex-col">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Job creation</p>
-                    <p class="mt-3 text-gray-700 text-sm leading-relaxed">With over <span class="font-semibold text-ctc-blue">300</span> tax‑paying Kenyan staff members, the centre contributes significantly as a regional employer.</p>
-                </div>
-                <div class="h-full rounded-2xl bg-white border border-gray-200 shadow-sm p-6 flex flex-col">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-magenta">Training hub</p>
-                    <p class="mt-3 text-gray-700 text-sm leading-relaxed">Advanced training attracts healthcare professionals and strengthens sustainable cardiothoracic care across Africa.</p>
-                </div>
-                <div class="h-full rounded-2xl bg-white border border-gray-200 shadow-sm p-6 flex flex-col">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Medical tourism</p>
-                    <p class="mt-3 text-gray-700 text-sm leading-relaxed">High‑quality cardiac care at a fraction of international costs draws patients from Kenya and beyond.</p>
-                </div>
+                <article class="group relative flex h-full flex-col overflow-hidden border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                    <div class="absolute inset-x-0 top-0 h-1 bg-ctc-accent" aria-hidden="true"></div>
+                    <div class="flex flex-1 flex-col p-6 pt-7 sm:p-7">
+                        <div class="flex items-start justify-between gap-4">
+                            <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Job creation</p>
+                            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center bg-ctc-accent/15 text-ctc-blue ring-1 ring-ctc-accent/25" aria-hidden="true">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="mt-5 border-b border-gray-100 pb-5">
+                            <p class="font-headline text-3xl font-extrabold tracking-tight text-ctc-blue sm:text-[2rem]">300+</p>
+                            <p class="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">Kenyan staff</p>
+                        </div>
+                        <h3 class="mt-5 font-headline text-lg font-extrabold tracking-tight text-ctc-blue">A major regional employer</h3>
+                        <p class="mt-3 flex-1 text-sm leading-relaxed text-gray-600">
+                            With over 300 tax-paying Kenyan staff members, the centre contributes significantly to local livelihoods and the regional economy.
+                        </p>
+                        <div class="mt-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-gray-400 transition group-hover:text-ctc-ruby">
+                            <span>Regional impact</span>
+                            <span class="h-px flex-1 bg-gray-200 transition group-hover:bg-ctc-ruby/30" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="group relative flex h-full flex-col overflow-hidden border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                    <div class="absolute inset-x-0 top-0 h-1 bg-ctc-magenta" aria-hidden="true"></div>
+                    <div class="flex flex-1 flex-col p-6 pt-7 sm:p-7">
+                        <div class="flex items-start justify-between gap-4">
+                            <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-magenta">Training hub</p>
+                            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center bg-ctc-magenta/10 text-ctc-magenta ring-1 ring-ctc-magenta/20" aria-hidden="true">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.908.14-1.783.414-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="mt-5 border-b border-gray-100 pb-5">
+                            <p class="font-headline text-3xl font-extrabold tracking-tight text-ctc-blue sm:text-[2rem]">Africa</p>
+                            <p class="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">wide reach</p>
+                        </div>
+                        <h3 class="mt-5 font-headline text-lg font-extrabold tracking-tight text-ctc-blue">Building clinical capacity</h3>
+                        <p class="mt-3 flex-1 text-sm leading-relaxed text-gray-600">
+                            Advanced training attracts healthcare professionals and strengthens sustainable cardiothoracic care across the continent.
+                        </p>
+                        <div class="mt-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-gray-400 transition group-hover:text-ctc-ruby">
+                            <span>Regional impact</span>
+                            <span class="h-px flex-1 bg-gray-200 transition group-hover:bg-ctc-ruby/30" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="group relative flex h-full flex-col overflow-hidden border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                    <div class="absolute inset-x-0 top-0 h-1 bg-ctc-secondary" aria-hidden="true"></div>
+                    <div class="flex flex-1 flex-col p-6 pt-7 sm:p-7">
+                        <div class="flex items-start justify-between gap-4">
+                            <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">Medical tourism</p>
+                            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center bg-ctc-secondary/12 text-ctc-blue ring-1 ring-ctc-secondary/25" aria-hidden="true">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="mt-5 border-b border-gray-100 pb-5">
+                            <p class="font-headline text-3xl font-extrabold tracking-tight text-ctc-blue sm:text-[2rem]">Cross-border</p>
+                            <p class="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-gray-400">patient care</p>
+                        </div>
+                        <h3 class="mt-5 font-headline text-lg font-extrabold tracking-tight text-ctc-blue">Trusted beyond Kenya</h3>
+                        <p class="mt-3 flex-1 text-sm leading-relaxed text-gray-600">
+                            High-quality cardiac care at a fraction of international costs draws patients from Kenya and neighbouring countries.
+                        </p>
+                        <div class="mt-6 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-gray-400 transition group-hover:text-ctc-ruby">
+                            <span>Regional impact</span>
+                            <span class="h-px flex-1 bg-gray-200 transition group-hover:bg-ctc-ruby/30" aria-hidden="true"></span>
+                        </div>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
@@ -182,9 +299,22 @@
     {{-- CTA Support --}}
     <x-cta-section
         title="Support the CTC"
+        badgeLeft="Support"
+        badgeRight="the CTC"
+        headline="Help expand life-saving heart care across Africa"
         description="Your donation helps us provide surgery to those who cannot afford it and train more surgeons for Africa."
         buttonLabel="Ways to give"
         :buttonUrl="route('support')"
+        secondaryLabel="Contact us"
+        :secondaryUrl="route('contact')"
+        :image="$impactImageUrl ?: asset('hero.jpg')"
+        imageAlt="Supporting care at AGC Tenwek Cardiothoracic Centre"
+        :points="[
+            ['title' => 'Sponsor a surgery', 'text' => 'Fund life-saving procedures for patients who cannot pay.'],
+            ['title' => 'Equip the Centre', 'text' => 'Help supply instruments, monitors, and critical tools.'],
+            ['title' => 'Train clinicians', 'text' => 'Strengthen capacity building for heart care across Africa.'],
+            ['title' => 'Partner with us', 'text' => 'Join hospitals, universities, and NGOs in the mission.'],
+        ]"
     />
 
     {{-- Latest news --}}

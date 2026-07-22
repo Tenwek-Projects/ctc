@@ -20,16 +20,16 @@ class AboutPurposeController extends Controller
             'heading' => SiteSetting::getValue('about.purpose.heading', 'Mission & Vision'),
 
             'mission_kicker' => SiteSetting::getValue('about.purpose.mission.kicker', 'Mission'),
-            'mission_title' => SiteSetting::getValue('about.purpose.mission.title', 'Excellent, compassionate care'),
-            'mission_body' => SiteSetting::getValue('about.purpose.mission.body', 'To provide excellent, compassionate cardiothoracic care to all who need it, and to train the next generation of surgeons and healthcare workers for Africa.'),
+            'mission_title' => SiteSetting::getValue('about.purpose.mission.title', 'A Christian community'),
+            'mission_body' => SiteSetting::getValue('about.purpose.mission.body', 'A Christian community committed to excellence in compassionate healthcare, spiritual ministry and training for service in the glory of God.'),
 
             'vision_kicker' => SiteSetting::getValue('about.purpose.vision.kicker', 'Vision'),
-            'vision_title' => SiteSetting::getValue('about.purpose.vision.title', 'Access for every patient'),
-            'vision_body' => SiteSetting::getValue('about.purpose.vision.body', 'A region where every person has access to life‑saving heart and chest surgery, delivered by well‑trained local teams.'),
+            'vision_title' => SiteSetting::getValue('about.purpose.vision.title', 'Christ-transformed health, lives and world'),
+            'vision_body' => SiteSetting::getValue('about.purpose.vision.body', 'Christ-transformed health, lives and world.'),
 
-            'right_kicker' => SiteSetting::getValue('about.purpose.right.kicker', 'How we work'),
-            'right_title' => SiteSetting::getValue('about.purpose.right.title', 'What patients can expect'),
-            'right_body' => SiteSetting::getValue('about.purpose.right.body', 'Clear communication, safety-first protocols, and coordinated care from referral through recovery.'),
+            'right_kicker' => SiteSetting::getValue('about.purpose.right.kicker', 'Purpose Statement'),
+            'right_title' => SiteSetting::getValue('about.purpose.right.title', 'Purpose Statement & Golden Rules'),
+            'right_body' => SiteSetting::getValue('about.purpose.right.body', 'To glorify God through provision of holistic (physical, mental, emotional, social, and spiritual) patient- and family-centered cardiothoracic care.'),
             'right_image_url' => PublicAssetUrl::toUrl(SiteSetting::getValue('about.purpose.right.image_path')),
         ]);
     }

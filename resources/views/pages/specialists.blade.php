@@ -50,18 +50,36 @@
                 </div>
             </div>
 
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 auto-rows-fr" data-ctc-stagger="0.09">
-                @forelse($team as $member)
-                    <x-team-card
-                        :name="$member->name"
-                        :title="$member->title"
-                        :specialization="$member->specialization"
-                        :bio="$member->bio"
-                        :photo="$member->photo"
-                        :url="route('specialists.show', $member)"
-                    />
+            <div class="space-y-14">
+                @forelse($teamGroups as $groupKey => $group)
+                    <div id="team-{{ $groupKey }}">
+                        <div class="mb-6 flex flex-wrap items-end justify-between gap-3 border-b border-gray-200 pb-3">
+                            <div>
+                                <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Team group</p>
+                                <h3 class="mt-2 text-xl sm:text-2xl font-headline font-extrabold tracking-tight text-ctc-blue">
+                                    {{ $group['label'] }}
+                                </h3>
+                            </div>
+                            <p class="text-sm text-gray-500">{{ $group['members']->count() }} {{ \Illuminate\Support\Str::plural('member', $group['members']->count()) }}</p>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 auto-rows-fr" data-ctc-stagger="0.09">
+                            @foreach($group['members'] as $member)
+                                <x-team-card
+                                    :name="$member->name"
+                                    :credentials="$member->credentials"
+                                    :title="$member->title"
+                                    :groupLabel="$member->team_group_label"
+                                    :specialization="$member->specialization"
+                                    :bio="$member->bio"
+                                    :photo="$member->photo"
+                                    :url="route('specialists.show', $member)"
+                                />
+                            @endforeach
+                        </div>
+                    </div>
                 @empty
-                    <p class="col-span-full text-gray-600">Specialist profiles will be listed here.</p>
+                    <p class="text-gray-600">Specialist profiles will be listed here.</p>
                 @endforelse
             </div>
         </div>

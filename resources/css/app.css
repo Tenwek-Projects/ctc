@@ -612,6 +612,33 @@ body.ctc-nav-fixed .ctc-navbar {
     opacity: 1;
 }
 
+.ctc-mega-link--cta {
+    margin-top: 0.35rem;
+    padding: 0.7rem 0.85rem;
+    border-radius: 0.85rem;
+    background: #1a1a68;
+    box-shadow: 0 10px 24px rgba(26, 26, 104, 0.18);
+}
+
+.ctc-mega-link--cta::before {
+    display: none;
+}
+
+.ctc-mega-link--cta .ctc-mega-link__label {
+    color: #fff;
+    font-weight: 700;
+}
+
+.ctc-mega-link--cta .ctc-mega-link__desc {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.ctc-mega-link--cta:hover {
+    background: #12124a;
+    color: #fff;
+    transform: none;
+}
+
 /* Service category CMS article: clear hierarchy (headings vs bold vs body) + paragraph rhythm */
 /* Service category: media column - kill typography defaults that center figures/images */
 .service-category-media-col figure,

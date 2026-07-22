@@ -10,14 +10,35 @@
             <div>
                 <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name *</label>
                 <input type="text" name="name" id="name" value="{{ old('name') }}" required
+                       placeholder="e.g. Dr Russell Eli White"
                        class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
                 @error('name')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
             </div>
             <div>
-                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+                <label for="credentials" class="block text-sm font-medium text-gray-700 mb-1">Credentials</label>
+                <input type="text" name="credentials" id="credentials" value="{{ old('credentials') }}"
+                       placeholder="e.g. MD, MPH, FACS, FCS (ECSA)"
+                       class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
+                @error('credentials')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+                <p class="mt-1 text-xs text-gray-500">Shown under the name on public profiles.</p>
+            </div>
+            <div>
+                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title / Role *</label>
                 <input type="text" name="title" id="title" value="{{ old('title') }}" required
+                       placeholder="e.g. Senior Director"
                        class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
                 @error('title')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
+            </div>
+            <div>
+                <label for="team_group" class="block text-sm font-medium text-gray-700 mb-1">Team group</label>
+                <select name="team_group" id="team_group"
+                        class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal bg-white">
+                    <option value="">— Select group —</option>
+                    @foreach(config('ctc.team_groups', []) as $key => $label)
+                        <option value="{{ $key }}" @selected(old('team_group') === $key)>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @error('team_group')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
             </div>
             <div>
                 <label for="specialization" class="block text-sm font-medium text-gray-700 mb-1">Specialization</label>
@@ -57,10 +78,17 @@
                     <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', 0) }}" min="0"
                            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
                 </div>
-                <div class="flex items-center pt-8">
-                    <input type="checkbox" name="is_visible" id="is_visible" value="1" {{ old('is_visible', true) ? 'checked' : '' }}
-                           class="rounded border-gray-300 text-admin-teal focus:ring-ctc-blue">
-                    <label for="is_visible" class="ml-2 text-sm text-gray-700">Visible on site</label>
+                <div class="flex items-center pt-8 gap-6 flex-wrap">
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" name="is_visible" id="is_visible" value="1" {{ old('is_visible', true) ? 'checked' : '' }}
+                               class="rounded border-gray-300 text-admin-teal focus:ring-ctc-blue">
+                        <span class="ml-2 text-sm text-gray-700">Visible on site</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" name="show_on_homepage" id="show_on_homepage" value="1" {{ old('show_on_homepage') ? 'checked' : '' }}
+                               class="rounded border-gray-300 text-admin-teal focus:ring-ctc-blue">
+                        <span class="ml-2 text-sm text-gray-700">Show on homepage</span>
+                    </label>
                 </div>
             </div>
             <div class="flex gap-3 pt-2">

@@ -14,6 +14,7 @@ use App\Models\HomeStat;
 use App\Models\ImpactStory;
 use App\Models\ImpactTestimonial;
 use App\Models\NewsArticle;
+use App\Models\ResourceDownload;
 use App\Models\Service;
 use App\Models\ServiceCategoryPage;
 use App\Models\SiteSetting;
@@ -39,13 +40,27 @@ class PageController extends Controller
         }
 
         $services = Service::visible()->ordered()->take(8)->get();
-        $team = TeamMember::visible()->ordered()->take(4)->get();
+        $team = TeamMember::visible()->onHomepage()->ordered()->take(8)->get();
+        if ($team->isEmpty()) {
+            $team = TeamMember::visible()->ordered()->take(4)->get();
+        }
         $news = NewsArticle::published()->latest()->take(3)->get();
 
-        $heroMode = SiteSetting::getValue('hero.mode', 'video');
+        $configuredHeroMode = SiteSetting::getValue('hero.mode', 'image');
+        $hasCustomHeroVideo = filled(SiteSetting::getValue('hero.video_path'))
+            || filled(SiteSetting::getValue('hero.video_url'));
+        $heroMode = match (true) {
+            $configuredHeroMode === 'carousel' => 'carousel',
+            $configuredHeroMode === 'video' && $hasCustomHeroVideo => 'video',
+            default => 'image',
+        };
         $heroTitle = SiteSetting::getValue('hero.title', 'Cardiothoracic Centre');
         $heroSubtitle = SiteSetting::getValue('hero.subtitle', 'Tenwek Hospital');
         $heroDescription = SiteSetting::getValue('hero.description', 'A beacon of hope and healing for patients with heart disease across Sub‑Saharan Africa. We provide life‑saving open‑heart and thoracic care, and train African healthcare professionals to expand access to treatment.');
+        $heroImagePath = SiteSetting::getValue('hero.image_path');
+        $heroImageUrl = $heroImagePath
+            ? PublicAssetUrl::toUrl($heroImagePath)
+            : asset(config('ctc.hero_image', 'hero.jpg'));
         $heroVideoPath = SiteSetting::getValue('hero.video_path');
         $heroVideoUrl = $heroVideoPath
             ? PublicAssetUrl::toUrl($heroVideoPath)
@@ -71,6 +86,7 @@ class PageController extends Controller
             'heroTitle',
             'heroSubtitle',
             'heroDescription',
+            'heroImageUrl',
             'heroVideoUrl',
             'heroSlides',
             'servicesImageUrl',
@@ -104,25 +120,27 @@ class PageController extends Controller
             'heading' => SiteSetting::getValue('about.purpose.heading', 'Mission & Vision'),
             'mission' => [
                 'kicker' => SiteSetting::getValue('about.purpose.mission.kicker', 'Mission'),
-                'title' => SiteSetting::getValue('about.purpose.mission.title', 'Excellent, compassionate care'),
-                'body' => SiteSetting::getValue('about.purpose.mission.body', 'To provide excellent, compassionate cardiothoracic care to all who need it, and to train the next generation of surgeons and healthcare workers for Africa.'),
+                'title' => SiteSetting::getValue('about.purpose.mission.title', 'A Christian community'),
+                'body' => SiteSetting::getValue('about.purpose.mission.body', 'A Christian community committed to excellence in compassionate healthcare, spiritual ministry and training for service in the glory of God.'),
             ],
             'vision' => [
                 'kicker' => SiteSetting::getValue('about.purpose.vision.kicker', 'Vision'),
-                'title' => SiteSetting::getValue('about.purpose.vision.title', 'Access for every patient'),
-                'body' => SiteSetting::getValue('about.purpose.vision.body', 'A region where every person has access to life‑saving heart and chest surgery, delivered by well‑trained local teams.'),
+                'title' => SiteSetting::getValue('about.purpose.vision.title', 'Christ-transformed health, lives and world'),
+                'body' => SiteSetting::getValue('about.purpose.vision.body', 'Christ-transformed health, lives and world.'),
             ],
             'right' => [
-                'kicker' => SiteSetting::getValue('about.purpose.right.kicker', 'How we work'),
-                'title' => SiteSetting::getValue('about.purpose.right.title', 'What patients can expect'),
-                'body' => SiteSetting::getValue('about.purpose.right.body', 'Clear communication, safety-first protocols, and coordinated care from referral through recovery.'),
+                'kicker' => SiteSetting::getValue('about.purpose.right.kicker', 'Purpose Statement'),
+                'title' => SiteSetting::getValue('about.purpose.right.title', 'Purpose Statement & Golden Rules'),
+                'body' => SiteSetting::getValue('about.purpose.right.body', 'To glorify God through provision of holistic (physical, mental, emotional, social, and spiritual) patient- and family-centered cardiothoracic care.'),
                 'image' => PublicAssetUrl::toUrl(SiteSetting::getValue('about.purpose.right.image_path')),
             ],
         ];
 
         $metaDescription = 'Learn about the Cardiothoracic Centre at Tenwek Hospital: our mission, history, and commitment to advanced heart and chest care in East Africa.';
 
-        return view('pages.about', compact('sections', 'coreValues', 'whoWeAre', 'purpose', 'metaDescription'));
+        $executiveBrochure = ResourceDownload::findBySlug('ctc-executive-brochure');
+
+        return view('pages.about', compact('sections', 'coreValues', 'whoWeAre', 'purpose', 'metaDescription', 'executiveBrochure'));
     }
 
     public function history()
@@ -137,8 +155,28 @@ class PageController extends Controller
     public function specialists()
     {
         $team = TeamMember::visible()->ordered()->get();
+        $groupLabels = config('ctc.team_groups', []);
 
-        return view('pages.specialists', compact('team'));
+        $teamGroups = collect();
+        foreach ($groupLabels as $key => $label) {
+            $members = $team->where('team_group', $key)->values();
+            if ($members->isNotEmpty()) {
+                $teamGroups->put($key, [
+                    'label' => $label,
+                    'members' => $members,
+                ]);
+            }
+        }
+
+        $ungrouped = $team->filter(fn ($member) => blank($member->team_group))->values();
+        if ($ungrouped->isNotEmpty()) {
+            $teamGroups->put('other', [
+                'label' => 'Our Team',
+                'members' => $ungrouped,
+            ]);
+        }
+
+        return view('pages.specialists', compact('team', 'teamGroups'));
     }
 
     public function specialistShow(TeamMember $teamMember)

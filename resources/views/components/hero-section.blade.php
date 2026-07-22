@@ -3,17 +3,24 @@
     'subtitle' => null,
     'description' => null,
     'buttons' => [],
-    'mode' => 'video', // 'video' | 'carousel'
+    'mode' => 'video', // 'video' | 'carousel' | 'image'
     'video' => null,
+    'image' => null,
     'slides' => [],
     'scrollIndicatorTarget' => '#home-stats',
 ])
 
 @php
-    $mode = in_array($mode, ['video', 'carousel'], true) ? $mode : 'video';
+    $mode = in_array($mode, ['video', 'carousel', 'image'], true) ? $mode : 'video';
     $slides = $slides instanceof \Illuminate\Support\Collection ? $slides : collect($slides);
     $useCarousel = $mode === 'carousel';
+    $useImage = $mode === 'image';
     $carouselFallbackImage = config('ctc.page_banner_image');
+
+    $heroImageSource = $image ?? config('ctc.hero_image');
+    $heroImageUrl = $heroImageSource
+        ? (str_starts_with((string) $heroImageSource, 'http') ? $heroImageSource : asset($heroImageSource))
+        : null;
 
     $videoSource = $video ?? config('ctc.hero_video');
     $isYoutube = $videoSource && (str_contains($videoSource, 'youtube.com/watch') || str_contains($videoSource, 'youtu.be/'));
@@ -83,6 +90,14 @@
                 ></div>
             @endif
         </div>
+    @elseif($useImage && $heroImageUrl)
+        <div class="absolute inset-0 w-full h-full overflow-hidden" data-ctc-hero-media aria-hidden="true">
+            <div
+                class="absolute inset-0 bg-cover bg-center scale-105"
+                style="background-image:url('{{ $heroImageUrl }}')"
+                data-hero-preload="{{ $heroImageUrl }}"
+            ></div>
+        </div>
     @else
         <div class="absolute inset-0 w-full h-full overflow-hidden" data-ctc-hero-media aria-hidden="true">
             @if($youtubeId)
@@ -101,7 +116,7 @@
                     loop
                     playsinline
                     preload="metadata"
-                    poster="{{ $carouselFallbackImage }}"
+                    poster="{{ $heroImageUrl ?? $carouselFallbackImage }}"
                     class="absolute inset-0 w-full h-full object-cover min-w-full min-h-full scale-105"
                     @if($isHeroHls) data-ctc-hero-hls="{{ $videoUrl }}" @endif
                 >
@@ -216,7 +231,7 @@
                 <div class="hidden max-w-[42rem] md:block md:max-w-[44%]">
                     @if($description)
                         <div data-ctc-hero-desc-card class="rounded-xl px-1 py-1 sm:px-0">
-                            <p id="ctc-hero-description" class="text-[0.95rem] font-normal leading-[1.38] text-white/95 drop-shadow-[0_14px_40px_rgba(0,0,0,0.45)] sm:text-[1rem] sm:leading-[1.36]">
+                            <p id="ctc-hero-description" class="whitespace-nowrap text-[1.08rem] font-medium leading-[1.35] text-white/95 drop-shadow-[0_14px_40px_rgba(0,0,0,0.45)] sm:text-[1.2rem] sm:leading-[1.32]">
                                 {{ $description }}
                             </p>
                         </div>

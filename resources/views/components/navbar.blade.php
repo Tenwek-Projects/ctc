@@ -26,6 +26,7 @@
                         $isActive = isset($item['route']) && (
                             request()->routeIs($item['route'])
                             || ($item['route'] === 'services' && request()->routeIs('services.category'))
+                            || ($item['route'] === 'training-research' && request()->routeIs('college.apply.*'))
                         );
                     @endphp
 
@@ -63,7 +64,7 @@
                                                             @endphp
                                                             @if($childHref)
                                                                 <li>
-                                                                    <a href="{{ $childHref }}" class="ctc-mega-link">
+                                                                    <a href="{{ $childHref }}" class="ctc-mega-link{{ !empty($child['cta']) ? ' ctc-mega-link--cta' : '' }}">
                                                                         <span class="ctc-mega-link__label">{{ $child['label'] ?? 'Link' }}</span>
                                                                         @if(!empty($child['description']))
                                                                             <span class="ctc-mega-link__desc">{{ $child['description'] }}</span>
@@ -163,6 +164,7 @@
                         $isActive = isset($item['route']) && (
                             request()->routeIs($item['route'])
                             || ($item['route'] === 'services' && request()->routeIs('services.category'))
+                            || ($item['route'] === 'training-research' && request()->routeIs('college.apply.*'))
                         );
 
                         $isChildActive = false;
@@ -283,7 +285,7 @@
                                                     <li>
                                                         <a href="{{ $childHref }}"
                                                            @click="mobileMenuOpen = false"
-                                                           class="block px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-ctc-blue hover:bg-gray-50 transition-colors">
+                                                           class="block px-3 py-2 rounded-md text-sm font-medium transition-colors {{ !empty($child['cta']) ? 'mt-2 bg-ctc-blue text-white hover:bg-ctc-blue-dark' : 'text-gray-600 hover:text-ctc-blue hover:bg-gray-50' }}">
                                                             {{ $child['label'] ?? 'Link' }}
                                                         </a>
                                                     </li>

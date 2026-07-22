@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CollegeWebsiteController;
 use App\Http\Controllers\Admin\ContactEnquiryController;
 use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\CoreValueController;
+use App\Http\Controllers\Admin\CollegeApplicationAdminController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\GalleryItemController;
@@ -32,6 +33,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\CollegeApplicationController;
+use App\Http\Controllers\ResourceDownloadController;
 use App\Http\Controllers\SitemapController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +47,9 @@ Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots.tx
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/downloads/{slug}', [ResourceDownloadController::class, 'download'])
+    ->name('downloads.show')
+    ->middleware('throttle:30,1');
 Route::get('/history', [PageController::class, 'history'])->name('history');
 Route::get('/specialists', [PageController::class, 'specialists'])->name('specialists');
 Route::get('/specialists/{teamMember}', [PageController::class, 'specialistShow'])->name('specialists.show');
@@ -73,6 +79,17 @@ Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('p
 Route::get('/terms-of-service', [PageController::class, 'termsOfService'])->name('terms-of-service');
 Route::get('/feedback-and-complaints', [PageController::class, 'feedbackAndComplaints'])->name('feedback');
 Route::post('/feedback-and-complaints', [PageController::class, 'submitFeedbackAndComplaints'])->name('feedback.submit');
+
+// College applications (token-based secure access, draft resume)
+Route::get('/college/apply', [CollegeApplicationController::class, 'landing'])->name('college.apply.landing');
+Route::post('/college/apply/start', [CollegeApplicationController::class, 'start'])->name('college.apply.start')->middleware('throttle:20,1');
+Route::get('/college/apply/{application}', [CollegeApplicationController::class, 'show'])->name('college.apply.show');
+Route::post('/college/apply/{application}/draft', [CollegeApplicationController::class, 'saveDraft'])->name('college.apply.save-draft')->middleware('throttle:60,1');
+Route::post('/college/apply/{application}/documents', [CollegeApplicationController::class, 'uploadDocument'])->name('college.apply.upload-document')->middleware('throttle:30,1');
+Route::get('/college/apply/{application}/documents/{document}', [CollegeApplicationController::class, 'previewDocument'])->name('college.apply.document.preview');
+Route::post('/college/apply/{application}/submit', [CollegeApplicationController::class, 'submit'])->name('college.apply.submit')->middleware('throttle:10,1');
+Route::get('/college/apply/{application}/success', [CollegeApplicationController::class, 'success'])->name('college.apply.success');
+Route::get('/college/apply/{application}/dashboard', [CollegeApplicationController::class, 'dashboard'])->name('college.apply.dashboard');
 
 // Admin dashboard (role-based: only admin roles can access)
 Route::get('/login', fn () => redirect()->route('admin-dashboard.login'))->name('login');
@@ -123,6 +140,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-das
     Route::resource('about', AboutSectionController::class)->except('show')->parameters(['about' => 'about_section']);
     Route::middleware('permission:team.manage')->group(function (): void {
         Route::resource('team-members', TeamMemberController::class)->except('show');
+        Route::post('team-members/{team_member}/photo', [TeamMemberController::class, 'updatePhoto'])
+            ->whereNumber('team_member')
+            ->name('team-members.photo');
+        Route::patch('team-members/{team_member}/homepage', [TeamMemberController::class, 'toggleHomepage'])
+            ->whereNumber('team_member')
+            ->name('team-members.homepage');
     });
     Route::middleware('permission:services.manage')->group(function (): void {
         Route::resource('services', ServiceController::class)->except('show');
@@ -143,6 +166,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-das
     Route::resource('gallery', GalleryItemController::class)->except('show')->parameters(['gallery' => 'gallery_item']);
     Route::resource('enquiries', ContactEnquiryController::class)->only(['index', 'show', 'update', 'destroy']);
     Route::resource('bookings', BookingController::class)->except('show');
+    Route::get('college-applications', [CollegeApplicationAdminController::class, 'index'])->name('college-applications.index');
+    Route::get('college-applications/{collegeApplication}', [CollegeApplicationAdminController::class, 'show'])->name('college-applications.show');
+    Route::put('college-applications/{collegeApplication}/status', [CollegeApplicationAdminController::class, 'updateStatus'])->name('college-applications.status');
     Route::middleware('permission:users.manage')->group(function (): void {
         Route::get('users', [UserController::class, 'index'])->name('users.index');
         Route::post('users', [UserController::class, 'store'])->name('users.store');

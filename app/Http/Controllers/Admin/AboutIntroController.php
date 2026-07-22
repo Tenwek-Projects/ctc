@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ResourceDownload;
 use App\Models\SiteSetting;
 use App\Support\PublicAssetUrl;
 use App\Support\TrixHtmlSanitizer;
@@ -29,6 +30,7 @@ class AboutIntroController extends Controller
                 'side_1' => PublicAssetUrl::toUrl(SiteSetting::getValue('about.who_we_are.image_side_1_path')),
                 'side_2' => PublicAssetUrl::toUrl(SiteSetting::getValue('about.who_we_are.image_side_2_path')),
             ],
+            'executiveBrochure' => ResourceDownload::findBySlug('ctc-executive-brochure'),
         ];
 
         return view('admin-dashboard.about.intro', $data);

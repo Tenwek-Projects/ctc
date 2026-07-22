@@ -32,6 +32,7 @@ return [
         // Operations
         ['label' => 'Bookings / Appointments', 'route' => 'admin-dashboard.bookings.index', 'icon' => 'calendar', 'group' => 'Operations'],
         ['label' => 'Contact & Enquiries', 'route' => 'admin-dashboard.enquiries.index', 'icon' => 'mail', 'group' => 'Operations'],
+        ['label' => 'College Applications', 'route' => 'admin-dashboard.college-applications.index', 'icon' => 'document-text', 'group' => 'Operations'],
         ['label' => 'Contact Details', 'route' => 'admin-dashboard.contact-settings.edit', 'icon' => 'phone', 'group' => 'Operations'],
         ['label' => 'Legal pages', 'route' => 'admin-dashboard.legal-pages.index', 'icon' => 'document-text', 'group' => 'Operations'],
 
@@ -52,6 +53,7 @@ return [
         ['label' => 'About: Who we are', 'route' => 'admin-dashboard.about-intro.edit', 'icon' => 'information-circle'],
         ['label' => 'Bookings / Appointments', 'route' => 'admin-dashboard.bookings.index', 'icon' => 'calendar'],
         ['label' => 'Contact & Enquiries', 'route' => 'admin-dashboard.enquiries.index', 'icon' => 'mail'],
+        ['label' => 'College Applications', 'route' => 'admin-dashboard.college-applications.index', 'icon' => 'document-text'],
         ['label' => 'Users & Roles', 'route' => 'admin-dashboard.users.index', 'icon' => 'shield-check', 'permission' => 'users.manage'],
     ],
 
@@ -84,6 +86,7 @@ return [
         ['pattern' => 'admin-dashboard.gallery.*', 'text' => 'Tip: Editing the public Gallery page images.', 'public' => '/gallery'],
 
         ['pattern' => 'admin-dashboard.enquiries.*', 'text' => 'Tip: Managing messages submitted via the Contact page.', 'public' => '/contact'],
+        ['pattern' => 'admin-dashboard.college-applications.*', 'text' => 'Tip: Review applications for the School of Health Sciences programme.'],
         ['pattern' => 'admin-dashboard.contact-settings.*', 'text' => 'Tip: Editing public contact details shown on the Contact page.', 'public' => '/contact'],
         ['pattern' => 'admin-dashboard.legal-pages.*', 'text' => 'Tip: Editing Privacy Policy and Terms of Service.', 'public' => '/privacy-policy'],
         ['pattern' => 'admin-dashboard.bookings.*', 'text' => 'Tip: Managing appointment requests from the public Book appointment page.', 'public' => '/book-appointment'],
