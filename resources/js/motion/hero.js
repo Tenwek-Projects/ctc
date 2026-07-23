@@ -274,7 +274,6 @@ function runHeroWowIntro(ctx) {
         dotsWrap,
         indicator,
         emblem,
-        arcs,
     } = ctx;
 
     const ctaEls = ctasWrap ? Array.from(ctasWrap.querySelectorAll('a[data-cta]')) : [];
@@ -290,7 +289,6 @@ function runHeroWowIntro(ctx) {
         dotsWrap,
         indicator,
         emblem,
-        arcs,
     ].filter(Boolean);
 
     if (reduced) {
@@ -381,10 +379,6 @@ function runHeroWowIntro(ctx) {
             },
             0,
         );
-    }
-
-    if (arcs) {
-        tl.to(arcs, { opacity: 0.72, duration: 1.15, ease: 'power2.out' }, 0.05);
     }
 
     if (emblem) {
@@ -528,7 +522,6 @@ export function initHeroMotion(reduced, scrollTriggerOk) {
     const dotsWrap = hero.querySelector('[data-ctc-hero-dots]');
     const indicator = hero.querySelector('[data-ctc-hero-scroll-indicator]');
     const emblem = hero.querySelector('[data-ctc-hero-emblem]');
-    const arcs = hero.querySelector('[data-ctc-hero-arcs]');
 
     const carouselSlides = readCarouselPayload();
     const bgSlides = Array.from(hero.querySelectorAll('.ctc-hero-slide'));
@@ -570,7 +563,6 @@ export function initHeroMotion(reduced, scrollTriggerOk) {
             dotsWrap,
             indicator,
             emblem,
-            arcs,
         });
     });
 }

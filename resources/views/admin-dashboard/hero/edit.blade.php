@@ -75,7 +75,7 @@
                                 type="text"
                                 value="{{ old('hero_title', $heroTitle ?? '') }}"
                                 class="mt-1.5 block w-full rounded-xl border border-gray-300 px-4 py-3 text-sm text-admin-dark focus:border-admin-teal focus:ring-admin-teal"
-                                placeholder="Cardiothoracic Centre"
+                                placeholder="AGC Tenwek Cardiothoracic Centre"
                                 required
                             />
                             @error('hero_title')<p class="mt-1 text-xs text-red-600">{{ $message }}</p>@enderror

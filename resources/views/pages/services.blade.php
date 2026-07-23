@@ -36,7 +36,9 @@
 @section('content')
     @include('components.page-banner', [
         'title' => $categoryPage?->intro_heading ?? ($categoryLabel ?? 'Our Services'),
-        'subtitle' => $categoryPage?->intro_subheading ?? ($categoryLabel ? 'Clinical care: ' . config('ctc.name') : config('ctc.name')),
+        'subtitle' => $categoryPage?->intro_subheading ?? ($categoryLabel
+            ? 'Clinical care: AGC Tenwek Cardiothoracic Centre'
+            : 'AGC Tenwek Cardiothoracic Centre'),
         'bannerKey' => $pageBannerKey ?? 'services',
     ])
 
@@ -53,7 +55,7 @@
 
             @if($categoryPage)
                 @if($categoryPage->intro_kicker)
-                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent max-w-4xl">{{ $categoryPage->intro_kicker }}</p>
+                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-ruby max-w-4xl">{{ $categoryPage->intro_kicker }}</p>
                 @endif
 
                 <article class="mt-6 w-full">
@@ -106,13 +108,13 @@
                 </article>
             @else
                 <div class="max-w-4xl">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Clinical care</p>
+                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-ruby">Clinical care</p>
                     <h2 class="mt-3 text-2xl sm:text-3xl font-headline font-extrabold tracking-tight text-ctc-blue">
                         Compassionate care, every step of the way
                     </h2>
                     <ul class="mt-6 space-y-4 text-gray-600 leading-relaxed">
                         <li class="flex items-start gap-3">
-                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]" aria-hidden="true"></span>
+                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.18)]" aria-hidden="true"></span>
                             <span>
                                 At AGC Tenwek Cardiothoracic Centre, every service is delivered with one purpose: to provide safe, evidence-based, and compassionate care that restores health and transforms lives. From your first consultation to your final follow-up visit, we are committed to walking alongside you and your family with excellence, integrity, and hope.
                             </span>
@@ -124,19 +126,19 @@
                     </h3>
                     <ul class="mt-6 space-y-4 text-gray-600 leading-relaxed">
                         <li class="flex items-start gap-3">
-                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]" aria-hidden="true"></span>
+                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.18)]" aria-hidden="true"></span>
                             <span>
                                 At AGC Tenwek Cardiothoracic Centre, we provide comprehensive, specialized care for patients with heart, chest, and vascular conditions. Our multidisciplinary team combines clinical expertise, advanced technology, and compassionate, Christ-centered care to deliver exceptional outcomes for patients of all ages.
                             </span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]" aria-hidden="true"></span>
+                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.18)]" aria-hidden="true"></span>
                             <span>
                                 Whether you require preventive heart care, advanced diagnostics, minimally invasive procedures, or complex surgery, we are committed to providing personalized treatment tailored to your unique needs.
                             </span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]" aria-hidden="true"></span>
+                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.18)]" aria-hidden="true"></span>
                             <span>
                                 Our integrated approach ensures that every patient receives seamless care from diagnosis and treatment to recovery and long-term follow-up — all under one roof.
                             </span>
@@ -175,7 +177,7 @@
                         </a>
                         <span class="ml-auto hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[11px] font-bold uppercase tracking-[0.18em] text-white
                                      bg-[linear-gradient(135deg,rgba(26,26,104,0.95),rgba(98,163,161,0.92))]">
-                            <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.22)]"></span>
+                            <span class="h-2 w-2 rounded-full bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.22)]"></span>
                             Browse by area
                         </span>
                     </nav>

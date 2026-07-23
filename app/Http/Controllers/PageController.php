@@ -53,7 +53,7 @@ class PageController extends Controller
             $configuredHeroMode === 'video' && $hasCustomHeroVideo => 'video',
             default => 'image',
         };
-        $heroTitle = SiteSetting::getValue('hero.title', 'Cardiothoracic Centre');
+        $heroTitle = SiteSetting::getValue('hero.title', 'AGC Tenwek Cardiothoracic Centre');
         $heroSubtitle = SiteSetting::getValue('hero.subtitle', 'Tenwek Hospital');
         $heroDescription = SiteSetting::getValue('hero.description', 'A beacon of hope and healing for patients with heart disease across Sub‑Saharan Africa. We provide life‑saving open‑heart and thoracic care, and train African healthcare professionals to expand access to treatment.');
         $heroImagePath = SiteSetting::getValue('hero.image_path');

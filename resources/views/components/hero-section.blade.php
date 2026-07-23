@@ -141,60 +141,6 @@
         class="absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(0,0,0,0.42),rgba(0,0,0,0.38),rgba(0,0,0,0.58))]"
     ></div>
 
-    {{-- Upper-right: faint Africa + network lines from hub (Kenya / Bomet region) --}}
-    <div
-        class="pointer-events-none absolute right-[-2%] top-[5%] z-[3] w-[min(78vw,300px)] sm:right-[1%] sm:top-[7%] sm:w-[min(72vw,340px)] md:w-[min(56vw,380px)]"
-        data-ctc-hero-arcs
-        aria-hidden="true"
-    >
-        <svg viewBox="0 0 320 340" class="h-auto w-full overflow-visible" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="ctc-hero-map-line-a" x1="0%" y1="100%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#62a3a1" stop-opacity="0.85" />
-                    <stop offset="100%" stop-color="#62a3a1" stop-opacity="0.15" />
-                </linearGradient>
-                <linearGradient id="ctc-hero-map-line-b" x1="0%" y1="100%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="#e4c373" stop-opacity="0.9" />
-                    <stop offset="100%" stop-color="#e4c373" stop-opacity="0.2" />
-                </linearGradient>
-                <filter id="ctc-hero-map-glow" x="-35%" y="-35%" width="170%" height="170%">
-                    <feGaussianBlur stdDeviation="2.2" result="blur" />
-                    <feMerge>
-                        <feMergeNode in="blur" />
-                        <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                </filter>
-            </defs>
-            {{-- Stylized faint continent outline (stroke only) --}}
-            <g opacity="0.38" stroke="rgba(255,255,255,0.55)" stroke-width="0.55" stroke-dasharray="1.8 3.2" stroke-linecap="round">
-                <path
-                    d="M118 42 L142 38 L168 48 L192 68 L210 96 L218 128 L214 162 L198 198 L172 232 L142 258 L108 268 L78 258 L54 232 L40 198 L36 162 L44 128 L62 96 L86 68 Z"
-                />
-                <path d="M232 198 L248 196 L254 214 L248 236 L232 242 L222 228 L224 208 Z" />
-            </g>
-            {{-- Hub (bright focal point) --}}
-            <circle cx="198" cy="158" r="5" fill="#62a3a1" fill-opacity="0.55" filter="url(#ctc-hero-map-glow)" />
-            <circle cx="198" cy="158" r="2.8" fill="#e4c373" fill-opacity="0.9" />
-            {{-- Emanating curves + end nodes --}}
-            <g filter="url(#ctc-hero-map-glow)" stroke-linecap="round" fill="none">
-                <path d="M198 158 C165 118 98 92 48 78" stroke="url(#ctc-hero-map-line-a)" stroke-width="1.15" />
-                <circle cx="48" cy="78" r="3.5" fill="#62a3a1" fill-opacity="0.5" stroke="none" />
-                <path d="M198 158 C175 98 155 58 162 28" stroke="url(#ctc-hero-map-line-b)" stroke-width="1" />
-                <circle cx="162" cy="28" r="3" fill="#e4c373" fill-opacity="0.55" stroke="none" />
-                <path d="M198 158 C228 105 268 72 298 88" stroke="url(#ctc-hero-map-line-a)" stroke-width="1" />
-                <circle cx="298" cy="88" r="3.2" fill="#62a3a1" fill-opacity="0.45" stroke="none" />
-                <path d="M198 158 C235 145 275 155 292 188" stroke="url(#ctc-hero-map-line-b)" stroke-width="0.95" />
-                <circle cx="292" cy="188" r="2.8" fill="#e4c373" fill-opacity="0.5" stroke="none" />
-                <path d="M198 158 C210 195 205 242 188 278" stroke="url(#ctc-hero-map-line-a)" stroke-width="0.9" />
-                <circle cx="188" cy="278" r="3" fill="#62a3a1" fill-opacity="0.45" stroke="none" />
-                <path d="M198 158 C155 175 95 188 42 205" stroke="url(#ctc-hero-map-line-b)" stroke-width="0.95" />
-                <circle cx="42" cy="205" r="3" fill="#e4c373" fill-opacity="0.45" stroke="none" />
-                <path d="M198 158 C168 198 128 228 88 248" stroke="url(#ctc-hero-map-line-a)" stroke-width="0.85" />
-                <circle cx="88" cy="248" r="2.6" fill="#62a3a1" fill-opacity="0.4" stroke="none" />
-            </g>
-        </svg>
-    </div>
-
     {{-- Center: flagship, title, badge --}}
     <div class="absolute inset-0 z-[3] flex items-center justify-center px-4 pb-24 sm:pb-28">
         <div class="text-center [perspective:1400px]" data-ctc-hero-headline>

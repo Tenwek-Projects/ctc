@@ -2,11 +2,13 @@
 
 @section('title', 'Home')
 
-@php($metaDescription = 'Tenwek Hospital Cardiothoracic Centre (CTC) is a beacon of hope for patients with heart disease across Sub‑Saharan Africa: life‑saving surgery, training, and research.')
+@php
+    $metaDescription = 'Tenwek Hospital Cardiothoracic Centre (CTC) is a beacon of hope for patients with heart disease across Sub-Saharan Africa: life-saving surgery, training, and research.';
+@endphp
 
 @section('hero')
     @include('components.hero-section', [
-        'title' => $heroTitle ?? 'Cardiothoracic Centre',
+        'title' => $heroTitle ?? 'AGC Tenwek Cardiothoracic Centre',
         'subtitle' => null,
         'description' => 'Healing Hearts ~ Transforming Lives',
         'mode' => $heroMode ?? 'image',
@@ -126,24 +128,21 @@
     <section class="py-16 lg:py-20">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <x-section-title title="Our Services" subtitle="Comprehensive cardiothoracic care for adults and children." :magentaAccent="true" />
-            <div class="grid gap-8 lg:grid-cols-12 items-stretch">
+            <div class="grid gap-8 lg:grid-cols-12 lg:gap-10 items-stretch">
                 @if(!empty($servicesImageUrl))
                     <div class="lg:col-span-4 lg:order-2">
-                        <div class="h-full overflow-hidden rounded-[1.25rem] border border-gray-200 bg-white shadow-sm">
+                        <div class="h-full min-h-[22rem] overflow-hidden rounded-[1.25rem] border border-gray-200 bg-white shadow-sm">
                             <div class="relative h-full bg-ctc-grey-light">
                                 <img src="{{ $servicesImageUrl }}" alt="Our services" class="h-full w-full object-cover">
 
                                 <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5">
                                     <a href="{{ route('services') }}"
-                                       class="group inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3.5 font-headline font-bold uppercase text-[0.62rem] tracking-[0.18em] text-white shadow-[0_18px_45px_rgba(0,0,0,0.35)] transition-all
+                                       class="group inline-flex w-full items-center justify-center gap-2 rounded-none px-5 py-3.5 font-headline font-bold uppercase text-[0.62rem] tracking-[0.18em] text-white shadow-[0_18px_45px_rgba(0,0,0,0.35)] transition-all
                                               bg-[linear-gradient(135deg,rgba(26,26,104,0.95),rgba(98,163,161,0.92))]
                                               hover:brightness-105">
                                         <span class="inline-flex items-center gap-2">
                                             <span>View all services</span>
-                                            <span class="flex items-center gap-1" aria-hidden="true">
-                                                <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.22)]"></span>
-                                                <span class="h-1.5 w-1.5 rounded-full bg-ctc-magenta opacity-95"></span>
-                                            </span>
+                                            <span class="h-2 w-2 rounded-full bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.22)]" aria-hidden="true"></span>
                                         </span>
                                         <svg class="w-4 h-4 opacity-90 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -156,17 +155,43 @@
                 @endif
 
                 <div class="{{ !empty($servicesImageUrl) ? 'lg:col-span-8' : 'lg:col-span-12' }}">
-                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr h-full" data-ctc-stagger="0.08">
-                        @foreach($services as $service)
-                            <x-service-card
-                                :name="$service->name"
-                                :description="$service->description"
-                                :url="route('services') . '#' . $service->slug"
-                                :detailUrl="route('services.show', $service)"
-                                :magentaLine="$loop->first"
-                                :excerptLimit="110"
-                            />
-                        @endforeach
+                    <div class="h-full border border-gray-200 bg-white" data-ctc-stagger="0.05">
+                        <ul class="grid sm:grid-cols-2 sm:divide-x sm:divide-gray-100">
+                            @foreach($services as $service)
+                                @php
+                                    $excerpt = $service->description
+                                        ? \Illuminate\Support\Str::limit(trim(strip_tags($service->description)), 78)
+                                        : null;
+                                    $href = route('services.show', $service);
+                                @endphp
+                                <li class="border-b border-gray-100">
+                                    <a href="{{ $href }}"
+                                       class="group relative flex h-full items-start gap-3.5 px-4 py-4 sm:gap-4 sm:px-5 sm:py-5 transition-colors duration-300 hover:bg-[#fffaf9] focus:outline-none focus-visible:bg-[#fffaf9] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ctc-ruby/40">
+                                        <span class="pointer-events-none absolute inset-y-0 left-0 w-0 bg-ctc-ruby transition-all duration-300 group-hover:w-1" aria-hidden="true"></span>
+
+                                        <span class="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center border border-ctc-ruby/25 bg-ctc-ruby/10 font-headline text-[0.7rem] font-bold tabular-nums tracking-wide text-ctc-ruby transition-colors duration-300 group-hover:border-ctc-ruby/50 group-hover:bg-ctc-ruby group-hover:text-white">
+                                            {{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}
+                                        </span>
+
+                                        <span class="min-w-0 flex-1">
+                                            <span class="flex items-start justify-between gap-3">
+                                                <span class="font-headline text-[0.95rem] font-bold leading-snug tracking-tight text-ctc-blue transition-colors duration-300 group-hover:text-ctc-ruby sm:text-[1rem]">
+                                                    {{ $service->name }}
+                                                </span>
+                                                <svg class="mt-0.5 h-4 w-4 shrink-0 text-ctc-ruby/45 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-ctc-ruby" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                                </svg>
+                                            </span>
+                                            @if($excerpt)
+                                                <span class="mt-1.5 block text-sm leading-relaxed text-gray-600">
+                                                    {{ $excerpt }}
+                                                </span>
+                                            @endif
+                                        </span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -176,7 +201,21 @@
     {{-- Team preview --}}
     <section class="py-16 lg:py-20 bg-ctc-grey-light">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <x-section-title title="Our Team" subtitle="A multidisciplinary care team committed to excellence in heart and chest care." />
+            <div class="mb-10 lg:mb-12 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div class="min-w-0 max-w-2xl">
+                    <h2 class="font-headline text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-ctc-blue" data-ctc-split="lines">Our Team</h2>
+                    <p class="mt-3 text-[0.95rem] leading-relaxed text-gray-600" data-ctc-reveal="fade-up" data-ctc-reveal-delay="0.08">
+                        A multidisciplinary care team committed to excellence in heart and chest care.
+                    </p>
+                </div>
+                <a href="{{ route('specialists') }}"
+                   class="inline-flex shrink-0 items-center gap-2 self-start sm:mt-1 px-5 py-2.5 rounded-none text-sm font-medium bg-ctc-blue text-white ring-1 ring-ctc-magenta/25 ring-offset-2 ring-offset-ctc-grey-light hover:bg-ctc-blue-dark hover:ring-ctc-magenta/45 transition-all">
+                    View more
+                    <svg class="h-4 w-4 opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </a>
+            </div>
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" data-ctc-stagger="0.09">
                 @foreach($team as $member)
                     <x-team-card
@@ -190,15 +229,6 @@
                         :url="route('specialists.show', $member)"
                     />
                 @endforeach
-            </div>
-            <div class="mt-10 text-center">
-                <a href="{{ route('specialists') }}"
-                   class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium bg-ctc-blue text-white ring-1 ring-ctc-magenta/25 ring-offset-2 ring-offset-ctc-grey-light hover:bg-ctc-blue-dark hover:ring-ctc-magenta/45 transition-all">
-                    View more
-                    <svg class="h-4 w-4 opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                </a>
             </div>
         </div>
     </section>
@@ -330,7 +360,21 @@
     {{-- Latest news --}}
     <section class="py-16 lg:py-20 bg-ctc-grey-light">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <x-section-title title="Latest News" subtitle="Updates, events, and announcements from the CTC." />
+            <div class="mb-10 lg:mb-12 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div class="min-w-0 max-w-2xl">
+                    <h2 class="font-headline text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-ctc-blue" data-ctc-split="lines">Latest News</h2>
+                    <p class="mt-3 text-[0.95rem] leading-relaxed text-gray-600" data-ctc-reveal="fade-up" data-ctc-reveal-delay="0.08">
+                        Updates, events, and announcements from the CTC.
+                    </p>
+                </div>
+                <a href="{{ route('news') }}"
+                   class="inline-flex shrink-0 items-center gap-2 self-start sm:mt-1 px-5 py-2.5 rounded-none text-sm font-medium bg-ctc-blue text-white ring-1 ring-ctc-magenta/25 ring-offset-2 ring-offset-ctc-grey-light hover:bg-ctc-blue-dark hover:ring-ctc-magenta/45 transition-all">
+                    View all news
+                    <svg class="h-4 w-4 opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </a>
+            </div>
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" data-ctc-stagger="0.08">
                 @foreach($news as $article)
                     <x-news-card
@@ -342,11 +386,6 @@
                         :url="route('news.show', $article->slug)"
                     />
                 @endforeach
-            </div>
-            <div class="mt-10 text-center">
-                <a href="{{ route('news') }}" class="inline-flex items-center px-6 py-3 rounded-lg font-medium bg-ctc-blue text-white ring-1 ring-ctc-magenta/25 ring-offset-2 ring-offset-ctc-grey-light hover:bg-ctc-blue-dark hover:ring-ctc-magenta/45 transition-all">
-                    View all news
-                </a>
             </div>
         </div>
     </section>
