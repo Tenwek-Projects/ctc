@@ -68,7 +68,7 @@
                     <div class="h-full rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
                         <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">Visiting hours</p>
                         <dl class="mt-4 space-y-2 text-gray-700">
-                            <div class="flex items-center justify-between gap-4"><dt class="text-sm">Morning</dt><dd class="text-sm font-semibold text-ctc-blue">6:00 – 6:45 am</dd></div>
+                            <div class="flex items-center justify-between gap-4"><dt class="text-sm">Morning</dt><dd class="text-sm font-semibold text-ctc-blue">6:00 – 7:00 am</dd></div>
                             <div class="flex items-center justify-between gap-4"><dt class="text-sm">Lunch</dt><dd class="text-sm font-semibold text-ctc-blue">1:00 – 2:00 pm</dd></div>
                             <div class="flex items-center justify-between gap-4"><dt class="text-sm">Evening</dt><dd class="text-sm font-semibold text-ctc-blue">4:00 – 5:00 pm</dd></div>
                         </dl>
@@ -77,7 +77,7 @@
                         <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">Talk to us</p>
                         <ul class="mt-4 space-y-2.5">
                             <li>
-                                <a href="tel:+254728091900"
+                                <a href="tel:+254723000036"
                                    class="group flex items-center gap-3 rounded-xl border border-transparent px-2.5 py-2.5 -mx-2.5 transition-colors hover:border-ctc-secondary/25 hover:bg-ctc-grey-light/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-ctc-blue focus-visible:ring-offset-2">
                                     <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ctc-secondary/12 text-ctc-blue ring-1 ring-ctc-secondary/20" aria-hidden="true">
                                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
@@ -86,12 +86,12 @@
                                     </span>
                                     <span class="min-w-0">
                                         <span class="block text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400">Phone</span>
-                                        <span class="mt-0.5 block text-sm font-semibold text-ctc-blue transition-colors group-hover:text-ctc-ruby">+254 728 091 900</span>
+                                        <span class="mt-0.5 block text-sm font-semibold text-ctc-blue transition-colors group-hover:text-ctc-ruby">0723 000036</span>
                                     </span>
                                 </a>
                             </li>
                             <li>
-                                <a href="mailto:customer.experience@tenwekhosp.org"
+                                <a href="mailto:ctc.info@tenwekhosp.org"
                                    class="group flex items-center gap-3 rounded-xl border border-transparent px-2.5 py-2.5 -mx-2.5 transition-colors hover:border-ctc-secondary/25 hover:bg-ctc-grey-light/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-ctc-blue focus-visible:ring-offset-2">
                                     <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ctc-secondary/12 text-ctc-blue ring-1 ring-ctc-secondary/20" aria-hidden="true">
                                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.75">
@@ -100,7 +100,7 @@
                                     </span>
                                     <span class="min-w-0">
                                         <span class="block text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400">Email</span>
-                                        <span class="mt-0.5 block break-all text-sm font-semibold text-ctc-blue transition-colors group-hover:text-ctc-ruby">customer.experience@tenwekhosp.org</span>
+                                        <span class="mt-0.5 block break-all text-sm font-semibold text-ctc-blue transition-colors group-hover:text-ctc-ruby">ctc.info@tenwekhosp.org</span>
                                     </span>
                                 </a>
                             </li>

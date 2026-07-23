@@ -54,7 +54,20 @@ class TeamMember extends Model
 
     public function scopeOrdered($query)
     {
-        return $query->orderBy('sort_order')->orderBy('name');
+        $groups = array_keys(config('ctc.team_groups', []));
+
+        if ($groups !== []) {
+            $cases = collect($groups)
+                ->map(fn (string $key, int $index) => 'WHEN ? THEN '.$index)
+                ->implode(' ');
+
+            $query->orderByRaw(
+                'CASE team_group '.$cases.' ELSE '.count($groups).' END',
+                $groups
+            );
+        }
+
+        return $query->orderBy('sort_order')->orderBy('name')->orderBy('id');
     }
 
     public function getRouteKeyName(): string

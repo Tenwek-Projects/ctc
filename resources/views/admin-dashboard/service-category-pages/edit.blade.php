@@ -96,7 +96,7 @@
                     </div>
                     <div class="aspect-[16/9] max-w-2xl rounded-xl overflow-hidden border-2 border-dashed border-admin-teal/35 bg-white shadow-inner">
                         <img id="svcCatFeaturedPreview"
-                             src="{{ $featured_image_url ?: config('ctc.placeholder_images.facility') }}"
+                             src="{{ $featured_image_url ?: (\App\Support\SiteImage::urlFor('placeholder_facility') ?: config('ctc.placeholder_images.facility')) }}"
                              alt=""
                              class="h-full w-full object-cover min-h-[200px]">
                     </div>

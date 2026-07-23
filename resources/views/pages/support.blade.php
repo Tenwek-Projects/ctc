@@ -75,7 +75,7 @@
                 <div class="lg:col-span-4 self-stretch">
                     <div class="h-full rounded-2xl overflow-hidden border border-gray-200 bg-ctc-grey-light shadow-sm">
                         <img
-                            src="{{ config('ctc.page_banner_image') }}"
+                            src="{{ (\App\Support\SiteImage::urlFor('support_side') ?: \App\Support\PageBanner::defaultUrl()) }}"
                             alt="Support the Cardiothoracic Centre"
                             class="h-full w-full object-cover"
                             loading="lazy"

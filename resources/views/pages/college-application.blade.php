@@ -8,7 +8,7 @@
             <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
                 <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div class="flex items-start gap-3">
-                        <img src="{{ asset('logo-ctc.png') }}" alt="Tenwek Hospital College logo" class="h-14 w-14 rounded-full object-contain">
+                        <img src="{{ (\App\Support\SiteImage::urlFor('logo') ?: asset('logo-ctc.png')) }}" alt="Tenwek Hospital College logo" class="h-14 w-14 rounded-full object-contain">
                         <div>
                             <p class="text-sm font-semibold text-ctc-blue">Tenwek Hospital College</p>
                             <p class="text-sm text-gray-700">School of Health Sciences</p>

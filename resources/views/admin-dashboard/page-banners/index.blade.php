@@ -14,7 +14,9 @@
         <div class="px-4 py-4 sm:px-6 border-b border-gray-200">
             <p class="text-sm text-gray-700 leading-relaxed max-w-3xl">
                 Each inner page can use its own header image. If you do not upload one, the site uses the
-                <strong>default banner</strong> from configuration (<code class="text-xs bg-gray-100 px-1 rounded">CTC_PAGE_BANNER_IMAGE</code> / <code class="text-xs bg-gray-100 px-1 rounded">config/ctc.php</code>).
+                <strong>default banner</strong> from
+                <a href="{{ route('admin-dashboard.site-images.index') }}" class="text-admin-teal font-semibold hover:underline">Site images</a>
+                (or <code class="text-xs bg-gray-100 px-1 rounded">CTC_PAGE_BANNER_IMAGE</code> when none is uploaded).
             </p>
             <div class="mt-4 flex items-start gap-4">
                 <div class="shrink-0">

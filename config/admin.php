@@ -5,6 +5,7 @@ return [
         ['label' => 'Dashboard Home', 'route' => 'admin-dashboard.index', 'icon' => 'dashboard', 'group' => 'Overview'],
 
         // Homepage
+        ['label' => 'Site images', 'route' => 'admin-dashboard.site-images.index', 'icon' => 'photo', 'group' => 'Homepage'],
         ['label' => 'Page header banners', 'route' => 'admin-dashboard.page-banners.index', 'icon' => 'photo', 'group' => 'Homepage'],
         ['label' => 'Hero / Homepage', 'route' => 'admin-dashboard.hero.edit', 'icon' => 'photo', 'group' => 'Homepage'],
         ['label' => 'Hero Carousel Slides', 'route' => 'admin-dashboard.hero.edit', 'hash' => 'carousel-slides', 'icon' => 'photo', 'group' => 'Homepage'],
@@ -48,6 +49,7 @@ return [
         ['label' => 'Dashboard', 'route' => 'admin-dashboard.index', 'icon' => 'dashboard'],
         ['label' => 'My profile', 'route' => 'admin-dashboard.profile.edit', 'icon' => 'users'],
         ['label' => 'Settings', 'route' => 'admin-dashboard.settings.index', 'icon' => 'document-text', 'permission' => 'users.manage'],
+        ['label' => 'Site images', 'route' => 'admin-dashboard.site-images.index', 'icon' => 'photo'],
         ['label' => 'Edit Home Hero', 'route' => 'admin-dashboard.hero.edit', 'icon' => 'photo'],
         ['label' => 'Homepage Stats', 'route' => 'admin-dashboard.home-stats.index', 'icon' => 'chart'],
         ['label' => 'About: Who we are', 'route' => 'admin-dashboard.about-intro.edit', 'icon' => 'information-circle'],
@@ -64,7 +66,8 @@ return [
     'tips' => [
         ['pattern' => 'admin-dashboard.index', 'text' => 'Tip: This is the admin overview (no public page directly).'],
 
-        ['pattern' => 'admin-dashboard.page-banners.*', 'text' => 'Tip: Custom header images for inner pages; default comes from CTC_PAGE_BANNER_IMAGE when not set.'],
+        ['pattern' => 'admin-dashboard.site-images.*', 'text' => 'Tip: Upload or replace shared site images (logo, hero, banners, placeholders) with recommended sizes.'],
+        ['pattern' => 'admin-dashboard.page-banners.*', 'text' => 'Tip: Custom header images for inner pages; default comes from Site Images → Default page header banner when not set.'],
         ['pattern' => 'admin-dashboard.hero.*', 'text' => 'Tip: Editing the Home page hero (video / carousel).', 'public' => '/'],
         ['pattern' => 'admin-dashboard.home-stats.*', 'text' => 'Tip: Editing the Home page statistics section.', 'public' => '/#home-stats'],
 

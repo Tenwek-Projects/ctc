@@ -144,9 +144,9 @@
     {{-- Center: flagship, title, badge --}}
     <div class="absolute inset-0 z-[3] flex items-center justify-center px-4 pb-24 sm:pb-28">
         <div class="text-center [perspective:1400px]" data-ctc-hero-headline>
-            <div class="mb-3 flex justify-center sm:mb-4" data-ctc-hero-flagship aria-hidden="true">
+            <div class="mb-3 flex justify-center sm:mb-4" data-ctc-hero-emblem aria-hidden="true">
                 <img
-                    src="{{ asset('flagship.png') }}"
+                    src="{{ \App\Support\SiteImage::urlFor('logo') ?: asset('logo-ctc.png') }}"
                     alt=""
                     width="320"
                     height="120"

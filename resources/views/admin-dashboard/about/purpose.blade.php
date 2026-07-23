@@ -132,7 +132,7 @@
                             <div class="mb-3 aspect-[4/3] rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
                                 <img
                                     id="aboutPurposeRightPreview"
-                                    src="{{ !empty($right_image_url) ? $right_image_url : config('ctc.placeholder_images.care') }}"
+                                    src="{{ !empty($right_image_url) ? $right_image_url : (\App\Support\SiteImage::urlFor('placeholder_care') ?: config('ctc.placeholder_images.care')) }}"
                                     alt=""
                                     class="h-full w-full object-cover"
                                 >

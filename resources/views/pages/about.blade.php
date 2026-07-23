@@ -74,7 +74,7 @@
                         <div class="sm:col-span-7 rounded-3xl overflow-hidden border border-gray-200 bg-ctc-grey-light shadow-sm">
                             <div class="relative h-full min-h-[22rem] sm:min-h-0 overflow-hidden" data-ctc-parallax="0.11">
                                 <img
-                                    src="{{ $whoWeAre['images']['main'] ?? config('ctc.placeholder_images.facility') }}"
+                                    src="{{ $whoWeAre['images']['main'] ?? (\App\Support\SiteImage::urlFor('placeholder_facility') ?: config('ctc.placeholder_images.facility')) }}"
                                     alt="CTC facility"
                                     class="absolute inset-0 h-full w-full object-cover object-top scale-105"
                                     loading="lazy"
@@ -85,7 +85,7 @@
                             <div class="rounded-3xl overflow-hidden border border-gray-200 bg-white shadow-sm">
                                 <div class="aspect-square overflow-hidden" data-ctc-parallax="0.08">
                                 <img
-                                    src="{{ $whoWeAre['images']['side_1'] ?? config('ctc.placeholder_images.team') }}"
+                                    src="{{ $whoWeAre['images']['side_1'] ?? (\App\Support\SiteImage::urlFor('placeholder_team') ?: config('ctc.placeholder_images.team')) }}"
                                     alt="Care team"
                                         class="h-full w-full object-cover scale-105"
                                         loading="lazy"
@@ -95,7 +95,7 @@
                             <div class="rounded-3xl overflow-hidden border border-gray-200 bg-white shadow-sm">
                                 <div class="aspect-square overflow-hidden" data-ctc-parallax="0.08">
                                 <img
-                                    src="{{ $whoWeAre['images']['side_2'] ?? config('ctc.placeholder_images.care') }}"
+                                    src="{{ $whoWeAre['images']['side_2'] ?? (\App\Support\SiteImage::urlFor('placeholder_care') ?: config('ctc.placeholder_images.care')) }}"
                                     alt="Patient care"
                                         class="h-full w-full object-cover scale-105"
                                         loading="lazy"
@@ -275,7 +275,7 @@
 
                                     <div class="aspect-[4/3] lg:aspect-[3/4]">
                                         <img
-                                            src="{{ $purpose['right']['image'] ?? config('ctc.placeholder_images.care') }}"
+                                            src="{{ $purpose['right']['image'] ?? (\App\Support\SiteImage::urlFor('placeholder_care') ?: config('ctc.placeholder_images.care')) }}"
                                             alt=""
                                             class="h-full w-full object-cover"
                                             loading="lazy"

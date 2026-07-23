@@ -56,17 +56,15 @@ class PageController extends Controller
         $heroTitle = SiteSetting::getValue('hero.title', 'AGC Tenwek Cardiothoracic Centre');
         $heroSubtitle = SiteSetting::getValue('hero.subtitle', 'Tenwek Hospital');
         $heroDescription = SiteSetting::getValue('hero.description', 'A beacon of hope and healing for patients with heart disease across Sub‑Saharan Africa. We provide life‑saving open‑heart and thoracic care, and train African healthcare professionals to expand access to treatment.');
-        $heroImagePath = SiteSetting::getValue('hero.image_path');
-        $heroImageUrl = $heroImagePath
-            ? PublicAssetUrl::toUrl($heroImagePath)
-            : asset(config('ctc.hero_image', 'hero.jpg'));
+        $heroImageUrl = \App\Support\SiteImage::urlFor('hero_image')
+            ?: asset(config('ctc.hero_image', 'hero.jpg'));
         $heroVideoPath = SiteSetting::getValue('hero.video_path');
         $heroVideoUrl = $heroVideoPath
             ? PublicAssetUrl::toUrl($heroVideoPath)
             : SiteSetting::getValue('hero.video_url', config('ctc.hero_video'));
         $heroSlides = HeroSlide::query()->visible()->ordered()->get();
-        $servicesImagePath = SiteSetting::getValue('home.services_image_path');
-        $servicesImageUrl = PublicAssetUrl::toUrl($servicesImagePath);
+        $servicesImageUrl = \App\Support\SiteImage::urlFor('home_services')
+            ?: asset('service-home.webp');
 
         $impactImageUrl = ImpactStory::query()
             ->visible()
@@ -284,6 +282,9 @@ class PageController extends Controller
         $seoImage = $categoryPage?->featuredImageUrl()
             ?: \App\Support\PageBanner::urlFor($pageBannerKey);
 
+        $servicesImageUrl = \App\Support\SiteImage::urlFor('home_services')
+            ?: asset('service-home.webp');
+
         return view('pages.services', compact(
             'cardiac',
             'thoracic',
@@ -296,6 +297,7 @@ class PageController extends Controller
             'pageTitle',
             'pageBannerKey',
             'seoImage',
+            'servicesImageUrl',
         ));
     }
 

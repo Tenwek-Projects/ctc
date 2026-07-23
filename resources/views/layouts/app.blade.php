@@ -49,8 +49,8 @@
     <meta name="twitter:image" content="{{ $seo['twitter']['image'] ?? url('/ctc.jpg') }}">
 
     {{-- Favicons --}}
-    <link rel="icon" href="{{ asset('flagship.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ asset('flagship.png') }}">
+    <link rel="icon" href="{{ \App\Support\SiteImage::urlFor('flagship') ?: asset('flagship.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ \App\Support\SiteImage::urlFor('flagship') ?: asset('flagship.png') }}">
     <meta name="theme-color" content="#12124A">
 
     {{-- Performance hints --}}

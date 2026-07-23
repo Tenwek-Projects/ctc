@@ -51,7 +51,7 @@
                         <div class="mb-3 aspect-[4/3] rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
                             <img
                                 id="aboutIntroPreviewMain"
-                                src="{{ !empty($images['main']) ? $images['main'] : config('ctc.placeholder_images.facility') }}"
+                                src="{{ !empty($images['main']) ? $images['main'] : (\App\Support\SiteImage::urlFor('placeholder_facility') ?: config('ctc.placeholder_images.facility')) }}"
                                 alt=""
                                 class="h-full w-full object-cover"
                             >
@@ -83,7 +83,7 @@
                             <div class="mb-3 aspect-square rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
                                 <img
                                     id="aboutIntroPreviewSide1"
-                                    src="{{ !empty($images['side_1']) ? $images['side_1'] : config('ctc.placeholder_images.team') }}"
+                                    src="{{ !empty($images['side_1']) ? $images['side_1'] : (\App\Support\SiteImage::urlFor('placeholder_team') ?: config('ctc.placeholder_images.team')) }}"
                                     alt=""
                                     class="h-full w-full object-cover"
                                 >
@@ -113,7 +113,7 @@
                             <div class="mb-3 aspect-square rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
                                 <img
                                     id="aboutIntroPreviewSide2"
-                                    src="{{ !empty($images['side_2']) ? $images['side_2'] : config('ctc.placeholder_images.care') }}"
+                                    src="{{ !empty($images['side_2']) ? $images['side_2'] : (\App\Support\SiteImage::urlFor('placeholder_care') ?: config('ctc.placeholder_images.care')) }}"
                                     alt=""
                                     class="h-full w-full object-cover"
                                 >

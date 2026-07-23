@@ -75,13 +75,15 @@ class HeroController extends Controller
             'services_image' => ['required', 'image', 'max:5120'],
         ]);
 
-        $old = SiteSetting::getValue('home.services_image_path');
-        if ($old && !str_starts_with($old, 'http')) {
-            Storage::disk('public')->delete($old);
-        }
+        try {
+            \App\Support\SiteImage::store('home_services', $request->file('services_image'));
+        } catch (\Throwable $e) {
+            report($e);
 
-        $path = $request->file('services_image')->store('homepage', 'public');
-        SiteSetting::setValue('home.services_image_path', $path);
+            return redirect()
+                ->route('admin-dashboard.hero.edit')
+                ->with('error', 'Could not publish the services image.');
+        }
 
         return redirect()
             ->route('admin-dashboard.hero.edit')

@@ -12,7 +12,7 @@
     $boxClass = $isColumn
         ? 'relative aspect-[4/3] w-full rounded-2xl overflow-hidden border-2 border-dashed border-white/40 shadow-inner ring-1 ring-ctc-blue/20'
         : 'relative aspect-[16/9] max-h-[420px] rounded-2xl overflow-hidden border-2 border-dashed border-white/40 shadow-inner ring-1 ring-ctc-blue/20';
-    $photoUrl = config('ctc.placeholder_images.care');
+    $photoUrl = (\App\Support\SiteImage::urlFor('placeholder_care') ?: config('ctc.placeholder_images.care'));
 @endphp
 
 <figure class="{{ $figureClass }}" role="img" aria-label="{{ $label }}: default Tenwek imagery until a photo is uploaded in admin">

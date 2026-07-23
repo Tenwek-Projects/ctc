@@ -101,6 +101,7 @@
                     <label for="sort_order" class="block text-sm font-medium text-gray-700 mb-1">Sort order</label>
                     <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', $member->sort_order) }}" min="0"
                            class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
+                    <p class="mt-1 text-xs text-gray-500">Lower numbers appear first within the team group. Prefer the up/down controls on the Team list.</p>
                 </div>
                 <div class="flex items-center pt-8 gap-6 flex-wrap">
                     <label class="inline-flex items-center">

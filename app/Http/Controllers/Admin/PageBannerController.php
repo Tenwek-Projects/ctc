@@ -25,7 +25,7 @@ class PageBannerController extends Controller
             })
             ->all();
 
-        $defaultUrl = (string) config('ctc.page_banner_image', '');
+        $defaultUrl = PageBanner::defaultUrl();
 
         return view('admin-dashboard.page-banners.index', compact('pages', 'defaultUrl'));
     }
@@ -42,13 +42,15 @@ class PageBannerController extends Controller
         $old = SiteSetting::getValue($settingKey);
         if ($old && ! str_starts_with($old, 'http')) {
             Storage::disk('public')->delete($old);
+            \App\Support\PublicStorageMirror::delete($old);
         }
 
         $path = $request->file('banner')->store('page-banners', 'public');
+        \App\Support\PublicStorageMirror::publish($path);
         SiteSetting::setValue($settingKey, $path);
 
         return redirect()
-            ->route('admin-dashboard.page-banners.index')
+            ->back()
             ->with('success', 'Banner updated for this page.');
     }
 
@@ -60,12 +62,13 @@ class PageBannerController extends Controller
         $old = SiteSetting::getValue($settingKey);
         if ($old && ! str_starts_with($old, 'http')) {
             Storage::disk('public')->delete($old);
+            \App\Support\PublicStorageMirror::delete($old);
         }
 
         SiteSetting::setValue($settingKey, null);
 
         return redirect()
-            ->route('admin-dashboard.page-banners.index')
+            ->back()
             ->with('success', 'Custom banner removed; the site default is used again.');
     }
 

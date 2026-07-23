@@ -36,7 +36,9 @@ class Seo
         );
 
         $canonical = self::absoluteUrl($request, $overrides['canonical'] ?? $request->url());
-        $defaultImage = PublicAssetUrl::toUrl('ctc.jpg') ?? self::absoluteUrl($request, '/ctc.jpg');
+        $defaultImage = \App\Support\SiteImage::urlFor('og')
+            ?? PublicAssetUrl::toUrl('ctc.jpg')
+            ?? self::absoluteUrl($request, '/ctc.jpg');
         $image = self::absoluteUrl($request, $overrides['image'] ?? $defaultImage);
 
         $keywords = $overrides['keywords'] ?? $routeDefaults['keywords'] ?? null;
@@ -57,7 +59,10 @@ class Seo
 
         $schemas = [];
         $schemas[] = self::schemaWebSite($request, $siteName);
-        $schemas[] = self::schemaOrganization($request, $siteName, $hospital, $contact, $social, $defaultImage);
+        $logoUrl = \App\Support\SiteImage::urlFor('logo')
+            ?? PublicAssetUrl::toUrl('logo-ctc.png')
+            ?? self::absoluteUrl($request, '/logo-ctc.png');
+        $schemas[] = self::schemaOrganization($request, $siteName, $hospital, $contact, $social, $logoUrl);
 
         if (! empty($overrides['breadcrumbs']) && is_array($overrides['breadcrumbs'])) {
             $schemas[] = self::schemaBreadcrumbs($request, $overrides['breadcrumbs']);

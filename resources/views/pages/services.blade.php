@@ -107,43 +107,61 @@
                     </div>
                 </article>
             @else
-                <div class="max-w-4xl">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-ruby">Clinical care</p>
-                    <h2 class="mt-3 text-2xl sm:text-3xl font-headline font-extrabold tracking-tight text-ctc-blue">
-                        Compassionate care, every step of the way
-                    </h2>
-                    <ul class="mt-6 space-y-4 text-gray-600 leading-relaxed">
-                        <li class="flex items-start gap-3">
-                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.18)]" aria-hidden="true"></span>
-                            <span>
-                                At AGC Tenwek Cardiothoracic Centre, every service is delivered with one purpose: to provide safe, evidence-based, and compassionate care that restores health and transforms lives. From your first consultation to your final follow-up visit, we are committed to walking alongside you and your family with excellence, integrity, and hope.
-                            </span>
-                        </li>
-                    </ul>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12 items-stretch">
+                    <div class="lg:col-span-7">
+                        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-ruby">Clinical care</p>
+                        <h2 class="mt-3 text-2xl sm:text-3xl font-headline font-extrabold tracking-tight text-ctc-blue">
+                            Compassionate care, every step of the way
+                        </h2>
+                        <ul class="mt-6 space-y-4 text-gray-600 leading-relaxed">
+                            <li class="flex items-start gap-3">
+                                <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.18)]" aria-hidden="true"></span>
+                                <span>
+                                    At AGC Tenwek Cardiothoracic Centre, every service is delivered with one purpose: to provide safe, evidence-based, and compassionate care that restores health and transforms lives. From your first consultation to your final follow-up visit, we are committed to walking alongside you and your family with excellence, integrity, and hope.
+                                </span>
+                            </li>
+                        </ul>
 
-                    <h3 class="mt-10 text-xl sm:text-2xl font-headline font-extrabold tracking-tight text-ctc-blue">
-                        Comprehensive cardiothoracic care
-                    </h3>
-                    <ul class="mt-6 space-y-4 text-gray-600 leading-relaxed">
-                        <li class="flex items-start gap-3">
-                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.18)]" aria-hidden="true"></span>
-                            <span>
-                                At AGC Tenwek Cardiothoracic Centre, we provide comprehensive, specialized care for patients with heart, chest, and vascular conditions. Our multidisciplinary team combines clinical expertise, advanced technology, and compassionate, Christ-centered care to deliver exceptional outcomes for patients of all ages.
-                            </span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.18)]" aria-hidden="true"></span>
-                            <span>
-                                Whether you require preventive heart care, advanced diagnostics, minimally invasive procedures, or complex surgery, we are committed to providing personalized treatment tailored to your unique needs.
-                            </span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.18)]" aria-hidden="true"></span>
-                            <span>
-                                Our integrated approach ensures that every patient receives seamless care from diagnosis and treatment to recovery and long-term follow-up — all under one roof.
-                            </span>
-                        </li>
-                    </ul>
+                        <h3 class="mt-10 text-xl sm:text-2xl font-headline font-extrabold tracking-tight text-ctc-blue">
+                            Comprehensive cardiothoracic care
+                        </h3>
+                        <ul class="mt-6 space-y-4 text-gray-600 leading-relaxed">
+                            <li class="flex items-start gap-3">
+                                <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.18)]" aria-hidden="true"></span>
+                                <span>
+                                    At AGC Tenwek Cardiothoracic Centre, we provide comprehensive, specialized care for patients with heart, chest, and vascular conditions. Our multidisciplinary team combines clinical expertise, advanced technology, and compassionate, Christ-centered care to deliver exceptional outcomes for patients of all ages.
+                                </span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.18)]" aria-hidden="true"></span>
+                                <span>
+                                    Whether you require preventive heart care, advanced diagnostics, minimally invasive procedures, or complex surgery, we are committed to providing personalized treatment tailored to your unique needs.
+                                </span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.18)]" aria-hidden="true"></span>
+                                <span>
+                                    Our integrated approach ensures that every patient receives seamless care from diagnosis and treatment to recovery and long-term follow-up — all under one roof.
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="lg:col-span-5">
+                        <figure class="h-full min-h-[16rem] overflow-hidden rounded-2xl border border-gray-200 shadow-md bg-ctc-grey-light">
+                            <div class="h-full w-full overflow-hidden" data-ctc-parallax="0.1">
+                                <img
+                                    src="{{ $servicesImageUrl }}"
+                                    alt="Clinical care at AGC Tenwek Cardiothoracic Centre"
+                                    class="h-full w-full object-cover object-center"
+                                    loading="lazy"
+                                    decoding="async"
+                                    width="1200"
+                                    height="750"
+                                >
+                            </div>
+                        </figure>
+                    </div>
                 </div>
             @endif
 

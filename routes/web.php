@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\ImpactTestimonialController;
 use App\Http\Controllers\Admin\LegalPageController;
 use App\Http\Controllers\Admin\NewsArticleController;
 use App\Http\Controllers\Admin\PageBannerController;
+use App\Http\Controllers\Admin\SiteImageController;
 use App\Http\Controllers\Admin\PatientInfoController;
 use App\Http\Controllers\Admin\ResearchPublicationController;
 use App\Http\Controllers\Admin\ServiceCategoryPageController;
@@ -121,6 +122,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-das
     Route::get('legal-pages/{page}', [LegalPageController::class, 'edit'])->where('page', 'privacy|terms')->name('legal-pages.edit');
     Route::put('legal-pages/{page}', [LegalPageController::class, 'update'])->where('page', 'privacy|terms')->name('legal-pages.update');
 
+    Route::get('site-images', [SiteImageController::class, 'index'])->name('site-images.index');
+    Route::post('site-images/{key}', [SiteImageController::class, 'update'])->name('site-images.update');
+    Route::delete('site-images/{key}', [SiteImageController::class, 'destroy'])->name('site-images.destroy');
+
     Route::get('page-banners', [PageBannerController::class, 'index'])->name('page-banners.index');
     Route::post('page-banners/{key}', [PageBannerController::class, 'update'])->name('page-banners.update');
     Route::delete('page-banners/{key}', [PageBannerController::class, 'destroy'])->name('page-banners.destroy');
@@ -147,6 +152,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-das
         Route::patch('team-members/{team_member}/homepage', [TeamMemberController::class, 'toggleHomepage'])
             ->whereNumber('team_member')
             ->name('team-members.homepage');
+        Route::patch('team-members/{team_member}/reorder', [TeamMemberController::class, 'reorder'])
+            ->whereNumber('team_member')
+            ->name('team-members.reorder');
     });
     Route::middleware('permission:services.manage')->group(function (): void {
         Route::resource('services', ServiceController::class)->except('show');

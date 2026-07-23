@@ -28,12 +28,14 @@
     $logoWrap = $emphasizeLogo
         ? 'inline-flex shrink-0 items-center pr-3 sm:pr-3.5 md:pr-4'
         : 'inline-flex shrink-0 items-center';
+
+    $logoUrl = \App\Support\SiteImage::urlFor('logo') ?: asset('logo-ctc.png');
 @endphp
 
 <div {{ $attributes->class(['flex min-w-0 items-center gap-x-2.5 sm:gap-x-3 md:gap-x-3.5']) }}>
     <span class="{{ $logoWrap }}">
         <img
-            src="{{ asset('logo-ctc.png') }}"
+            src="{{ $logoUrl }}"
             alt=""
             width="120"
             height="120"

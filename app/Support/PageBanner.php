@@ -13,9 +13,14 @@ class PageBanner
             ->all();
     }
 
+    public static function defaultUrl(): string
+    {
+        return (string) (SiteImage::urlFor('page_banner_default') ?: config('ctc.page_banner_image', ''));
+    }
+
     public static function urlFor(?string $key): string
     {
-        $default = (string) config('ctc.page_banner_image', '');
+        $default = self::defaultUrl();
 
         if (! $key || ! in_array($key, self::allowedKeys(), true)) {
             return $default;

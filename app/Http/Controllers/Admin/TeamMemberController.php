@@ -16,8 +16,32 @@ class TeamMemberController extends Controller
 {
     public function index(): View
     {
-        $members = TeamMember::query()->orderBy('id')->get();
-        return view('admin-dashboard.team-members.index', compact('members'));
+        $members = TeamMember::query()->ordered()->get();
+        $groupLabels = config('ctc.team_groups', []);
+
+        $grouped = collect();
+        foreach ($groupLabels as $key => $label) {
+            $groupMembers = $members->where('team_group', $key)->values();
+            if ($groupMembers->isNotEmpty()) {
+                $grouped->put($key, [
+                    'label' => $label,
+                    'members' => $groupMembers,
+                ]);
+            }
+        }
+
+        $ungrouped = $members->filter(fn (TeamMember $member) => blank($member->team_group))->values();
+        if ($ungrouped->isNotEmpty()) {
+            $grouped->put('other', [
+                'label' => 'Ungrouped',
+                'members' => $ungrouped,
+            ]);
+        }
+
+        return view('admin-dashboard.team-members.index', [
+            'members' => $members,
+            'grouped' => $grouped,
+        ]);
     }
 
     public function create(): View
@@ -43,9 +67,13 @@ class TeamMemberController extends Controller
         ]);
         $validated['is_visible'] = $request->boolean('is_visible');
         $validated['show_on_homepage'] = $request->boolean('show_on_homepage');
-        $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
         $validated['team_group'] = $validated['team_group'] ?: null;
         $validated['credentials'] = filled($validated['credentials'] ?? null) ? $validated['credentials'] : null;
+        if (! array_key_exists('sort_order', $validated) || $validated['sort_order'] === null || $validated['sort_order'] === '') {
+            $validated['sort_order'] = $this->nextSortOrderForGroup($validated['team_group']);
+        } else {
+            $validated['sort_order'] = (int) $validated['sort_order'];
+        }
         if (empty($validated['slug'])) {
             $validated['slug'] = Str::slug($validated['name']) . '-' . time();
         }
@@ -180,11 +208,80 @@ class TeamMemberController extends Controller
             ->with('success', "{$member->name} {$state} the homepage.");
     }
 
+    public function reorder(Request $request, int $team_member): RedirectResponse
+    {
+        $validated = $request->validate([
+            'direction' => ['required', 'in:up,down'],
+        ]);
+
+        $member = TeamMember::query()->findOrFail($team_member);
+        $siblings = $this->siblingsInGroup($member);
+
+        $index = $siblings->search(fn (TeamMember $sibling) => $sibling->id === $member->id);
+        if ($index === false) {
+            return redirect()->route('admin-dashboard.team-members.index');
+        }
+
+        $swapIndex = $validated['direction'] === 'up' ? $index - 1 : $index + 1;
+        if ($swapIndex < 0 || $swapIndex >= $siblings->count()) {
+            return redirect()
+                ->route('admin-dashboard.team-members.index')
+                ->with('error', 'That member is already at the edge of its group.');
+        }
+
+        $ordered = $siblings->values()->all();
+        $temp = $ordered[$index];
+        $ordered[$index] = $ordered[$swapIndex];
+        $ordered[$swapIndex] = $temp;
+
+        foreach ($ordered as $position => $sibling) {
+            $sibling->update(['sort_order' => ($position + 1) * 10]);
+        }
+
+        return redirect()
+            ->route('admin-dashboard.team-members.index')
+            ->with('success', "Order updated for {$member->name}.");
+    }
+
     public function destroy(TeamMember $team_member): RedirectResponse
     {
         $this->deleteStoredPhoto($team_member->photo);
         $team_member->delete();
         return redirect()->route('admin-dashboard.team-members.index')->with('success', 'Team member deleted.');
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection<int, TeamMember>
+     */
+    private function siblingsInGroup(TeamMember $member)
+    {
+        return TeamMember::query()
+            ->when(
+                filled($member->team_group),
+                fn ($query) => $query->where('team_group', $member->team_group),
+                fn ($query) => $query->where(function ($inner) {
+                    $inner->whereNull('team_group')->orWhere('team_group', '');
+                })
+            )
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->orderBy('id')
+            ->get();
+    }
+
+    private function nextSortOrderForGroup(?string $teamGroup): int
+    {
+        $max = TeamMember::query()
+            ->when(
+                filled($teamGroup),
+                fn ($query) => $query->where('team_group', $teamGroup),
+                fn ($query) => $query->where(function ($inner) {
+                    $inner->whereNull('team_group')->orWhere('team_group', '');
+                })
+            )
+            ->max('sort_order');
+
+        return ((int) $max) + 10;
     }
 
     private function storeTeamPhoto(UploadedFile $file, TeamMember $member): string
