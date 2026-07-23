@@ -191,6 +191,15 @@
                     />
                 @endforeach
             </div>
+            <div class="mt-10 text-center">
+                <a href="{{ route('specialists') }}"
+                   class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium bg-ctc-blue text-white ring-1 ring-ctc-magenta/25 ring-offset-2 ring-offset-ctc-grey-light hover:bg-ctc-blue-dark hover:ring-ctc-magenta/45 transition-all">
+                    View more
+                    <svg class="h-4 w-4 opacity-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                </a>
+            </div>
         </div>
     </section>
 

@@ -186,12 +186,25 @@ class PageController extends Controller
                 ? ("Meet {$teamMember->name}, {$teamMember->title} at the Cardiothoracic Centre.")
                 : "Meet {$teamMember->name} at the Cardiothoracic Centre.");
 
-        $related = TeamMember::query()
+        $relatedBase = TeamMember::query()
             ->visible()
-            ->where('id', '!=', $teamMember->id)
+            ->where('id', '!=', $teamMember->id);
+
+        $related = (clone $relatedBase)
+            ->when(filled($teamMember->team_group), fn ($q) => $q->where('team_group', $teamMember->team_group))
             ->ordered()
             ->take(6)
             ->get();
+
+        if ($related->count() < 6) {
+            $related = $related->concat(
+                (clone $relatedBase)
+                    ->whereNotIn('id', $related->pluck('id'))
+                    ->ordered()
+                    ->take(6 - $related->count())
+                    ->get()
+            )->values();
+        }
 
         $pageTitle = $teamMember->name;
 

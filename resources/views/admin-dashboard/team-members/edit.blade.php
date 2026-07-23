@@ -55,7 +55,7 @@
                         <input type="file" name="photo" id="photo" accept="image/*"
                                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal bg-white"
                                @change="previewUrl = $event.target.files?.[0] ? URL.createObjectURL($event.target.files[0]) : null">
-                        <p class="mt-1 text-xs text-gray-500">Upload an image (max 5MB).</p>
+                        <p class="mt-1 text-xs text-gray-500">Upload JPG/PNG/WebP (max ~10MB). A new filename is saved each time so browsers do not keep an old broken image.</p>
                     </div>
                     <div class="pt-7">
                         <label class="inline-flex items-center gap-2 text-sm text-gray-700">

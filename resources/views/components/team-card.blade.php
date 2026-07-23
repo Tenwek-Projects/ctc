@@ -7,6 +7,7 @@
     'bio' => null,
     'photo' => null,
     'url' => null,
+    'priority' => false,
 ])
 
 @php
@@ -14,6 +15,7 @@
     $photoUrl = \App\Support\PublicAssetUrl::toUrl($photo);
     $showSpecialization = filled($specialization)
         && strcasecmp(trim((string) $specialization), trim((string) $title)) !== 0;
+    $priority = (bool) $priority;
 @endphp
 
 <article
@@ -31,7 +33,18 @@
                 <img
                     src="{{ $photoUrl }}"
                     alt="{{ $name }}"
+                    width="800"
+                    height="600"
                     class="h-full w-full object-cover object-top grayscale-[0.35] transition-[filter,transform] duration-700 ease-out origin-top group-hover:scale-[1.03] group-hover:grayscale-0"
+                    @if($priority)
+                        loading="eager"
+                        fetchpriority="high"
+                        decoding="async"
+                    @else
+                        loading="lazy"
+                        decoding="async"
+                        fetchpriority="low"
+                    @endif
                 >
                 <span class="pointer-events-none absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-lg bg-black/55 px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white opacity-0 transition group-hover:opacity-100">
                     View full
@@ -60,9 +73,12 @@
                     </svg>
                 </button>
                 <img
-                    src="{{ $photoUrl }}"
+                    x-show="photoOpen"
+                    x-bind:src="photoOpen ? '{{ $photoUrl }}' : ''"
                     alt="{{ $name }}"
                     class="max-h-[90vh] max-w-full object-contain shadow-2xl"
+                    loading="lazy"
+                    decoding="async"
                     @click.stop
                 >
             </div>

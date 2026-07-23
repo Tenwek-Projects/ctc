@@ -34,7 +34,7 @@ class TeamMemberController extends Controller
             'team_group' => ['nullable', 'string', 'max:80', 'in:'.implode(',', TeamMember::teamGroupKeys())],
             'specialization' => 'nullable|string|max:255',
             'bio' => 'nullable|string|max:20000',
-            'photo' => 'nullable|image|max:5120',
+            'photo' => 'nullable|image|max:10240',
             'photo_url' => 'nullable|string|max:500',
             'slug' => 'nullable|string|max:255',
             'sort_order' => 'nullable|integer|min:0',
@@ -53,10 +53,18 @@ class TeamMemberController extends Controller
 
         $member = TeamMember::create(collect($validated)->except(['photo', 'photo_url'])->all());
 
-        if ($request->hasFile('photo')) {
-            $member->update(['photo' => $this->storeTeamPhoto($request->file('photo'), $member)]);
-        } elseif (! empty($validated['photo_url'])) {
-            $member->update(['photo' => $validated['photo_url']]);
+        try {
+            if ($request->hasFile('photo')) {
+                $member->update(['photo' => $this->storeTeamPhoto($request->file('photo'), $member)]);
+            } elseif (! empty($validated['photo_url'])) {
+                $member->update(['photo' => $validated['photo_url']]);
+            }
+        } catch (\Throwable $e) {
+            report($e);
+
+            return redirect()
+                ->route('admin-dashboard.team-members.edit', $member)
+                ->with('error', 'Member created, but the photo could not be published. Ensure public/storage/team is writable.');
         }
 
         return redirect()->route('admin-dashboard.team-members.index')->with('success', 'Team member created.');
@@ -76,7 +84,7 @@ class TeamMemberController extends Controller
             'team_group' => ['nullable', 'string', 'max:80', 'in:'.implode(',', TeamMember::teamGroupKeys())],
             'specialization' => 'nullable|string|max:255',
             'bio' => 'nullable|string|max:20000',
-            'photo' => 'nullable|image|max:5120',
+            'photo' => 'nullable|image|max:10240',
             'photo_url' => 'nullable|string|max:500',
             'remove_photo' => 'sometimes|boolean',
             'slug' => 'nullable|string|max:255',
@@ -94,17 +102,33 @@ class TeamMemberController extends Controller
         }
         $validated['bio'] = TrixHtmlSanitizer::sanitize($validated['bio'] ?? '');
 
+        if (! empty($_FILES['photo']['name'] ?? null) && (int) ($_FILES['photo']['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK && ! $request->hasFile('photo')) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'The photo did not upload. Use a JPG/PNG under about 8MB, or ask hosting to raise upload_max_filesize.');
+        }
+
         $team_member->update(collect($validated)->except(['photo', 'photo_url', 'remove_photo'])->all());
 
-        if ($request->boolean('remove_photo')) {
-            $this->deleteStoredPhoto($team_member->photo);
-            $team_member->update(['photo' => null]);
-        } elseif ($request->hasFile('photo')) {
-            $this->deleteStoredPhoto($team_member->photo);
-            $team_member->update(['photo' => $this->storeTeamPhoto($request->file('photo'), $team_member)]);
-        } elseif (! empty($validated['photo_url'])) {
-            $this->deleteStoredPhoto($team_member->photo);
-            $team_member->update(['photo' => $validated['photo_url']]);
+        try {
+            if ($request->boolean('remove_photo')) {
+                $this->deleteStoredPhoto($team_member->photo);
+                $team_member->update(['photo' => null]);
+            } elseif ($request->hasFile('photo')) {
+                $this->deleteStoredPhoto($team_member->photo);
+                $team_member->update(['photo' => $this->storeTeamPhoto($request->file('photo'), $team_member)]);
+            } elseif (! empty($validated['photo_url'])) {
+                $this->deleteStoredPhoto($team_member->photo);
+                $team_member->update(['photo' => $validated['photo_url']]);
+            }
+        } catch (\Throwable $e) {
+            report($e);
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Profile saved, but the photo could not be published to the public web folder. On shared hosting, ensure public/storage/team is writable.');
         }
 
         return redirect()->route('admin-dashboard.team-members.index')->with('success', 'Team member updated.');
@@ -166,23 +190,19 @@ class TeamMemberController extends Controller
     private function storeTeamPhoto(UploadedFile $file, TeamMember $member): string
     {
         $extension = strtolower($file->getClientOriginalExtension() ?: $file->extension() ?: 'jpg');
+        if (! in_array($extension, ['jpg', 'jpeg', 'png', 'webp', 'gif'], true)) {
+            $extension = 'jpg';
+        }
+
+        // Unique filename every upload so browsers/CDNs cannot keep serving an old
+        // broken Git LFS pointer at the same public URL.
         $base = Str::slug($member->name) ?: ('team-member-'.$member->id);
-        $filename = $base.'.'.$extension;
+        $filename = $base.'-'.$member->id.'-'.time().'.'.$extension;
         $directory = 'team';
         $disk = Storage::disk('public');
 
         if (! $disk->exists($directory)) {
             $disk->makeDirectory($directory);
-        }
-
-        if ($disk->exists($directory.'/'.$filename)) {
-            $filename = $base.'-'.$member->id.'.'.$extension;
-        }
-
-        $counter = 2;
-        while ($disk->exists($directory.'/'.$filename)) {
-            $filename = $base.'-'.$member->id.'-'.$counter.'.'.$extension;
-            $counter++;
         }
 
         $path = $file->storeAs($directory, $filename, 'public');
@@ -191,6 +211,10 @@ class TeamMemberController extends Controller
             throw new \RuntimeException('Failed to store team photo.');
         }
 
+        // Shared hosting often uses a real public/storage folder (not a symlink).
+        // Mirror so the web server can serve the newly uploaded binary.
+        $this->mirrorPublicStoragePath($path);
+
         return $path;
     }
 
@@ -198,6 +222,43 @@ class TeamMemberController extends Controller
     {
         if ($photo && ! str_starts_with($photo, 'http')) {
             Storage::disk('public')->delete($photo);
+            $this->deleteMirroredPublicStoragePath($photo);
+        }
+    }
+
+    private function mirrorPublicStoragePath(string $relativePath): void
+    {
+        $publicStorage = public_path('storage');
+
+        if (is_link($publicStorage)) {
+            return;
+        }
+
+        $source = Storage::disk('public')->path($relativePath);
+        $target = $publicStorage.DIRECTORY_SEPARATOR.str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $relativePath);
+        $dir = dirname($target);
+
+        if (! is_dir($dir) && ! mkdir($dir, 0755, true) && ! is_dir($dir)) {
+            throw new \RuntimeException('Could not create public storage directory for team photo.');
+        }
+
+        if (! is_file($source) || ! @copy($source, $target)) {
+            throw new \RuntimeException('Could not publish team photo to the public web folder.');
+        }
+    }
+
+    private function deleteMirroredPublicStoragePath(string $relativePath): void
+    {
+        $publicStorage = public_path('storage');
+
+        if (is_link($publicStorage)) {
+            return;
+        }
+
+        $target = $publicStorage.DIRECTORY_SEPARATOR.str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $relativePath);
+
+        if (is_file($target)) {
+            @unlink($target);
         }
     }
 }
