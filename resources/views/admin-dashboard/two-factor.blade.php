@@ -14,12 +14,12 @@
         <div class="w-full max-w-md relative">
             <div aria-hidden="true" class="pointer-events-none absolute -inset-6 blur-2xl opacity-60">
                 <div class="absolute inset-0 bg-[radial-gradient(closest-side,rgba(13,148,136,0.22),transparent_70%)]"></div>
-                <div class="absolute -top-10 -right-10 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(228,195,115,0.35),transparent_70%)]"></div>
+                <div class="absolute -top-10 -right-10 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(179,49,39,0.35),transparent_70%)]"></div>
                 <div class="absolute -bottom-12 -left-12 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(26,26,104,0.22),transparent_70%)]"></div>
             </div>
 
             <div class="relative rounded-2xl bg-admin-surface shadow-lg border border-gray-200 overflow-hidden">
-                <div aria-hidden="true" class="h-1.5 bg-gradient-to-r from-[#1a1a68] via-[#0d9488] to-[#e4c373]"></div>
+                <div aria-hidden="true" class="h-1.5 bg-gradient-to-r from-[#1a1a68] via-[#0d9488] to-[#b33127]"></div>
                 <div class="p-8">
                     <div class="mb-6">
                         <p class="text-xs font-semibold uppercase tracking-[0.2em] text-admin-muted">Two-step verification</p>

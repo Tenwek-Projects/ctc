@@ -46,21 +46,54 @@ class SiteImage
             return null;
         }
 
-        $settingKey = (string) ($slot['setting_key'] ?? '');
-        $path = $settingKey ? SiteSetting::getValue($settingKey) : null;
+        $path = self::resolvedPath($slot);
 
         if (filled($path)) {
             if (str_starts_with((string) $path, 'http://') || str_starts_with((string) $path, 'https://')) {
                 return (string) $path;
             }
 
-            $url = PublicAssetUrl::toUrl((string) $path);
+            $relative = (string) $path;
+            if (Storage::disk('public')->exists($relative)) {
+                try {
+                    $publicStorage = public_path('storage');
+                    if (! is_link($publicStorage)) {
+                        $mirrored = $publicStorage.DIRECTORY_SEPARATOR.str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $relative);
+                        if (! is_file($mirrored)) {
+                            PublicStorageMirror::publish($relative);
+                        }
+                    }
+                } catch (\Throwable $e) {
+                    report($e);
+                }
+            }
+
+            $url = PublicAssetUrl::toUrl($relative);
             if ($url) {
                 return $url;
             }
         }
 
         return self::fallbackUrl($slot);
+    }
+
+    /**
+     * @param  array<string, mixed>  $slot
+     */
+    public static function resolvedPath(array $slot): ?string
+    {
+        $settingKey = (string) ($slot['setting_key'] ?? '');
+        if ($settingKey && filled($path = SiteSetting::getValue($settingKey))) {
+            return (string) $path;
+        }
+
+        foreach (($slot['legacy_setting_keys'] ?? []) as $legacyKey) {
+            if (filled($path = SiteSetting::getValue((string) $legacyKey))) {
+                return (string) $path;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -127,6 +160,10 @@ class SiteImage
         PublicStorageMirror::publish($path);
         SiteSetting::setValue($settingKey, $path);
 
+        foreach (($slot['legacy_setting_keys'] ?? []) as $legacyKey) {
+            SiteSetting::setValue((string) $legacyKey, null);
+        }
+
         return $path;
     }
 
@@ -140,6 +177,11 @@ class SiteImage
         $settingKey = (string) $slot['setting_key'];
         self::deleteStored(SiteSetting::getValue($settingKey));
         SiteSetting::setValue($settingKey, null);
+
+        foreach (($slot['legacy_setting_keys'] ?? []) as $legacyKey) {
+            self::deleteStored(SiteSetting::getValue((string) $legacyKey));
+            SiteSetting::setValue((string) $legacyKey, null);
+        }
     }
 
     public static function hasCustom(string $key): bool
@@ -149,7 +191,7 @@ class SiteImage
             return false;
         }
 
-        return filled(SiteSetting::getValue((string) $slot['setting_key']));
+        return filled(self::resolvedPath($slot));
     }
 
     /**
@@ -165,8 +207,7 @@ class SiteImage
             return $empty;
         }
 
-        $settingKey = (string) $slot['setting_key'];
-        $path = SiteSetting::getValue($settingKey);
+        $path = self::resolvedPath($slot);
 
         $absolute = null;
         if (filled($path) && ! str_starts_with((string) $path, 'http')) {

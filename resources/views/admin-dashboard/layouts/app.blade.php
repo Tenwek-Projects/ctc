@@ -115,7 +115,7 @@
                             </div>
 
                             <div class="p-2">
-                                @foreach($headerLinks as $link)
+                                @foreach($headerLinks->reject(fn ($link) => !empty($link['danger'])) as $link)
                                     <a href="{{ route($link['route']) }}"
                                        class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-admin-dark hover:bg-admin-bg transition-colors"
                                        role="menuitem">
@@ -135,6 +135,24 @@
                                     <span class="truncate">View site</span>
                                 </a>
                             </div>
+
+                            @php $dangerLinks = $headerLinks->filter(fn ($link) => !empty($link['danger'])); @endphp
+                            @if($dangerLinks->isNotEmpty())
+                                <div class="border-t border-red-100 p-2 bg-red-50/60">
+                                    @foreach($dangerLinks as $link)
+                                        <a href="{{ route($link['route']) }}"
+                                           class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-red-700 hover:bg-red-100/80 transition-colors"
+                                           role="menuitem">
+                                            <span class="text-red-600">
+                                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                                                </svg>
+                                            </span>
+                                            <span class="truncate font-semibold">{{ $link['label'] }}</span>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            @endif
 
                             <div class="border-t border-gray-200/80 p-2 bg-white">
                                 <form method="post" action="{{ route('admin-dashboard.logout') }}">

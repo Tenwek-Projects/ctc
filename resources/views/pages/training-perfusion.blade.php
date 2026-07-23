@@ -28,19 +28,19 @@
 
                     <ul class="mt-6 space-y-4 text-gray-600 leading-relaxed">
                         <li class="flex items-start gap-3">
-                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]" aria-hidden="true"></span>
+                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(158, 196, 248,0.18)]" aria-hidden="true"></span>
                             <span>
                                 AGC Tenwek Cardiothoracic Centre is proud to offer a specialized Cardiovascular Perfusion Training Program, designed to prepare perfusionists for the critical role they play during open-heart surgery and other advanced cardiac procedures.
                             </span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]" aria-hidden="true"></span>
+                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(158, 196, 248,0.18)]" aria-hidden="true"></span>
                             <span>
                                 The program combines classroom instruction, simulation-based learning, and extensive clinical experience, enabling trainees to develop the technical competence and clinical judgment required to safely operate heart-lung machines and support complex cardiothoracic procedures.
                             </span>
                         </li>
                         <li class="flex items-start gap-3">
-                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]" aria-hidden="true"></span>
+                            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(158, 196, 248,0.18)]" aria-hidden="true"></span>
                             <span>
                                 Graduates are equipped to contribute effectively to multidisciplinary cardiac surgical teams while upholding the highest standards of patient safety and clinical excellence.
                             </span>

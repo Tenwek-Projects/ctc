@@ -106,9 +106,9 @@ class PageController extends Controller
                 SiteSetting::getValue('about.who_we_are.bullet_3', 'Training and mentorship that strengthens local capacity across Africa.'),
             ],
             'images' => [
-                'main' => PublicAssetUrl::toUrl(SiteSetting::getValue('about.who_we_are.image_main_path')),
-                'side_1' => PublicAssetUrl::toUrl(SiteSetting::getValue('about.who_we_are.image_side_1_path')),
-                'side_2' => PublicAssetUrl::toUrl(SiteSetting::getValue('about.who_we_are.image_side_2_path')),
+                'main' => \App\Support\SiteImage::urlFor('placeholder_facility'),
+                'side_1' => \App\Support\SiteImage::urlFor('placeholder_team'),
+                'side_2' => \App\Support\SiteImage::urlFor('placeholder_care'),
             ],
         ];
 
@@ -129,7 +129,8 @@ class PageController extends Controller
                 'kicker' => SiteSetting::getValue('about.purpose.right.kicker', 'Purpose Statement'),
                 'title' => SiteSetting::getValue('about.purpose.right.title', 'Purpose Statement & Golden Rules'),
                 'body' => SiteSetting::getValue('about.purpose.right.body', 'To glorify God through provision of holistic (physical, mental, emotional, social, and spiritual) patient- and family-centered cardiothoracic care.'),
-                'image' => PublicAssetUrl::toUrl(SiteSetting::getValue('about.purpose.right.image_path')),
+                'image' => \App\Support\SiteImage::urlFor('about_purpose')
+                    ?: \App\Support\SiteImage::urlFor('placeholder_care'),
             ],
         ];
 

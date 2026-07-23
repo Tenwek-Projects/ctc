@@ -18,7 +18,7 @@
     $kickerClass = $isRuby ? 'text-ctc-ruby' : 'text-ctc-accent';
     $dotClass = $isRuby
         ? 'bg-ctc-ruby shadow-[0_0_0_4px_rgba(179,49,39,0.18)]'
-        : 'bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]';
+        : 'bg-ctc-accent shadow-[0_0_0_4px_rgba(158, 196, 248,0.18)]';
 @endphp
 
 <section class="py-16 lg:py-20 bg-ctc-grey-light">

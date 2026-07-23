@@ -50,7 +50,7 @@
                                 @endif
                                 <div class="p-6 sm:p-8 flex-1 flex flex-col">
                                     <div class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-ctc-secondary">
-                                        <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]"></span>
+                                        <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(179,49,39,0.18)]"></span>
                                         Featured story
                                         @if($featuredStory->story_date)
                                             <span class="text-gray-400 font-medium normal-case tracking-normal">· {{ $featuredStory->story_date->format('F Y') }}</span>
@@ -205,7 +205,7 @@
                         @endif
                         <div class="p-6">
                             <div class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-ctc-blue/75">
-                                <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]"></span>
+                                <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(179,49,39,0.18)]"></span>
                                 From the centre
                             </div>
                             <p class="mt-3 text-sm text-gray-600">This media block is editable from the admin panel when you add a story image or media URL.</p>

@@ -20,8 +20,8 @@
     --color-ctc-secondary-dark: #4d8a88;
     --color-ctc-grey: #6b7280;
     --color-ctc-grey-light: #f3f4f6;
-    /* Gold accent (CTC) */
-    --color-ctc-gold: #e4c373;
+    /* Accent (CTC) */
+    --color-ctc-gold: #9ec4f8;
     --color-ctc-accent: var(--color-ctc-gold);
     /* Ruby accent — use for text, borders, focus; avoid large fills */
     --color-ctc-ruby: #b33127;
@@ -165,7 +165,7 @@ trix-editor {
     margin-top: 2.75rem;
     margin-bottom: 1rem;
     padding-bottom: 0.45rem;
-    border-bottom: 2px solid rgba(228, 195, 115, 0.55);
+    border-bottom: 2px solid rgba(158, 196, 248, 0.55);
     font-size: 1.5rem;
 }
 
@@ -221,7 +221,7 @@ trix-editor {
    ============================================================ */
 .bg-admin-sidebar nav {
     scrollbar-width: thin; /* Firefox */
-    scrollbar-color: rgba(228, 195, 115, 0.9) rgba(255, 255, 255, 0.10); /* thumb, track */
+    scrollbar-color: rgba(158, 196, 248, 0.9) rgba(255, 255, 255, 0.10); /* thumb, track */
 }
 
 .bg-admin-sidebar nav::-webkit-scrollbar {
@@ -234,13 +234,13 @@ trix-editor {
 }
 
 .bg-admin-sidebar nav::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(228, 195, 115, 0.95), rgba(98, 163, 161, 0.85));
+    background: linear-gradient(180deg, rgba(158, 196, 248, 0.95), rgba(98, 163, 161, 0.85));
     border-radius: 999px;
     border: 2px solid rgba(16, 15, 87, 0.85); /* blends into sidebar */
 }
 
 .bg-admin-sidebar nav::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, rgba(228, 195, 115, 1), rgba(98, 163, 161, 0.95));
+    background: linear-gradient(180deg, rgba(158, 196, 248, 1), rgba(98, 163, 161, 0.95));
 }
 
 /* ============================================================
@@ -812,7 +812,7 @@ body.ctc-nav-fixed .ctc-navbar {
     line-height: 1.25 !important;
     color: #1a1a68 !important;
     padding-bottom: 0.5rem;
-    border-bottom: 2px solid rgba(228, 195, 115, 0.65);
+    border-bottom: 2px solid rgba(158, 196, 248, 0.65);
 }
 
 .prose.ctc-service-category-prose h3:first-child {
@@ -1171,7 +1171,7 @@ body[data-ctc-site="public"] .ctc-field:focus {
     bottom: -8%;
     width: min(360px, 50vw);
     height: min(300px, 40vw);
-    background: radial-gradient(circle, rgba(228, 195, 115, 0.45) 0%, transparent 72%);
+    background: radial-gradient(circle, rgba(158, 196, 248, 0.45) 0%, transparent 72%);
     animation-delay: -6s;
 }
 

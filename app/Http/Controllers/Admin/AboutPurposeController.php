@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\SiteSetting;
-use App\Support\PublicAssetUrl;
+use App\Support\PublicStorageMirror;
+use App\Support\SiteImage;
 use App\Support\TrixHtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class AboutPurposeController extends Controller
             'right_kicker' => SiteSetting::getValue('about.purpose.right.kicker', 'Purpose Statement'),
             'right_title' => SiteSetting::getValue('about.purpose.right.title', 'Purpose Statement & Golden Rules'),
             'right_body' => SiteSetting::getValue('about.purpose.right.body', 'To glorify God through provision of holistic (physical, mental, emotional, social, and spiritual) patient- and family-centered cardiothoracic care.'),
-            'right_image_url' => PublicAssetUrl::toUrl(SiteSetting::getValue('about.purpose.right.image_path')),
+            'right_image_url' => SiteImage::urlFor('about_purpose') ?: SiteImage::urlFor('placeholder_care'),
         ]);
     }
 
@@ -83,11 +84,17 @@ class AboutPurposeController extends Controller
         }
 
         $old = SiteSetting::getValue($settingKey);
-        if ($old && ! str_starts_with($old, 'http')) {
+        if ($old && ! str_starts_with((string) $old, 'http')) {
             Storage::disk('public')->delete($old);
+            PublicStorageMirror::delete((string) $old);
         }
 
         $path = $request->file($fileKey)->store('about', 'public');
+        if (! $path) {
+            throw new \RuntimeException('Failed to store About purpose image.');
+        }
+
+        PublicStorageMirror::publish($path);
         SiteSetting::setValue($settingKey, $path);
     }
 }

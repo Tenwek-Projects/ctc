@@ -13,7 +13,7 @@
 >
     <defs>
         <marker id="ctc-arr-gold" markerWidth="5" markerHeight="5" refX="4.2" refY="2.5" orient="auto">
-            <path d="M0 0 L0 5 L5 2.5 Z" fill="#e4c373" fill-opacity="0.45" />
+            <path d="M0 0 L0 5 L5 2.5 Z" fill="#b33127" fill-opacity="0.45" />
         </marker>
         <marker id="ctc-arr-teal" markerWidth="5" markerHeight="5" refX="4.2" refY="2.5" orient="auto">
             <path d="M0 0 L0 5 L5 2.5 Z" fill="#62a3a1" fill-opacity="0.45" />
@@ -36,15 +36,15 @@
     </g>
 
     <circle cx="363.4" cy="305" r="38" fill="url(#ctc-bomet-glow)" />
-    <circle cx="363.4" cy="305" r="6.5" fill="#1a1a68" fill-opacity="0.75" stroke="#e4c373" stroke-opacity="0.65" stroke-width="1.5" />
+    <circle cx="363.4" cy="305" r="6.5" fill="#1a1a68" fill-opacity="0.75" stroke="#b33127" stroke-opacity="0.65" stroke-width="1.5" />
     <circle cx="363.4" cy="305" r="2.2" fill="#62a3a1" fill-opacity="0.85" />
 
     <g class="ctc-impact-rays" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path class="ctc-impact-ray" d="M363.4 305 C310 218 175 100 68 42" stroke="#e4c373" stroke-opacity="0.4" stroke-width="1.35" marker-end="url(#ctc-arr-gold)" />
+        <path class="ctc-impact-ray" d="M363.4 305 C310 218 175 100 68 42" stroke="#b33127" stroke-opacity="0.4" stroke-width="1.35" marker-end="url(#ctc-arr-gold)" />
         <path class="ctc-impact-ray" d="M363.4 305 C338 158 268 58 198 28" stroke="#62a3a1" stroke-opacity="0.38" stroke-width="1.35" marker-end="url(#ctc-arr-teal)" />
         <path class="ctc-impact-ray" d="M363.4 305 C402 112 458 62 508 78" stroke="#1a1a68" stroke-opacity="0.35" stroke-width="1.35" marker-end="url(#ctc-arr-blue)" />
         <path class="ctc-impact-ray" d="M363.4 305 C428 118 492 138 515 208" stroke="#b83280" stroke-opacity="0.36" stroke-width="1.35" marker-end="url(#ctc-arr-magenta)" />
-        <path class="ctc-impact-ray" d="M363.4 305 C438 228 478 288 492 358" stroke="#e4c373" stroke-opacity="0.34" stroke-width="1.15" marker-end="url(#ctc-arr-gold)" />
+        <path class="ctc-impact-ray" d="M363.4 305 C438 228 478 288 492 358" stroke="#b33127" stroke-opacity="0.34" stroke-width="1.15" marker-end="url(#ctc-arr-gold)" />
         <path class="ctc-impact-ray" d="M363.4 305 C318 338 272 422 252 508" stroke="#62a3a1" stroke-opacity="0.34" stroke-width="1.15" marker-end="url(#ctc-arr-teal)" />
         <path class="ctc-impact-ray" d="M363.4 305 C268 288 148 268 28 258" stroke="#1a1a68" stroke-opacity="0.32" stroke-width="1.15" marker-end="url(#ctc-arr-blue)" />
         <path class="ctc-impact-ray" d="M363.4 305 C298 378 205 442 105 485" stroke="#b83280" stroke-opacity="0.34" stroke-width="1.15" marker-end="url(#ctc-arr-magenta)" />

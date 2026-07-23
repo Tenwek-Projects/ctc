@@ -45,7 +45,7 @@
                             <ol class="relative m-0 list-none space-y-8" data-ctc-stagger="0.12">
                             @forelse($milestones as $m)
                                 <li class="relative">
-                                    <span class="absolute left-[0.65rem] top-1.5 z-[1] h-4 w-4 -translate-x-1/2 rounded-full bg-ctc-accent shadow-[0_0_0_6px_rgba(228,195,115,0.12)]"></span>
+                                    <span class="absolute left-[0.65rem] top-1.5 z-[1] h-4 w-4 -translate-x-1/2 rounded-full bg-ctc-accent shadow-[0_0_0_6px_rgba(179,49,39,0.12)]"></span>
                                     <div class="pl-10 sm:pl-11 flex flex-wrap items-baseline gap-3">
                                         @if($m->year)
                                             <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">{{ $m->year }}</span>

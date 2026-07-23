@@ -57,6 +57,7 @@ return [
         ['label' => 'Contact & Enquiries', 'route' => 'admin-dashboard.enquiries.index', 'icon' => 'mail'],
         ['label' => 'College Applications', 'route' => 'admin-dashboard.college-applications.index', 'icon' => 'document-text'],
         ['label' => 'Users & Roles', 'route' => 'admin-dashboard.users.index', 'icon' => 'shield-check', 'permission' => 'users.manage'],
+        ['label' => 'Danger zone', 'route' => 'admin-dashboard.danger-zone.show', 'icon' => 'shield-check', 'permission' => 'users.manage', 'danger' => true],
     ],
 
     /*
@@ -66,7 +67,7 @@ return [
     'tips' => [
         ['pattern' => 'admin-dashboard.index', 'text' => 'Tip: This is the admin overview (no public page directly).'],
 
-        ['pattern' => 'admin-dashboard.site-images.*', 'text' => 'Tip: Upload or replace shared site images (logo, hero, banners, placeholders) with recommended sizes.'],
+        ['pattern' => 'admin-dashboard.site-images.*', 'text' => 'Tip: Edit shared photos by public page (Home, About, Support, Services). Each card shows the page + section. Header banners are listed lower on this screen.', 'public' => '/support'],
         ['pattern' => 'admin-dashboard.page-banners.*', 'text' => 'Tip: Custom header images for inner pages; default comes from Site Images → Default page header banner when not set.'],
         ['pattern' => 'admin-dashboard.hero.*', 'text' => 'Tip: Editing the Home page hero (video / carousel).', 'public' => '/'],
         ['pattern' => 'admin-dashboard.home-stats.*', 'text' => 'Tip: Editing the Home page statistics section.', 'public' => '/#home-stats'],
@@ -96,5 +97,6 @@ return [
 
         ['pattern' => 'admin-dashboard.users.*', 'text' => 'Tip: Managing admin users and roles (not public).'],
         ['pattern' => 'admin-dashboard.security.two-factor.*', 'text' => 'Tip: Control whether admin sign-in requires a second step (not public).'],
+        ['pattern' => 'admin-dashboard.danger-zone.*', 'text' => 'Tip: Permanently purge selected test/staging data. Users, team, and services are never deleted here.'],
     ],
 ];

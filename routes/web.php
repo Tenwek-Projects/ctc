@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ContactEnquiryController;
 use App\Http\Controllers\Admin\ContactSettingController;
 use App\Http\Controllers\Admin\CoreValueController;
 use App\Http\Controllers\Admin\CollegeApplicationAdminController;
+use App\Http\Controllers\Admin\DangerZoneController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\GalleryItemController;
@@ -195,5 +196,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-das
         Route::put('settings/college-website', [CollegeWebsiteController::class, 'update'])->name('settings.college-website.update');
         Route::get('security/two-factor', [TwoFactorSettingsController::class, 'edit'])->name('security.two-factor.edit');
         Route::put('security/two-factor', [TwoFactorSettingsController::class, 'update'])->name('security.two-factor.update');
+        Route::get('danger-zone', [DangerZoneController::class, 'show'])->name('danger-zone.show');
+        Route::post('danger-zone/purge', [DangerZoneController::class, 'purge'])->name('danger-zone.purge');
     });
 });

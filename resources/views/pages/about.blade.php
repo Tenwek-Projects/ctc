@@ -14,7 +14,7 @@
     ])
 
     {{-- Intro + at-a-glance --}}
-    <section class="relative overflow-hidden py-14 lg:py-20">
+    <section id="who-we-are" class="relative overflow-hidden py-14 lg:py-20 scroll-mt-24">
         <div class="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-ctc-magenta/[0.045] to-transparent sm:h-44" aria-hidden="true"></div>
         <div class="container relative mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid gap-10 lg:grid-cols-12 items-center">
@@ -28,7 +28,7 @@
                     </div>
                     <ul class="mt-6 space-y-3 text-gray-700">
                         <li class="flex gap-3">
-                            <span class="mt-1.5 h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]"></span>
+                            <span class="mt-1.5 h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(158, 196, 248,0.18)]"></span>
                             <span class="leading-relaxed">{{ $whoWeAre['bullets'][0] ?? 'Integrated teams across surgery, anesthesia, ICU, nursing, and diagnostics.' }}</span>
                         </li>
                         <li class="flex gap-3">
@@ -74,7 +74,7 @@
                         <div class="sm:col-span-7 rounded-3xl overflow-hidden border border-gray-200 bg-ctc-grey-light shadow-sm">
                             <div class="relative h-full min-h-[22rem] sm:min-h-0 overflow-hidden" data-ctc-parallax="0.11">
                                 <img
-                                    src="{{ $whoWeAre['images']['main'] ?? (\App\Support\SiteImage::urlFor('placeholder_facility') ?: config('ctc.placeholder_images.facility')) }}"
+                                    src="{{ $whoWeAre['images']['main'] }}"
                                     alt="CTC facility"
                                     class="absolute inset-0 h-full w-full object-cover object-top scale-105"
                                     loading="lazy"
@@ -85,7 +85,7 @@
                             <div class="rounded-3xl overflow-hidden border border-gray-200 bg-white shadow-sm">
                                 <div class="aspect-square overflow-hidden" data-ctc-parallax="0.08">
                                 <img
-                                    src="{{ $whoWeAre['images']['side_1'] ?? (\App\Support\SiteImage::urlFor('placeholder_team') ?: config('ctc.placeholder_images.team')) }}"
+                                    src="{{ $whoWeAre['images']['side_1'] }}"
                                     alt="Care team"
                                         class="h-full w-full object-cover scale-105"
                                         loading="lazy"
@@ -95,7 +95,7 @@
                             <div class="rounded-3xl overflow-hidden border border-gray-200 bg-white shadow-sm">
                                 <div class="aspect-square overflow-hidden" data-ctc-parallax="0.08">
                                 <img
-                                    src="{{ $whoWeAre['images']['side_2'] ?? (\App\Support\SiteImage::urlFor('placeholder_care') ?: config('ctc.placeholder_images.care')) }}"
+                                    src="{{ $whoWeAre['images']['side_2'] }}"
                                     alt="Patient care"
                                         class="h-full w-full object-cover scale-105"
                                         loading="lazy"
@@ -243,7 +243,7 @@
                         style="
                             background:
                             radial-gradient(600px 260px at 20% 15%, rgba(98,163,161,0.22), transparent 60%),
-                            radial-gradient(520px 240px at 84% 28%, rgba(228,195,115,0.20), transparent 62%),
+                            radial-gradient(520px 240px at 84% 28%, rgba(158, 196, 248,0.20), transparent 62%),
                             radial-gradient(420px 220px at 62% 88%, rgba(184,50,128,0.07), transparent 58%);
                         ">
                     </div>
@@ -275,7 +275,7 @@
 
                                     <div class="aspect-[4/3] lg:aspect-[3/4]">
                                         <img
-                                            src="{{ $purpose['right']['image'] ?? (\App\Support\SiteImage::urlFor('placeholder_care') ?: config('ctc.placeholder_images.care')) }}"
+                                            src="{{ $purpose['right']['image'] }}"
                                             alt=""
                                             class="h-full w-full object-cover"
                                             loading="lazy"

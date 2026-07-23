@@ -162,7 +162,7 @@
             @if($subtitle)
                 <div class="mt-4 flex justify-center sm:mt-5" data-ctc-hero-subtitle-wrap>
                     <span class="inline-flex items-center gap-2 rounded-full border border-white/25 bg-black/45 px-5 py-2.5 text-[0.65rem] font-semibold uppercase tracking-[0.26em] text-white shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-sm sm:text-[0.7rem]">
-                        <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-[#e4c373] shadow-[0_0_0_3px_rgba(228,195,115,0.25)]" aria-hidden="true"></span>
+                        <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-[#9ec4f8] shadow-[0_0_0_3px_rgba(158, 196, 248,0.25)]" aria-hidden="true"></span>
                         <span id="ctc-hero-subtitle">{{ $subtitle }}</span>
                     </span>
                 </div>
@@ -200,13 +200,13 @@
                         @if($secondaryBtn)
                             <a href="{{ $secondaryBtn['url'] ?? '#' }}"
                                data-cta="2"
-                               class="inline-flex min-h-[2rem] min-w-0 flex-1 basis-0 items-center justify-center rounded-md border-2 border-[#e4c373] bg-transparent px-1 py-1 text-[0.52rem] font-semibold uppercase leading-tight tracking-[0.07em] text-[#e4c373] shadow-none transition hover:bg-[#e4c373]/15 hover:border-[#ebd088] sm:min-h-[2.375rem] sm:flex-none sm:basis-auto sm:rounded-lg sm:px-3.5 sm:py-2 sm:text-[0.625rem] sm:tracking-[0.14em] md:px-4 md:text-[0.6875rem]
-                                      focus:outline-none focus-visible:ring-2 focus-visible:ring-[#e4c373] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent">
+                               class="inline-flex min-h-[2rem] min-w-0 flex-1 basis-0 items-center justify-center rounded-md border-2 border-[#9ec4f8] bg-transparent px-1 py-1 text-[0.52rem] font-semibold uppercase leading-tight tracking-[0.07em] text-[#9ec4f8] shadow-none transition hover:bg-[#9ec4f8]/15 hover:border-[#c5ddfb] sm:min-h-[2.375rem] sm:flex-none sm:basis-auto sm:rounded-lg sm:px-3.5 sm:py-2 sm:text-[0.625rem] sm:tracking-[0.14em] md:px-4 md:text-[0.6875rem]
+                                      focus:outline-none focus-visible:ring-2 focus-visible:ring-[#9ec4f8] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent">
                                 {{ $secondaryBtn['label'] ?? 'Refer a Patient' }}
                             </a>
                         @endif
                     </div>
-                    <span class="hidden text-[#e4c373] drop-shadow-sm sm:inline-flex" aria-hidden="true">
+                    <span class="hidden text-[#9ec4f8] drop-shadow-sm sm:inline-flex" aria-hidden="true">
                         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 2l1.8 5.5h5.8l-4.7 3.4 1.8 5.5L12 13l-4.7 3.4 1.8-5.5L4.8 7.5h5.8L12 2z" />
                         </svg>

@@ -41,7 +41,7 @@
                 ] as $item)
                     <div class="rounded-2xl border border-gray-200/90 bg-gradient-to-b from-white to-ctc-grey-light/40 p-5 shadow-sm hover:shadow-md hover:border-ctc-blue/15 transition-shadow">
                         <div class="flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.18em] text-ctc-blue/80">
-                            <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.2)]"></span>
+                            <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(179,49,39,0.2)]"></span>
                             {{ $item['label'] }}
                         </div>
                         <p class="mt-3 text-sm text-gray-600 leading-relaxed">{{ $item['text'] }}</p>

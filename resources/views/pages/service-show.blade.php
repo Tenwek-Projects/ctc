@@ -69,7 +69,7 @@
                                class="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 font-headline font-bold uppercase text-[0.62rem] tracking-[0.18em] text-white shadow-[0_18px_45px_rgba(0,0,0,0.18)]
                                       bg-[linear-gradient(135deg,rgba(26,26,104,0.95),rgba(98,163,161,0.92))] hover:brightness-105 transition-all">
                                 Book appointment
-                                <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.22)]"></span>
+                                <span class="h-2 w-2 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(158, 196, 248,0.22)]"></span>
                             </a>
                             <a href="{{ route('contact') }}"
                                class="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-3.5 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-ctc-blue hover:bg-ctc-grey-light transition-colors">

@@ -26,13 +26,13 @@
                 </h2>
                 <ul class="mt-6 space-y-4 text-gray-600 leading-relaxed">
                     <li class="flex items-start gap-3">
-                        <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]" aria-hidden="true"></span>
+                        <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(158, 196, 248,0.18)]" aria-hidden="true"></span>
                         <span>
                             At AGC Tenwek Cardiothoracic Centre, excellence extends beyond patient care. As a centre for education and training, we are committed to developing the next generation of cardiothoracic healthcare professionals through accredited training programs, mentorship, and hands-on clinical experience.
                         </span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(228,195,115,0.18)]" aria-hidden="true"></span>
+                        <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-ctc-accent shadow-[0_0_0_4px_rgba(158, 196, 248,0.18)]" aria-hidden="true"></span>
                         <span>
                             By investing in education today, we are strengthening the future of specialized heart care across Kenya, Africa, and beyond.
                         </span>

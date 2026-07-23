@@ -38,6 +38,7 @@ class SettingsController extends Controller
                 'items' => [
                     ['label' => 'Two-factor authentication', 'route' => 'admin-dashboard.security.two-factor.edit'],
                     ['label' => 'Users & roles', 'route' => 'admin-dashboard.users.index', 'permission' => 'users.manage'],
+                    ['label' => 'Danger zone', 'route' => 'admin-dashboard.danger-zone.show', 'permission' => 'users.manage'],
                 ],
             ],
         ];
