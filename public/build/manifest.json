@@ -1,6 +1,6 @@
 {
-  "_hero-gVyeqjTS.js": {
-    "file": "assets/hero-gVyeqjTS.js",
+  "_hero-DCEfJ5B_.js": {
+    "file": "assets/hero-DCEfJ5B_.js",
     "name": "hero",
     "isDynamicEntry": true
   },
@@ -11,7 +11,7 @@
     "isDynamicEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-BwDCGkT7.css",
+    "file": "assets/app-F-gT7nNU.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -29,18 +29,18 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-CtLtGif2.js",
+    "file": "assets/app-BHw9hIi8.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
       "resources/js/hero-hls.js",
-      "_hero-gVyeqjTS.js",
+      "_hero-DCEfJ5B_.js",
       "resources/js/motion/index.js"
     ]
   },
   "resources/js/hero-hls.js": {
-    "file": "assets/hero-hls-CxmjIuzD.js",
+    "file": "assets/hero-hls-B5E3-gUq.js",
     "name": "hero-hls",
     "src": "resources/js/hero-hls.js",
     "isDynamicEntry": true,
@@ -52,12 +52,12 @@
     ]
   },
   "resources/js/motion/index.js": {
-    "file": "assets/index-DimyRmus.js",
+    "file": "assets/index-D7Cro9XE.js",
     "name": "index",
     "src": "resources/js/motion/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_hero-gVyeqjTS.js"
+      "_hero-DCEfJ5B_.js"
     ]
   }
 }
