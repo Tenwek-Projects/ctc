@@ -66,13 +66,8 @@ class PageController extends Controller
         $servicesImageUrl = \App\Support\SiteImage::urlFor('home_services')
             ?: asset('service-home.webp');
 
-        $impactImageUrl = ImpactStory::query()
-            ->visible()
-            ->ordered()
-            ->whereNotNull('image')
-            ->value('image');
-
-        $impactImageUrl = $impactImageUrl ?: config('ctc.page_banner_image');
+        $supportCtaImageUrl = \App\Support\SiteImage::urlFor('home_support_cta')
+            ?: asset('hero.jpg');
 
         return view('pages.home', compact(
             'stats',
@@ -87,7 +82,7 @@ class PageController extends Controller
             'heroVideoUrl',
             'heroSlides',
             'servicesImageUrl',
-            'impactImageUrl'
+            'supportCtaImageUrl'
         ));
     }
 

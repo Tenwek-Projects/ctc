@@ -347,7 +347,7 @@
         :buttonUrl="route('support')"
         secondaryLabel="Contact us"
         :secondaryUrl="route('contact')"
-        :image="$impactImageUrl ?: asset('hero.jpg')"
+        :image="$supportCtaImageUrl"
         imageAlt="Supporting care at AGC Tenwek Cardiothoracic Centre"
         :points="[
             ['title' => 'Sponsor a surgery', 'text' => 'Fund life-saving procedures for patients who cannot pay.'],
