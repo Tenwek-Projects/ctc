@@ -1,17 +1,21 @@
-import './bootstrap';
 import Alpine from 'alpinejs';
-import 'trix/dist/trix.esm.min.js';
 
 window.Alpine = Alpine;
 Alpine.start();
 
 document.addEventListener('DOMContentLoaded', async () => {
     const isAdmin = document.body?.dataset?.ctcSite === 'admin';
+    const isPublic = document.body?.dataset?.ctcSite === 'public';
     const hero = document.querySelector('[data-ctc-hero]');
+    const wantsMotion = isPublic && (
+        document.body.classList.contains('ctc-home')
+        || document.body.hasAttribute('data-ctc-motion')
+        || !!document.querySelector('[data-ctc-motion]')
+    );
 
     let motion = { lenis: null, getScrollY: () => window.scrollY };
 
-    if (!isAdmin) {
+    if (!isAdmin && isPublic) {
         if (hero) {
             const [{ initHeroHls }, { initHeroMediaPreload }] = await Promise.all([
                 import('./hero-hls.js'),
@@ -21,8 +25,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             initHeroMediaPreload(hero);
         }
 
-        const { initCtcMotion } = await import('./motion/index.js');
-        motion = initCtcMotion() ?? motion;
+        if (wantsMotion) {
+            const { initCtcMotion } = await import('./motion/index.js');
+            motion = initCtcMotion() ?? motion;
+        }
     }
 
     const getScrollY = motion?.getScrollY ?? (() => window.scrollY);

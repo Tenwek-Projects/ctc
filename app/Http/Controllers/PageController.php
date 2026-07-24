@@ -38,12 +38,16 @@ class PageController extends Controller
             ]);
         }
 
-        $services = Service::visible()->ordered()->take(8)->get();
-        $team = TeamMember::visible()->onHomepage()->ordered()->take(8)->get();
+        $serviceColumns = ['id', 'name', 'slug', 'category', 'description', 'sort_order', 'is_visible'];
+        $teamColumns = ['id', 'name', 'slug', 'credentials', 'title', 'team_group', 'specialization', 'bio', 'photo', 'sort_order', 'is_visible', 'show_on_homepage'];
+        $newsColumns = ['id', 'title', 'slug', 'type', 'excerpt', 'featured_image', 'published_at', 'is_published', 'created_at'];
+
+        $services = Service::visible()->ordered()->take(8)->get($serviceColumns);
+        $team = TeamMember::visible()->onHomepage()->ordered()->take(8)->get($teamColumns);
         if ($team->isEmpty()) {
-            $team = TeamMember::visible()->ordered()->take(4)->get();
+            $team = TeamMember::visible()->ordered()->take(4)->get($teamColumns);
         }
-        $news = NewsArticle::published()->latest()->take(3)->get();
+        $news = NewsArticle::published()->latest()->take(3)->get($newsColumns);
 
         $configuredHeroMode = SiteSetting::getValue('hero.mode', 'image');
         $hasCustomHeroVideo = filled(SiteSetting::getValue('hero.video_path'))
@@ -147,7 +151,9 @@ class PageController extends Controller
 
     public function specialists()
     {
-        $team = TeamMember::visible()->ordered()->get();
+        $team = TeamMember::visible()->ordered()->get([
+            'id', 'name', 'slug', 'credentials', 'title', 'team_group', 'specialization', 'bio', 'photo', 'sort_order', 'is_visible',
+        ]);
         $groupLabels = config('ctc.team_groups', []);
 
         $teamGroups = collect();
@@ -169,7 +175,9 @@ class PageController extends Controller
             ]);
         }
 
-        return view('pages.specialists', compact('team', 'teamGroups'));
+        $metaDescription = 'Meet the cardiothoracic surgeons and specialist clinicians at Tenwek CTC, providing compassionate, safe, evidence-based heart and chest care.';
+
+        return view('pages.specialists', compact('team', 'teamGroups', 'metaDescription'));
     }
 
     public function specialistShow(TeamMember $teamMember)
@@ -184,11 +192,13 @@ class PageController extends Controller
             ->visible()
             ->where('id', '!=', $teamMember->id);
 
+        $relatedColumns = ['id', 'name', 'slug', 'credentials', 'title', 'team_group', 'specialization', 'photo', 'sort_order', 'is_visible'];
+
         $related = (clone $relatedBase)
             ->when(filled($teamMember->team_group), fn ($q) => $q->where('team_group', $teamMember->team_group))
             ->ordered()
             ->take(6)
-            ->get();
+            ->get($relatedColumns);
 
         if ($related->count() < 6) {
             $related = $related->concat(
@@ -196,7 +206,7 @@ class PageController extends Controller
                     ->whereNotIn('id', $related->pluck('id'))
                     ->ordered()
                     ->take(6 - $related->count())
-                    ->get()
+                    ->get($relatedColumns)
             )->values();
         }
 
@@ -223,9 +233,18 @@ class PageController extends Controller
 
     private function renderServicesPage(?string $activeCategory)
     {
-        $cardiac = Service::visible()->inCategory(Service::CATEGORY_CARDIAC)->ordered()->get();
-        $thoracic = Service::visible()->inCategory(Service::CATEGORY_THORACIC)->ordered()->get();
-        $diagnostics = Service::visible()->inCategory(Service::CATEGORY_DIAGNOSTICS)->ordered()->get();
+        $serviceColumns = ['id', 'name', 'slug', 'category', 'description', 'sort_order', 'is_visible', 'featured_image_path'];
+        $empty = collect();
+
+        $cardiac = (! $activeCategory || $activeCategory === Service::CATEGORY_CARDIAC)
+            ? Service::visible()->inCategory(Service::CATEGORY_CARDIAC)->ordered()->get($serviceColumns)
+            : $empty;
+        $thoracic = (! $activeCategory || $activeCategory === Service::CATEGORY_THORACIC)
+            ? Service::visible()->inCategory(Service::CATEGORY_THORACIC)->ordered()->get($serviceColumns)
+            : $empty;
+        $diagnostics = (! $activeCategory || $activeCategory === Service::CATEGORY_DIAGNOSTICS)
+            ? Service::visible()->inCategory(Service::CATEGORY_DIAGNOSTICS)->ordered()->get($serviceColumns)
+            : $empty;
 
         $categoryLabels = [
             Service::CATEGORY_CARDIAC => 'Cardiac Surgery',
@@ -371,28 +390,28 @@ class PageController extends Controller
 
     public function impact()
     {
-        $featuredStory = ImpactStory::query()->visible()->where('is_featured', true)->ordered()->first();
+        $allStories = ImpactStory::query()->visible()->ordered()->get();
+        $featuredStory = $allStories->firstWhere('is_featured', true);
+        $stories = $allStories
+            ->when($featuredStory, fn ($c) => $c->where('id', '!=', $featuredStory->id))
+            ->take(6)
+            ->values();
 
-        $storiesQuery = ImpactStory::query()->visible()->ordered();
-        if ($featuredStory) {
-            $storiesQuery->where('id', '!=', $featuredStory->id);
-        }
-        $stories = $storiesQuery->take(6)->get();
-
-        $latestNews = NewsArticle::published()->latest()->take(3)->get();
+        $latestNews = NewsArticle::published()->latest()->take(3)->get([
+            'id', 'title', 'slug', 'type', 'excerpt', 'featured_image', 'published_at', 'is_published', 'created_at',
+        ]);
 
         $feature = $featuredStory;
         if ($feature && ! $feature->media_url && ! $feature->image_url) {
             $feature = null;
         }
         if (! $feature) {
-            $feature = ImpactStory::query()
-                ->visible()
-                ->ordered()
-                ->where(function ($q) {
-                    $q->whereNotNull('media_url')->orWhereNotNull('image_path')->orWhereNotNull('image');
-                })
-                ->first();
+            $feature = $allStories->first(function ($story) {
+                return filled($story->media_url)
+                    || filled($story->image_path ?? null)
+                    || filled($story->image ?? null)
+                    || filled($story->image_url ?? null);
+            });
         }
 
         $testimonials = ImpactTestimonial::query()->visible()->ordered()->get();
@@ -411,13 +430,16 @@ class PageController extends Controller
 
     public function support()
     {
-        return view('pages.support');
+        $metaDescription = 'Support Tenwek CTC through donations, sponsoring surgeries, and helping equip life-saving cardiothoracic care for patients across the region.';
+
+        return view('pages.support', compact('metaDescription'));
     }
 
     public function news()
     {
-        $articles = NewsArticle::published()->latest()->paginate(9);
-        $recent = NewsArticle::query()->published()->latest()->take(12)->get();
+        $listColumns = ['id', 'title', 'slug', 'type', 'excerpt', 'featured_image', 'published_at', 'is_published', 'created_at', 'updated_at'];
+        $articles = NewsArticle::published()->latest()->paginate(9, $listColumns);
+        $recent = NewsArticle::query()->published()->latest()->take(12)->get($listColumns);
 
         $metaDescription = 'News, events, and announcements from the Cardiothoracic Centre at Tenwek Hospital.';
 
@@ -436,7 +458,7 @@ class PageController extends Controller
             ->where('id', '!=', $article->id)
             ->latest()
             ->take(12)
-            ->get();
+            ->get(['id', 'title', 'slug', 'type', 'excerpt', 'featured_image', 'published_at', 'is_published', 'created_at']);
 
         $metaDescription = $article->excerpt
             ? str($article->excerpt)->stripTags()->limit(160)

@@ -4,11 +4,15 @@ namespace App\Support;
 
 use App\Models\SiteSetting;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class SiteImage
 {
+    /** @var array<string, string|null> */
+    private static array $urlMemo = [];
+
     /**
      * @return array<int, array<string, mixed>>
      */
@@ -39,7 +43,38 @@ class SiteImage
         return collect(self::slots())->pluck('key')->all();
     }
 
+    public static function cacheKey(string $key): string
+    {
+        return 'site_image.url.'.$key;
+    }
+
+    public static function forgetUrlCache(?string $key = null): void
+    {
+        if ($key === null) {
+            foreach (self::allowedKeys() as $allowed) {
+                self::forgetUrlCache($allowed);
+            }
+
+            return;
+        }
+
+        unset(self::$urlMemo[$key]);
+        Cache::forget(self::cacheKey($key));
+    }
+
     public static function urlFor(string $key): ?string
+    {
+        if (array_key_exists($key, self::$urlMemo)) {
+            return self::$urlMemo[$key];
+        }
+
+        $url = Cache::rememberForever(self::cacheKey($key), fn () => self::resolveUrlFor($key));
+        self::$urlMemo[$key] = $url;
+
+        return $url;
+    }
+
+    private static function resolveUrlFor(string $key): ?string
     {
         $slot = self::slot($key);
         if (! $slot) {
@@ -164,6 +199,8 @@ class SiteImage
             SiteSetting::setValue((string) $legacyKey, null);
         }
 
+        self::forgetUrlCache($key);
+
         return $path;
     }
 
@@ -182,6 +219,8 @@ class SiteImage
             self::deleteStored(SiteSetting::getValue((string) $legacyKey));
             SiteSetting::setValue((string) $legacyKey, null);
         }
+
+        self::forgetUrlCache($key);
     }
 
     public static function hasCustom(string $key): bool

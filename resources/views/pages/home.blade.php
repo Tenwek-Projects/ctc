@@ -130,10 +130,10 @@
             <x-section-title title="Our Services" subtitle="Comprehensive cardiothoracic care for adults and children." :magentaAccent="true" />
             <div class="grid gap-8 lg:grid-cols-12 lg:gap-10 items-stretch">
                 @if(!empty($servicesImageUrl))
-                    <div class="lg:col-span-4 lg:order-2">
-                        <div class="h-full min-h-[22rem] overflow-hidden rounded-[1.25rem] border border-gray-200 bg-white shadow-sm">
-                            <div class="relative h-full bg-ctc-grey-light">
-                                <img src="{{ $servicesImageUrl }}" alt="Our services" class="h-full w-full object-cover">
+                    <div class="lg:col-span-4 lg:order-2 lg:self-start">
+                        <div class="overflow-hidden rounded-[1.25rem] border border-gray-200 bg-white shadow-sm">
+                            <div class="relative aspect-[4/3] bg-ctc-grey-light">
+                                <img src="{{ $servicesImageUrl }}" alt="Our services at AGC Tenwek Cardiothoracic Centre" class="absolute inset-0 h-full w-full object-cover object-center" loading="lazy" decoding="async" width="800" height="600">
 
                                 <div class="absolute inset-x-0 bottom-0 p-4 sm:p-5">
                                     <a href="{{ route('services') }}"

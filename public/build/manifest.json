@@ -11,7 +11,7 @@
     "isDynamicEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app-CN9Q6dHF.css",
+    "file": "assets/app-DqN9WW2J.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -28,8 +28,14 @@
       "trix.css"
     ]
   },
+  "resources/js/admin.js": {
+    "file": "assets/admin-B3P_cgyP.js",
+    "name": "admin",
+    "src": "resources/js/admin.js",
+    "isEntry": true
+  },
   "resources/js/app.js": {
-    "file": "assets/app-BHw9hIi8.js",
+    "file": "assets/app-BWkRoWH2.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -40,7 +46,7 @@
     ]
   },
   "resources/js/hero-hls.js": {
-    "file": "assets/hero-hls-B5E3-gUq.js",
+    "file": "assets/hero-hls-1pWahgp7.js",
     "name": "hero-hls",
     "src": "resources/js/hero-hls.js",
     "isDynamicEntry": true,

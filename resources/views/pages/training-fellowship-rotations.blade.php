@@ -6,10 +6,6 @@
     $metaDescription = $metaDescription ?? 'Cardiothoracic Surgery Fellowship at AGC Tenwek Cardiothoracic Centre through PAACS in collaboration with COSECSA.';
 @endphp
 
-@push('head')
-    <meta name="description" content="{{ $metaDescription }}">
-@endpush
-
 @section('content')
     @include('components.page-banner', [
         'title' => 'Cardiothoracic Surgery Fellowship',

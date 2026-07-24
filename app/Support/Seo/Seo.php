@@ -43,6 +43,13 @@ class Seo
 
         $keywords = $overrides['keywords'] ?? $routeDefaults['keywords'] ?? null;
         $robots = $overrides['robots'] ?? 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1';
+        if (in_array($routeName, [
+            'college.apply.show',
+            'college.apply.success',
+            'college.apply.dashboard',
+        ], true) || str_starts_with((string) $routeName, 'admin-dashboard')) {
+            $robots = 'noindex,nofollow';
+        }
 
         $locale = str_replace('_', '-', app()->getLocale());
         $type = $overrides['og_type'] ?? $routeDefaults['og_type'] ?? 'website';

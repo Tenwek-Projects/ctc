@@ -7,128 +7,169 @@ use App\Models\Service;
 use App\Models\TeamMember;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class SitemapController extends Controller
 {
+    private const CACHE_TTL_SECONDS = 3600;
+
     public function index(Request $request): Response
     {
         $base = rtrim($request->getSchemeAndHttpHost(), '/');
 
         $sitemaps = [
-            $base . '/sitemaps/pages.xml',
-            $base . '/sitemaps/news.xml',
-            $base . '/sitemaps/services.xml',
-            $base . '/sitemaps/specialists.xml',
+            $base.'/sitemaps/pages.xml',
+            $base.'/sitemaps/news.xml',
+            $base.'/sitemaps/services.xml',
+            $base.'/sitemaps/specialists.xml',
         ];
 
         $xml = view('seo.sitemap-index', compact('sitemaps'));
-        return response($xml, 200)->header('Content-Type', 'application/xml; charset=UTF-8');
+
+        return $this->xmlResponse($xml);
     }
 
     public function pages(Request $request): Response
     {
-        $urls = [
-            route('home'),
-            route('about'),
-            route('history'),
-            route('services'),
-            route('specialists'),
-            route('patient-information'),
-            route('international-patients'),
-            route('training-research'),
-            route('training'),
-            route('training.fellowship-rotations'),
-            route('training.perfusion'),
-            route('research'),
-            route('research.publications'),
-            route('impact'),
-            route('support'),
-            route('news'),
-            route('gallery'),
-            route('contact'),
-            route('book-appointment'),
-            route('privacy-policy'),
-            route('terms-of-service'),
-            route('feedback'),
-        ];
+        $cacheKey = 'sitemap.pages.'.$request->getSchemeAndHttpHost();
 
-        $items = collect($urls)->unique()->map(fn ($loc) => [
-            'loc' => $loc,
-            'changefreq' => 'weekly',
-            'priority' => $loc === route('home') ? '1.0' : '0.7',
-            'lastmod' => null,
-        ])->all();
+        $xml = Cache::remember($cacheKey, self::CACHE_TTL_SECONDS, function () {
+            $urls = [
+                route('home'),
+                route('about'),
+                route('history'),
+                route('services'),
+                route('specialists'),
+                route('patient-information'),
+                route('international-patients'),
+                route('training-research'),
+                route('training'),
+                route('training.fellowship-rotations'),
+                route('training.perfusion'),
+                route('research'),
+                route('research.publications'),
+                route('impact'),
+                route('support'),
+                route('news'),
+                route('gallery'),
+                route('contact'),
+                route('book-appointment'),
+                route('college.apply.landing'),
+                route('privacy-policy'),
+                route('terms-of-service'),
+                route('feedback'),
+            ];
 
-        $xml = view('seo.sitemap-urlset', ['items' => $items]);
-        return response($xml, 200)->header('Content-Type', 'application/xml; charset=UTF-8');
+            $items = collect($urls)->unique()->map(fn ($loc) => [
+                'loc' => $loc,
+                'changefreq' => 'weekly',
+                'priority' => $loc === route('home') ? '1.0' : '0.7',
+                'lastmod' => null,
+            ])->all();
+
+            return view('seo.sitemap-urlset', ['items' => $items])->render();
+        });
+
+        return $this->xmlResponse($xml);
     }
 
     public function news(Request $request): Response
     {
-        $items = NewsArticle::query()
-            ->published()
-            ->latest()
-            ->get(['slug', 'updated_at', 'published_at', 'created_at'])
-            ->map(fn ($a) => [
-                'loc' => route('news.show', $a->slug),
-                'changefreq' => 'monthly',
-                'priority' => '0.8',
-                'lastmod' => optional($a->updated_at ?? $a->published_at ?? $a->created_at)->toAtomString(),
-            ])->all();
+        $cacheKey = 'sitemap.news.'.$request->getSchemeAndHttpHost();
 
-        $xml = view('seo.sitemap-urlset', ['items' => $items]);
-        return response($xml, 200)->header('Content-Type', 'application/xml; charset=UTF-8');
+        $xml = Cache::remember($cacheKey, self::CACHE_TTL_SECONDS, function () {
+            $items = NewsArticle::query()
+                ->published()
+                ->latest()
+                ->get(['slug', 'updated_at', 'published_at', 'created_at'])
+                ->map(fn ($a) => [
+                    'loc' => route('news.show', $a->slug),
+                    'changefreq' => 'monthly',
+                    'priority' => '0.8',
+                    'lastmod' => optional($a->updated_at ?? $a->published_at ?? $a->created_at)->toAtomString(),
+                ])->all();
+
+            return view('seo.sitemap-urlset', ['items' => $items])->render();
+        });
+
+        return $this->xmlResponse($xml);
     }
 
     public function services(Request $request): Response
     {
-        $items = Service::query()
-            ->visible()
-            ->ordered()
-            ->get(['slug', 'updated_at', 'created_at'])
-            ->map(fn ($s) => [
-                'loc' => route('services.show', $s->slug),
-                'changefreq' => 'monthly',
-                'priority' => '0.7',
-                'lastmod' => optional($s->updated_at ?? $s->created_at)->toAtomString(),
-            ])->all();
+        $cacheKey = 'sitemap.services.'.$request->getSchemeAndHttpHost();
 
-        // also include the 3 category pages
-        foreach (['cardiac-surgery', 'thoracic-surgery', 'diagnostics'] as $seg) {
-            $items[] = [
-                'loc' => route('services.category', ['serviceCategory' => $seg]),
-                'changefreq' => 'monthly',
-                'priority' => '0.7',
-                'lastmod' => null,
-            ];
-        }
+        $xml = Cache::remember($cacheKey, self::CACHE_TTL_SECONDS, function () {
+            $items = Service::query()
+                ->visible()
+                ->ordered()
+                ->get(['slug', 'updated_at', 'created_at'])
+                ->map(fn ($s) => [
+                    'loc' => route('services.show', $s->slug),
+                    'changefreq' => 'monthly',
+                    'priority' => '0.7',
+                    'lastmod' => optional($s->updated_at ?? $s->created_at)->toAtomString(),
+                ])->all();
 
-        $xml = view('seo.sitemap-urlset', ['items' => $items]);
-        return response($xml, 200)->header('Content-Type', 'application/xml; charset=UTF-8');
+            foreach (['cardiac-surgery', 'thoracic-surgery', 'diagnostics'] as $seg) {
+                $items[] = [
+                    'loc' => route('services.category', ['serviceCategory' => $seg]),
+                    'changefreq' => 'monthly',
+                    'priority' => '0.7',
+                    'lastmod' => null,
+                ];
+            }
+
+            return view('seo.sitemap-urlset', ['items' => $items])->render();
+        });
+
+        return $this->xmlResponse($xml);
     }
 
     public function specialists(Request $request): Response
     {
-        $items = TeamMember::query()
-            ->visible()
-            ->ordered()
-            ->get(['slug', 'updated_at', 'created_at'])
-            ->map(fn ($m) => [
-                'loc' => route('specialists.show', $m->slug),
-                'changefreq' => 'monthly',
-                'priority' => '0.6',
-                'lastmod' => optional($m->updated_at ?? $m->created_at)->toAtomString(),
-            ])->all();
+        $cacheKey = 'sitemap.specialists.'.$request->getSchemeAndHttpHost();
 
-        $xml = view('seo.sitemap-urlset', ['items' => $items]);
-        return response($xml, 200)->header('Content-Type', 'application/xml; charset=UTF-8');
+        $xml = Cache::remember($cacheKey, self::CACHE_TTL_SECONDS, function () {
+            $items = TeamMember::query()
+                ->visible()
+                ->ordered()
+                ->get(['slug', 'updated_at', 'created_at'])
+                ->map(fn ($m) => [
+                    'loc' => route('specialists.show', $m->slug),
+                    'changefreq' => 'monthly',
+                    'priority' => '0.6',
+                    'lastmod' => optional($m->updated_at ?? $m->created_at)->toAtomString(),
+                ])->all();
+
+            return view('seo.sitemap-urlset', ['items' => $items])->render();
+        });
+
+        return $this->xmlResponse($xml);
     }
 
     public function robots(Request $request): Response
     {
         $base = rtrim($request->getSchemeAndHttpHost(), '/');
-        $content = "User-agent: *\nAllow: /\n\nSitemap: {$base}/sitemap.xml\n";
-        return response($content, 200)->header('Content-Type', 'text/plain; charset=UTF-8');
+        $content = implode("\n", [
+            'User-agent: *',
+            'Allow: /',
+            'Disallow: /admin-dashboard',
+            'Disallow: /admin-dashboard/',
+            '',
+            "Sitemap: {$base}/sitemap.xml",
+            '',
+        ]);
+
+        return response($content, 200)
+            ->header('Content-Type', 'text/plain; charset=UTF-8')
+            ->header('Cache-Control', 'public, max-age=3600');
+    }
+
+    private function xmlResponse(string $xml): Response
+    {
+        return response($xml, 200)
+            ->header('Content-Type', 'application/xml; charset=UTF-8')
+            ->header('Cache-Control', 'public, max-age=3600');
     }
 }
-

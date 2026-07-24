@@ -96,5 +96,6 @@ class AboutPurposeController extends Controller
 
         PublicStorageMirror::publish($path);
         SiteSetting::setValue($settingKey, $path);
+        SiteImage::forgetUrlCache();
     }
 }

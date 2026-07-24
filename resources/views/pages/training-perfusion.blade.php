@@ -6,10 +6,6 @@
     $metaDescription = $metaDescription ?? 'Cardiovascular Perfusion Training Program at AGC Tenwek Cardiothoracic Centre: classroom, simulation, and clinical experience for open-heart surgery support.';
 @endphp
 
-@push('head')
-    <meta name="description" content="{{ $metaDescription }}">
-@endpush
-
 @section('content')
     @include('components.page-banner', [
         'title' => 'Cardiovascular Perfusion Training',

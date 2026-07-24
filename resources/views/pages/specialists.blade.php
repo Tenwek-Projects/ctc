@@ -4,7 +4,6 @@
 
 @php
     $metaDescription = 'Meet the cardiothoracic surgeons and specialist clinicians at Tenwek CTC, providing compassionate, safe, evidence-based heart and chest care.';
-    $priorityRemaining = 4;
 @endphp
 
 @section('content')
@@ -68,12 +67,6 @@
 
                         <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 auto-rows-fr" data-ctc-stagger="0.09">
                             @foreach($group['members'] as $member)
-                                @php
-                                    $isPriority = $priorityRemaining > 0;
-                                    if ($isPriority) {
-                                        $priorityRemaining--;
-                                    }
-                                @endphp
                                 <x-team-card
                                     :name="$member->name"
                                     :credentials="$member->credentials"
@@ -83,7 +76,7 @@
                                     :bio="$member->bio"
                                     :photo="$member->photo"
                                     :url="route('specialists.show', $member)"
-                                    :priority="$isPriority"
+                                    :priority="false"
                                 />
                             @endforeach
                         </div>

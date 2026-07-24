@@ -49,8 +49,9 @@
     <meta name="twitter:image" content="{{ $seo['twitter']['image'] ?? url('/ctc.jpg') }}">
 
     {{-- Favicons --}}
-    <link rel="icon" href="{{ \App\Support\SiteImage::urlFor('flagship') ?: asset('flagship.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ \App\Support\SiteImage::urlFor('flagship') ?: asset('flagship.png') }}">
+    @php($faviconUrl = \App\Support\SiteImage::urlFor('flagship') ?: asset('flagship.png'))
+    <link rel="icon" href="{{ $faviconUrl }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ $faviconUrl }}">
     <meta name="theme-color" content="#12124A">
 
     {{-- Performance hints --}}
@@ -58,7 +59,11 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    </noscript>
 
     {{-- JSON-LD --}}
     @if(!empty($seo['schema']) && is_array($seo['schema']))
