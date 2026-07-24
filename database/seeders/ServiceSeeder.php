@@ -187,6 +187,7 @@ HTML,
                     'sort_order' => $data['sort_order'],
                     'slug' => $slug,
                     'is_visible' => true,
+                    'show_on_homepage' => true,
                 ]
             );
         }

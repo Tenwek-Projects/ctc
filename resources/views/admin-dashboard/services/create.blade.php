@@ -38,13 +38,13 @@
                 <input type="text" name="slug" id="slug" value="{{ old('slug') }}" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div>
-                    <label for="sort_order" class="block text-sm font-medium text-gray-700 mb-1">Sort order</label>
-                    <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', 0) }}" min="0" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
-                </div>
-                <div class="flex items-center pt-8">
+                <div class="flex items-center">
                     <input type="checkbox" name="is_visible" id="is_visible" value="1" {{ old('is_visible', true) ? 'checked' : '' }} class="rounded border-gray-300 text-ctc-blue focus:ring-ctc-blue">
                     <label for="is_visible" class="ml-2 text-sm text-gray-700">Visible on site</label>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" name="show_on_homepage" id="show_on_homepage" value="1" {{ old('show_on_homepage', true) ? 'checked' : '' }} class="rounded border-gray-300 text-ctc-blue focus:ring-ctc-blue">
+                    <label for="show_on_homepage" class="ml-2 text-sm text-gray-700">Show on homepage</label>
                 </div>
             </div>
             <div class="flex gap-3 pt-2">

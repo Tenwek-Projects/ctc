@@ -38,11 +38,14 @@ class PageController extends Controller
             ]);
         }
 
-        $serviceColumns = ['id', 'name', 'slug', 'category', 'description', 'sort_order', 'is_visible'];
+        $serviceColumns = ['id', 'name', 'slug', 'category', 'description', 'sort_order', 'is_visible', 'show_on_homepage'];
         $teamColumns = ['id', 'name', 'slug', 'credentials', 'title', 'team_group', 'specialization', 'bio', 'photo', 'sort_order', 'is_visible', 'show_on_homepage'];
         $newsColumns = ['id', 'title', 'slug', 'type', 'excerpt', 'featured_image', 'published_at', 'is_published', 'created_at'];
 
-        $services = Service::visible()->ordered()->take(8)->get($serviceColumns);
+        $services = Service::visible()->onHomepage()->ordered()->take(8)->get($serviceColumns);
+        if ($services->isEmpty()) {
+            $services = Service::visible()->ordered()->take(8)->get($serviceColumns);
+        }
         $team = TeamMember::visible()->onHomepage()->ordered()->take(8)->get($teamColumns);
         if ($team->isEmpty()) {
             $team = TeamMember::visible()->ordered()->take(4)->get($teamColumns);

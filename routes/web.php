@@ -158,6 +158,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-das
             ->name('team-members.reorder');
     });
     Route::middleware('permission:services.manage')->group(function (): void {
+        Route::patch('services/reorder', [ServiceController::class, 'reorder'])
+            ->name('services.reorder');
+        Route::patch('services/{service}/homepage', [ServiceController::class, 'toggleHomepage'])
+            ->whereNumber('service')
+            ->name('services.homepage');
         Route::resource('services', ServiceController::class)->except('show');
         Route::get('service-category-pages', [ServiceCategoryPageController::class, 'index'])->name('service-category-pages.index');
         Route::get('service-category-pages/{serviceCategoryPage}/edit', [ServiceCategoryPageController::class, 'edit'])->name('service-category-pages.edit');
