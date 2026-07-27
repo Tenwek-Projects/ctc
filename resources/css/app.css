@@ -739,7 +739,8 @@ body.ctc-nav-fixed .ctc-navbar {
 .prose.ctc-service-category-prose p {
     margin-top: 0;
     margin-bottom: 1.35rem !important;
-    line-height: 1.75;
+    font-size: 1.125rem;
+    line-height: 1.8;
     color: rgb(55 65 81);
 }
 
@@ -929,8 +930,6 @@ body.ctc-nav-fixed .ctc-navbar {
 }
 
 .prose.ctc-service-category-prose p:first-of-type {
-    font-size: 1.125rem;
-    line-height: 1.8;
     color: rgb(31 41 55);
     margin-bottom: 1.65rem !important;
     padding-bottom: 1.25rem;
