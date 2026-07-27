@@ -69,7 +69,7 @@
                                     prose-strong:text-ctc-blue prose-strong:font-semibold
                                     prose-ul:text-gray-700 prose-ol:text-gray-700
                                     prose-li:marker:text-ctc-secondary">
-                            {!! $department->body_html !!}
+                            {!! \App\Support\TrixHtmlSanitizer::normalizeBlocksForDisplay($department->body_html ?? '') !!}
                         </div>
 
                         <div class="mt-10 flex flex-wrap gap-3">

@@ -736,7 +736,8 @@ body.ctc-nav-fixed .ctc-navbar {
     margin-bottom: 0 !important;
 }
 
-.prose.ctc-service-category-prose p {
+.prose.ctc-service-category-prose p,
+.prose.ctc-service-category-prose > div {
     margin-top: 0;
     margin-bottom: 1.35rem !important;
     font-size: 1.125rem;
@@ -744,7 +745,8 @@ body.ctc-nav-fixed .ctc-navbar {
     color: rgb(55 65 81);
 }
 
-.prose.ctc-service-category-prose p + p {
+.prose.ctc-service-category-prose p + p,
+.prose.ctc-service-category-prose > div + div {
     margin-top: 0.35rem !important;
 }
 

@@ -69,7 +69,7 @@
                                         prose-a:text-ctc-secondary prose-a:font-semibold
                                         prose-ul:text-gray-700 prose-li:marker:text-ctc-secondary">
 
-                                {!! $categoryPage->body_html !!}
+                                {!! \App\Support\TrixHtmlSanitizer::normalizeBlocksForDisplay($categoryPage->body_html ?? '') !!}
 
                             </div>
                         </div>

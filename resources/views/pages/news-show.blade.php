@@ -47,7 +47,9 @@
                     prose-a:text-ctc-secondary prose-a:font-semibold
                     prose-strong:text-ctc-blue
                     prose-hr:border-ctc-accent/30">
-            {!! $article->body ? $article->body : '<p>Full story content will be published here.</p>' !!}
+            {!! $article->body
+                ? \App\Support\TrixHtmlSanitizer::normalizeBlocksForDisplay($article->body)
+                : '<p>Full story content will be published here.</p>' !!}
         </div>
     </article>
 @endsection

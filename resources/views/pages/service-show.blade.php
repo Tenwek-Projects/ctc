@@ -32,7 +32,7 @@
                                         prose-p:text-gray-700 prose-p:leading-relaxed
                                         prose-strong:text-ctc-blue prose-strong:font-semibold
                                         prose-a:text-ctc-secondary prose-a:font-semibold">
-                                {!! $service->description !!}
+                                {!! \App\Support\TrixHtmlSanitizer::normalizeBlocksForDisplay($service->description ?? '') !!}
                             </div>
                         @endif
 
