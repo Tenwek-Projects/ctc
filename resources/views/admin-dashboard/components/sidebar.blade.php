@@ -16,6 +16,7 @@
             'Overview',
             'Homepage',
             'About',
+            'Departments',
             'Content',
             'Operations',
             'People',

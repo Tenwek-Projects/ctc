@@ -17,6 +17,7 @@ use App\Models\NewsArticle;
 use App\Models\ResourceDownload;
 use App\Models\Service;
 use App\Models\ServiceCategoryPage;
+use App\Models\DepartmentPage;
 use App\Models\SiteSetting;
 use App\Models\TeamMember;
 use App\Support\LegalPageContent;
@@ -336,6 +337,73 @@ class PageController extends Controller
         $pageTitle = $service->name;
 
         return view('pages.service-show', compact('service', 'related', 'metaDescription', 'pageTitle'));
+    }
+
+    public function departmentShow(DepartmentPage $department)
+    {
+        if (! $department->is_visible) {
+            abort(404);
+        }
+
+        $pageTitle = $department->meta_title ?: $department->intro_heading;
+        $metaDescription = $department->meta_description;
+        $seoImage = $department->featuredImageUrl()
+            ?: \App\Support\PageBanner::urlFor('department_'.$department->url_segment);
+
+        $relatedServiceSlugs = match ($department->url_segment) {
+            'cardiology' => [
+                'adult-cardiology',
+                'pediatric-cardiology',
+                'cardiac-catheterization-laboratory',
+            ],
+            'cardiothoracic-surgery' => [
+                'cardiac-surgical-care',
+                'thoracic-surgical-care',
+                'intensive-care-unit',
+                'cardiac-catheterization-laboratory',
+                'pediatric-cardiology',
+                'diagnostic-imaging',
+            ],
+            'endoscopy' => [
+                'endoscopy',
+                'diagnostic-imaging',
+                'laboratory-services',
+                'thoracic-surgical-care',
+                'cardiac-surgical-care',
+            ],
+            default => [],
+        };
+
+        $relatedServices = empty($relatedServiceSlugs)
+            ? collect()
+            : Service::query()
+                ->visible()
+                ->whereIn('slug', $relatedServiceSlugs)
+                ->get()
+                ->sortBy(fn (Service $service) => array_search($service->slug, $relatedServiceSlugs, true))
+                ->values();
+
+        $referralBlurb = match ($department->url_segment) {
+            'cardiothoracic-surgery' => 'Referrals and appointments for cardiothoracic surgery are coordinated through the Centre.',
+            'endoscopy' => 'Referrals and appointments for endoscopy are coordinated through the Centre. Call 0717 971 768 for Endoscopy enquiries.',
+            default => 'Referrals and appointments for this department are coordinated through the Centre.',
+        };
+
+        $breadcrumbs = [
+            ['label' => 'Home', 'url' => route('home')],
+            ['label' => 'Services', 'url' => route('services')],
+            ['label' => $department->intro_heading, 'url' => route('departments.show', $department)],
+        ];
+
+        return view('pages.department-show', compact(
+            'department',
+            'pageTitle',
+            'metaDescription',
+            'seoImage',
+            'breadcrumbs',
+            'relatedServices',
+            'referralBlurb',
+        ));
     }
 
     public function patientInformation()

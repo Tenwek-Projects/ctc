@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\CoreValueController;
 use App\Http\Controllers\Admin\CollegeApplicationAdminController;
 use App\Http\Controllers\Admin\DangerZoneController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DepartmentPageController;
 use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\GalleryItemController;
 use App\Http\Controllers\Admin\HeroController;
@@ -60,6 +61,7 @@ Route::get('/services/{serviceCategory}', [PageController::class, 'servicesCateg
     ->whereIn('serviceCategory', ['cardiac-surgery', 'thoracic-surgery', 'diagnostics'])
     ->name('services.category');
 Route::get('/services/{service}', [PageController::class, 'serviceShow'])->name('services.show');
+Route::get('/departments/{department}', [PageController::class, 'departmentShow'])->name('departments.show');
 Route::get('/patient-information', [PageController::class, 'patientInformation'])->name('patient-information');
 Route::get('/international-patients', [PageController::class, 'internationalPatients'])->name('international-patients');
 Route::get('/training-research', [PageController::class, 'trainingResearch'])->name('training-research');
@@ -167,6 +169,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-das
         Route::get('service-category-pages', [ServiceCategoryPageController::class, 'index'])->name('service-category-pages.index');
         Route::get('service-category-pages/{serviceCategoryPage}/edit', [ServiceCategoryPageController::class, 'edit'])->name('service-category-pages.edit');
         Route::put('service-category-pages/{serviceCategoryPage}', [ServiceCategoryPageController::class, 'update'])->name('service-category-pages.update');
+        Route::get('department-pages', [DepartmentPageController::class, 'index'])->name('department-pages.index');
+        Route::get('department-pages/{departmentPage}/edit', [DepartmentPageController::class, 'edit'])->name('department-pages.edit');
+        Route::put('department-pages/{departmentPage}', [DepartmentPageController::class, 'update'])->name('department-pages.update');
     });
     Route::resource('patient-info', PatientInfoController::class)->except('show')->parameters(['patient_info' => 'patient_info_block']);
     Route::resource('training', TrainingProgramController::class)->except('show');

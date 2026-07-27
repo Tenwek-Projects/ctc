@@ -21,7 +21,9 @@
                 {{ $article->title }}
             </h1>
             @if($article->excerpt)
-                <div class="prose prose-slate prose-lg mt-5 max-w-none prose-p:text-gray-700 prose-p:leading-relaxed prose-a:text-ctc-secondary prose-strong:text-ctc-blue">
+                <div class="ctc-service-prose prose prose-slate prose-lg mt-5 max-w-none
+                            prose-p:text-gray-700 prose-p:leading-relaxed
+                            prose-a:text-ctc-secondary prose-strong:text-ctc-blue">
                     {!! $article->excerpt !!}
                 </div>
             @endif
@@ -39,7 +41,7 @@
             </div>
         </div>
 
-        <div class="prose prose-slate prose-lg mt-10 max-w-none
+        <div class="ctc-service-prose prose prose-slate prose-lg mt-10 max-w-none
                     prose-headings:font-headline prose-headings:text-ctc-blue
                     prose-p:text-gray-700 prose-p:leading-relaxed
                     prose-a:text-ctc-secondary prose-a:font-semibold

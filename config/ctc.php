@@ -150,6 +150,12 @@ return [
                     'title' => 'Cardiology',
                     'links' => [
                         [
+                            'label' => 'Cardiology Department',
+                            'route' => 'departments.show',
+                            'route_params' => ['department' => 'cardiology'],
+                            'description' => 'Adult cardiology: prevention, diagnosis, and long-term heart care.',
+                        ],
+                        [
                             'label' => 'Adult Cardiology',
                             'route' => 'services.show',
                             'route_params' => ['service' => 'adult-cardiology'],
@@ -173,6 +179,12 @@ return [
                     'title' => 'Surgery & critical care',
                     'links' => [
                         [
+                            'label' => 'Cardiothoracic Surgery Department',
+                            'route' => 'departments.show',
+                            'route_params' => ['department' => 'cardiothoracic-surgery'],
+                            'description' => 'Heart, lung, chest, congenital, and vascular surgery.',
+                        ],
+                        [
                             'label' => 'Cardiac Surgery',
                             'route' => 'services.show',
                             'route_params' => ['service' => 'cardiac-surgical-care'],
@@ -195,6 +207,12 @@ return [
                 [
                     'title' => 'Diagnostics & support',
                     'links' => [
+                        [
+                            'label' => 'Endoscopy Department',
+                            'route' => 'departments.show',
+                            'route_params' => ['department' => 'endoscopy'],
+                            'description' => 'EGD, colonoscopy, bronchoscopy, EUS, and ERCP.',
+                        ],
                         [
                             'label' => 'Diagnostic Imaging',
                             'route' => 'services.show',
@@ -293,6 +311,9 @@ return [
                 'title' => 'Services',
                 'links' => [
                     ['label' => 'All services', 'route' => 'services'],
+                    ['label' => 'Cardiology Department', 'url' => '/departments/cardiology'],
+                    ['label' => 'Cardiothoracic Surgery', 'url' => '/departments/cardiothoracic-surgery'],
+                    ['label' => 'Endoscopy Department', 'url' => '/departments/endoscopy'],
                     ['label' => 'Adult Cardiology', 'url' => '/services/adult-cardiology'],
                     ['label' => 'Cardiac Surgery', 'url' => '/services/cardiac-surgical-care'],
                     ['label' => 'Thoracic Surgery', 'url' => '/services/thoracic-surgical-care'],

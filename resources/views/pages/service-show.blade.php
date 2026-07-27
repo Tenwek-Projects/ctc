@@ -29,10 +29,7 @@
                         @if($service->description)
                             <div class="ctc-service-prose mt-6 prose prose-slate max-w-none text-[1.05rem]
                                         prose-headings:font-headline prose-headings:text-ctc-blue
-                                        prose-headings:mt-8 prose-headings:mb-3
-                                        prose-p:text-gray-700 prose-p:leading-relaxed prose-p:my-5
-                                        prose-ul:my-5 prose-ul:space-y-2.5
-                                        prose-li:text-gray-700 prose-li:leading-relaxed prose-li:marker:text-ctc-ruby
+                                        prose-p:text-gray-700 prose-p:leading-relaxed
                                         prose-strong:text-ctc-blue prose-strong:font-semibold
                                         prose-a:text-ctc-secondary prose-a:font-semibold">
                                 {!! $service->description !!}
@@ -41,10 +38,9 @@
 
                         <div class="ctc-service-prose mt-10 border-t border-gray-100 pt-8 prose prose-slate max-w-none
                                     prose-headings:font-headline prose-headings:text-ctc-blue
-                                    prose-headings:mt-8 prose-headings:mb-3 first:prose-headings:mt-0
-                                    prose-p:text-gray-700 prose-p:leading-relaxed prose-p:my-5
-                                    prose-ul:my-5 prose-ul:space-y-2.5
-                                    prose-li:text-gray-700 prose-li:leading-relaxed">
+                                    prose-p:text-gray-700 prose-p:leading-relaxed
+                                    prose-strong:text-ctc-blue prose-strong:font-semibold
+                                    prose-a:text-ctc-secondary prose-a:font-semibold">
                             <h3>What this service includes</h3>
                             <p>
                                 Our team provides patient‑centred evaluation, safe peri‑operative care, and follow‑up planning. We work with referring clinicians

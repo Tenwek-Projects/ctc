@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\NewsArticle;
+use App\Models\DepartmentPage;
 use App\Models\Service;
 use App\Models\TeamMember;
 use Illuminate\Http\Request;
@@ -59,6 +60,10 @@ class SitemapController extends Controller
                 route('terms-of-service'),
                 route('feedback'),
             ];
+
+            foreach (DepartmentPage::query()->visible()->ordered()->get(['url_segment']) as $department) {
+                $urls[] = route('departments.show', $department);
+            }
 
             $items = collect($urls)->unique()->map(fn ($loc) => [
                 'loc' => $loc,

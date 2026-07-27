@@ -18,6 +18,9 @@ return [
         ['label' => 'About Section', 'route' => 'admin-dashboard.about.index', 'icon' => 'information-circle', 'group' => 'About'],
         ['label' => 'History Milestones', 'route' => 'admin-dashboard.history-milestones.index', 'icon' => 'clock', 'group' => 'About'],
 
+        // Departments
+        ['label' => 'Department pages', 'route' => 'admin-dashboard.department-pages.index', 'icon' => 'document-text', 'permission' => 'services.manage', 'group' => 'Departments'],
+
         // Content
         ['label' => 'Services', 'route' => 'admin-dashboard.services.index', 'icon' => 'briefcase', 'permission' => 'services.manage', 'group' => 'Content'],
         ['label' => 'Service area pages', 'route' => 'admin-dashboard.service-category-pages.index', 'icon' => 'document-text', 'permission' => 'services.manage', 'group' => 'Content'],
@@ -78,6 +81,7 @@ return [
 
         ['pattern' => 'admin-dashboard.team-members.*', 'text' => 'Tip: Editing the Specialists / Team pages.', 'public' => '/specialists'],
         ['pattern' => 'admin-dashboard.services.*', 'text' => 'Tip: Editing the Services page.', 'public' => '/services'],
+        ['pattern' => 'admin-dashboard.department-pages.*', 'text' => 'Tip: Editing department landing pages (Cardiology, Cardiothoracic Surgery, Endoscopy).', 'public' => '/departments/endoscopy'],
         ['pattern' => 'admin-dashboard.service-category-pages.*', 'text' => 'Tip: Editing long-form category pages (e.g. /services/cardiac-surgery).', 'public' => '/services/cardiac-surgery'],
         ['pattern' => 'admin-dashboard.patient-info.*', 'text' => 'Tip: Editing the Patient Information page.', 'public' => '/patient-information'],
         ['pattern' => 'admin-dashboard.training.*', 'text' => 'Tip: Editing the Training pages.', 'public' => '/training'],

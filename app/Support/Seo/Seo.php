@@ -229,6 +229,11 @@ class Seo
                 'title' => 'Clinical Services',
                 'description' => "Specialist cardiothoracic service areas at {$siteName}, Tenwek Hospital.",
             ],
+            'departments.show' => [
+                'title' => 'Clinical Department',
+                'description' => "Specialist clinical departments at {$siteName}, Tenwek Hospital.",
+                'keywords' => 'cardiology department kenya, adult cardiology tenwek, heart care bomet',
+            ],
             'services.show' => [
                 'title' => 'Clinical Service',
                 'description' => "Specialist care at {$siteName}, Tenwek Hospital.",
