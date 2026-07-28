@@ -17,6 +17,7 @@ return [
         ['label' => 'Core Values (Guides)', 'route' => 'admin-dashboard.core-values.index', 'icon' => 'heart', 'group' => 'About'],
         ['label' => 'About Section', 'route' => 'admin-dashboard.about.index', 'icon' => 'information-circle', 'group' => 'About'],
         ['label' => 'History Milestones', 'route' => 'admin-dashboard.history-milestones.index', 'icon' => 'clock', 'group' => 'About'],
+        ['label' => 'History Gallery', 'route' => 'admin-dashboard.history-gallery.index', 'icon' => 'photo', 'group' => 'About'],
 
         // Departments
         ['label' => 'Department pages', 'route' => 'admin-dashboard.department-pages.index', 'icon' => 'document-text', 'permission' => 'services.manage', 'group' => 'Departments'],
@@ -31,6 +32,7 @@ return [
         ['label' => 'Impact Testimonials', 'route' => 'admin-dashboard.impact-testimonials.index', 'icon' => 'heart', 'group' => 'Content'],
         ['label' => 'Support / Donations', 'route' => 'admin-dashboard.donations.index', 'icon' => 'currency-dollar', 'group' => 'Content'],
         ['label' => 'News / Articles', 'route' => 'admin-dashboard.news.index', 'icon' => 'newspaper', 'permission' => 'news.manage', 'group' => 'Content'],
+        ['label' => 'Events', 'route' => 'admin-dashboard.events.index', 'icon' => 'calendar', 'permission' => 'news.manage', 'group' => 'Content'],
         ['label' => 'Gallery', 'route' => 'admin-dashboard.gallery.index', 'icon' => 'photo', 'group' => 'Content'],
 
         // Operations
@@ -78,6 +80,7 @@ return [
         ['pattern' => 'admin-dashboard.about-intro.*', 'text' => 'Tip: Editing the “Who we are” intro on the About page.', 'public' => '/about'],
         ['pattern' => 'admin-dashboard.about.*', 'text' => 'Tip: Editing the About page content.', 'public' => '/about'],
         ['pattern' => 'admin-dashboard.history-milestones.*', 'text' => 'Tip: Editing the History page milestones.', 'public' => '/history'],
+        ['pattern' => 'admin-dashboard.history-gallery.*', 'text' => 'Tip: Editing History page gallery images and captions.', 'public' => '/history'],
 
         ['pattern' => 'admin-dashboard.team-members.*', 'text' => 'Tip: Editing the Specialists / Team pages.', 'public' => '/specialists'],
         ['pattern' => 'admin-dashboard.services.*', 'text' => 'Tip: Editing the Services page.', 'public' => '/services'],
@@ -91,6 +94,7 @@ return [
         ['pattern' => 'admin-dashboard.impact-testimonials.*', 'text' => 'Tip: Editing testimonials shown on the Impact page carousel.', 'public' => '/impact'],
         ['pattern' => 'admin-dashboard.donations.*', 'text' => 'Tip: Editing the Support / Donations page.', 'public' => '/support'],
         ['pattern' => 'admin-dashboard.news.*', 'text' => 'Tip: Editing the News page articles.', 'public' => '/news'],
+        ['pattern' => 'admin-dashboard.events.*', 'text' => 'Tip: Editing Events content shown on the Events page.', 'public' => '/events'],
         ['pattern' => 'admin-dashboard.gallery.*', 'text' => 'Tip: Editing the public Gallery page images.', 'public' => '/gallery'],
 
         ['pattern' => 'admin-dashboard.enquiries.*', 'text' => 'Tip: Managing messages submitted via the Contact page.', 'public' => '/contact'],

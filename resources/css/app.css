@@ -550,6 +550,15 @@ body.ctc-nav-fixed .ctc-navbar {
     overflow: hidden;
 }
 
+.ctc-mega-panel--auto {
+    width: auto;
+    max-width: min(92vw, 640px);
+}
+
+.ctc-mega-panel--auto .ctc-mega-grid {
+    grid-template-columns: max-content;
+}
+
 /* Subtle top accent line for mega panel */
 .ctc-mega-panel::before {
     content: "";

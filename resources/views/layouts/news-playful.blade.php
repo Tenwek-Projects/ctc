@@ -5,7 +5,7 @@
 @endpush
 
 @php
-    $newsSidebarContext = request()->routeIs('news.show') ? 'show' : 'index';
+    $newsSidebarContext = (request()->routeIs('news.show') || request()->routeIs('events.show')) ? 'show' : 'index';
 @endphp
 
 @section('content')

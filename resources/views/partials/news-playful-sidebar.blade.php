@@ -34,6 +34,18 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('events') }}" class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-ctc-blue transition-colors hover:bg-ctc-grey-light {{ request()->routeIs('events') || request()->routeIs('events.show') ? 'bg-ctc-grey-light ring-1 ring-ctc-secondary/30' : '' }}">
+                    <span class="text-base" aria-hidden="true">📅</span>
+                    Events
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('gallery') }}" class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-ctc-blue transition-colors hover:bg-ctc-grey-light {{ request()->routeIs('gallery') ? 'bg-ctc-grey-light ring-1 ring-ctc-secondary/30' : '' }}">
+                    <span class="text-base" aria-hidden="true">🖼️</span>
+                    Gallery
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('contact') }}" class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-ctc-grey-light hover:text-ctc-blue">
                     <span class="text-base leading-none" aria-hidden="true">📞</span>
                     Contact the team

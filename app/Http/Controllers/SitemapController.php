@@ -52,6 +52,7 @@ class SitemapController extends Controller
                 route('impact'),
                 route('support'),
                 route('news'),
+                route('events'),
                 route('gallery'),
                 route('contact'),
                 route('book-appointment'),
@@ -86,9 +87,9 @@ class SitemapController extends Controller
             $items = NewsArticle::query()
                 ->published()
                 ->latest()
-                ->get(['slug', 'updated_at', 'published_at', 'created_at'])
+                ->get(['slug', 'type', 'updated_at', 'published_at', 'created_at'])
                 ->map(fn ($a) => [
-                    'loc' => route('news.show', $a->slug),
+                    'loc' => $a->type === NewsArticle::TYPE_EVENT ? route('events.show', $a->slug) : route('news.show', $a->slug),
                     'changefreq' => 'monthly',
                     'priority' => '0.8',
                     'lastmod' => optional($a->updated_at ?? $a->published_at ?? $a->created_at)->toAtomString(),

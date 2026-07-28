@@ -254,6 +254,14 @@ class Seo
             'news.show' => [
                 'og_type' => 'article',
             ],
+            'events' => [
+                'title' => 'Events',
+                'description' => "Upcoming and recent events at {$siteName}: conferences, training activities, and outreach.",
+                'keywords' => 'ctc events kenya, cardiothoracic events, tenwek ctc events',
+            ],
+            'events.show' => [
+                'og_type' => 'article',
+            ],
             'gallery' => [
                 'title' => 'Gallery',
                 'description' => "Moments from {$siteName}: people, care, facility and community.",

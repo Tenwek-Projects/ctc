@@ -286,7 +286,23 @@ return [
                 ],
             ],
         ],
-        ['label' => 'News & Media', 'route' => 'news'],
+        [
+            'label' => 'News & Media',
+            'route' => 'news',
+            'dropdown' => 'mega',
+            'mega_cols' => 1,
+            'mega_auto_width' => true,
+            'groups' => [
+                [
+                    'title' => 'Explore',
+                    'links' => [
+                        ['label' => 'News', 'route' => 'news', 'description' => 'Stories, updates, and announcements from the CTC.'],
+                        ['label' => 'Events', 'route' => 'events', 'description' => 'Upcoming and recent events, trainings, and conferences.'],
+                        ['label' => 'Gallery', 'route' => 'gallery', 'description' => 'Photos from care, teamwork, and CTC milestones.'],
+                    ],
+                ],
+            ],
+        ],
         ['label' => 'Contact Us', 'route' => 'contact'],
     ],
 
@@ -304,6 +320,7 @@ return [
                     ['label' => 'History', 'route' => 'history'],
                     ['label' => 'Our Specialists', 'route' => 'specialists'],
                     ['label' => 'News & Media', 'route' => 'news'],
+                    ['label' => 'Events', 'route' => 'events'],
                     ['label' => 'Gallery', 'route' => 'gallery'],
                 ],
             ],

@@ -9,6 +9,7 @@ use App\Models\ContactSetting;
 use App\Models\CoreValue;
 use App\Models\GalleryItem;
 use App\Models\HeroSlide;
+use App\Models\HistoryGalleryItem;
 use App\Models\HistoryMilestone;
 use App\Models\HomeStat;
 use App\Models\ImpactStory;
@@ -147,10 +148,11 @@ class PageController extends Controller
     public function history()
     {
         $milestones = HistoryMilestone::query()->visible()->ordered()->get();
+        $galleryItems = HistoryGalleryItem::query()->visible()->ordered()->get();
 
         $metaDescription = 'The history of Tenwek Cardiothoracic Centre: key milestones, growth, and impact in expanding access to advanced cardiac care in Africa.';
 
-        return view('pages.history', compact('milestones', 'metaDescription'));
+        return view('pages.history', compact('milestones', 'galleryItems', 'metaDescription'));
     }
 
     public function specialists()
@@ -509,8 +511,8 @@ class PageController extends Controller
     public function news()
     {
         $listColumns = ['id', 'title', 'slug', 'type', 'excerpt', 'featured_image', 'published_at', 'is_published', 'created_at', 'updated_at'];
-        $articles = NewsArticle::published()->latest()->paginate(9, $listColumns);
-        $recent = NewsArticle::query()->published()->latest()->take(12)->get($listColumns);
+        $articles = NewsArticle::query()->published()->where('type', '!=', NewsArticle::TYPE_EVENT)->latest()->paginate(9, $listColumns);
+        $recent = NewsArticle::query()->published()->where('type', '!=', NewsArticle::TYPE_EVENT)->latest()->take(12)->get($listColumns);
 
         $metaDescription = 'News, events, and announcements from the Cardiothoracic Centre at Tenwek Hospital.';
 
@@ -521,11 +523,13 @@ class PageController extends Controller
     {
         $article = NewsArticle::query()
             ->published()
+            ->where('type', '!=', NewsArticle::TYPE_EVENT)
             ->where('slug', $slug)
             ->firstOrFail();
 
         $recent = NewsArticle::query()
             ->published()
+            ->where('type', '!=', NewsArticle::TYPE_EVENT)
             ->where('id', '!=', $article->id)
             ->latest()
             ->take(12)
@@ -576,6 +580,75 @@ class PageController extends Controller
         $metaDescription = 'Photo gallery from the Cardiothoracic Centre at Tenwek Hospital: care, facility, and community.';
 
         return view('pages.gallery', compact('items', 'metaDescription'));
+    }
+
+    public function events()
+    {
+        $listColumns = ['id', 'title', 'slug', 'type', 'excerpt', 'body', 'featured_image', 'event_date', 'published_at', 'is_published', 'created_at', 'updated_at'];
+        $events = NewsArticle::query()->published()->events()->latest('event_date')->latest()->paginate(9, $listColumns);
+        $recent = NewsArticle::query()->published()->events()->latest('event_date')->latest()->take(12)->get($listColumns);
+
+        $metaDescription = 'Upcoming and recent events from the Cardiothoracic Centre at Tenwek Hospital.';
+
+        return view('pages.events', compact('events', 'recent', 'metaDescription'));
+    }
+
+    public function eventShow(string $slug)
+    {
+        $event = NewsArticle::query()
+            ->published()
+            ->events()
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        $recent = NewsArticle::query()
+            ->published()
+            ->events()
+            ->where('id', '!=', $event->id)
+            ->latest('event_date')
+            ->latest()
+            ->take(12)
+            ->get(['id', 'title', 'slug', 'type', 'excerpt', 'featured_image', 'event_date', 'published_at', 'is_published', 'created_at']);
+
+        $metaDescription = $event->excerpt
+            ? str($event->excerpt)->stripTags()->limit(160)
+            : str($event->body ?? '')->stripTags()->limit(160);
+
+        $seoSchema = [[
+            '@context' => 'https://schema.org',
+            '@type' => 'Event',
+            'name' => $event->title,
+            'description' => $metaDescription,
+            'startDate' => optional($event->event_date ?? $event->published_at ?? $event->created_at)->toIso8601String(),
+            'eventStatus' => 'https://schema.org/EventScheduled',
+            'eventAttendanceMode' => 'https://schema.org/OfflineEventAttendanceMode',
+            'image' => array_values(array_filter([$event->featured_image_url])),
+            'organizer' => [
+                '@type' => 'Organization',
+                'name' => config('ctc.name'),
+            ],
+            'location' => [
+                '@type' => 'Place',
+                'name' => config('ctc.hospital'),
+                'address' => config('ctc.contact.address'),
+            ],
+            'mainEntityOfPage' => [
+                '@type' => 'WebPage',
+                '@id' => url()->current(),
+            ],
+        ]];
+
+        $breadcrumbs = [
+            ['label' => 'Home', 'url' => route('home')],
+            ['label' => 'Events', 'url' => route('events')],
+            ['label' => $event->title, 'url' => url()->current()],
+        ];
+
+        $seoImage = $event->featured_image_url;
+        $pageTitle = $event->title;
+        $article = $event;
+
+        return view('pages.events-show', compact('event', 'article', 'recent', 'metaDescription', 'seoSchema', 'breadcrumbs', 'seoImage', 'pageTitle'));
     }
 
     public function contact()

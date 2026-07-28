@@ -15,7 +15,11 @@ class NewsArticleController extends Controller
 {
     public function index(): View
     {
-        $articles = NewsArticle::latest('published_at')->latest()->paginate(15);
+        $articles = NewsArticle::query()
+            ->where('type', '!=', NewsArticle::TYPE_EVENT)
+            ->latest('published_at')
+            ->latest()
+            ->paginate(15);
         return view('admin-dashboard.news.index', compact('articles'));
     }
 
@@ -29,7 +33,7 @@ class NewsArticleController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255',
-            'type' => 'required|in:'.implode(',', [NewsArticle::TYPE_NEWS, NewsArticle::TYPE_EVENT, NewsArticle::TYPE_ANNOUNCEMENT]),
+            'type' => 'required|in:'.implode(',', [NewsArticle::TYPE_NEWS, NewsArticle::TYPE_ANNOUNCEMENT]),
             'excerpt' => 'nullable|string|max:5000',
             'body' => 'nullable|string|max:50000',
             'featured_image' => 'nullable|image|max:5120',
@@ -66,7 +70,7 @@ class NewsArticleController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255',
-            'type' => 'required|in:'.implode(',', [NewsArticle::TYPE_NEWS, NewsArticle::TYPE_EVENT, NewsArticle::TYPE_ANNOUNCEMENT]),
+            'type' => 'required|in:'.implode(',', [NewsArticle::TYPE_NEWS, NewsArticle::TYPE_ANNOUNCEMENT]),
             'excerpt' => 'nullable|string|max:5000',
             'body' => 'nullable|string|max:50000',
             'featured_image' => 'nullable|image|max:5120',

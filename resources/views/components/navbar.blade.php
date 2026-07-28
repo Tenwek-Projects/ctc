@@ -27,6 +27,7 @@
                             request()->routeIs($item['route'])
                             || ($item['route'] === 'services' && request()->routeIs('services.category'))
                             || ($item['route'] === 'training-research' && request()->routeIs('college.apply.*'))
+                            || ($item['route'] === 'news' && (request()->routeIs('events') || request()->routeIs('events.show') || request()->routeIs('gallery')))
                         );
                     @endphp
 
@@ -45,9 +46,10 @@
                                     $groupCount = count($groups);
                                     $cols = $item['mega_cols'] ?? min(3, max(1, $groupCount));
                                     $maxW = $item['mega_max_w'] ?? ($cols <= 2 ? 600 : 880);
+                                    $autoWidth = (bool) ($item['mega_auto_width'] ?? false);
                                 @endphp
                                 <div class="ctc-dropdown absolute left-1/2 -translate-x-1/2 top-full pt-3">
-                                    <div class="ctc-dropdown__panel ctc-mega-panel" style="--ctc-mega-max-w: {{ $maxW }}px;">
+                                    <div class="ctc-dropdown__panel ctc-mega-panel{{ $autoWidth ? ' ctc-mega-panel--auto' : '' }}" style="--ctc-mega-max-w: {{ $maxW }}px;">
                                         <div class="ctc-mega-grid" style="--ctc-mega-cols: {{ $cols }};">
                                             @foreach($groups as $group)
                                                 <div class="ctc-mega-col">
@@ -165,6 +167,7 @@
                             request()->routeIs($item['route'])
                             || ($item['route'] === 'services' && request()->routeIs('services.category'))
                             || ($item['route'] === 'training-research' && request()->routeIs('college.apply.*'))
+                            || ($item['route'] === 'news' && (request()->routeIs('events') || request()->routeIs('events.show') || request()->routeIs('gallery')))
                         );
 
                         $isChildActive = false;

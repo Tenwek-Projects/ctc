@@ -17,7 +17,6 @@
                     <label for="type" class="block text-sm font-medium text-gray-700 mb-1">Type *</label>
                     <select name="type" id="type" required class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
                         <option value="news" {{ old('type', 'news') === 'news' ? 'selected' : '' }}>News</option>
-                        <option value="event" {{ old('type') === 'event' ? 'selected' : '' }}>Event</option>
                         <option value="announcement" {{ old('type') === 'announcement' ? 'selected' : '' }}>Announcement</option>
                     </select>
                 </div>

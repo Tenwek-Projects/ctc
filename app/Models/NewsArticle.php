@@ -18,11 +18,13 @@ class NewsArticle extends Model
         'excerpt',
         'body',
         'featured_image',
+        'event_date',
         'published_at',
         'is_published',
     ];
 
     protected $casts = [
+        'event_date' => 'datetime',
         'published_at' => 'datetime',
         'is_published' => 'boolean',
     ];
@@ -48,5 +50,10 @@ class NewsArticle extends Model
     public function scopeOfType($query, string $type)
     {
         return $query->where('type', $type);
+    }
+
+    public function scopeEvents($query)
+    {
+        return $query->where('type', self::TYPE_EVENT);
     }
 }

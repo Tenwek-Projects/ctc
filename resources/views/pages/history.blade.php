@@ -66,6 +66,50 @@
                     </div>
                 </div>
             </div>
+
+            <div class="mt-14 lg:mt-16">
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">History gallery</p>
+                        <h3 class="mt-2 text-2xl sm:text-3xl font-headline font-extrabold tracking-tight text-ctc-blue">
+                            Moments from the CTC journey
+                        </h3>
+                    </div>
+                    @if($galleryItems->isNotEmpty())
+                        <p class="text-sm text-gray-600">Snapshots of milestones, teams, and growth over time.</p>
+                    @endif
+                </div>
+
+                @if($galleryItems->isNotEmpty())
+                    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-ctc-stagger="0.08">
+                        @foreach($galleryItems as $item)
+                            <article class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+                                <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                                    <img
+                                        src="{{ $item->imageUrl() }}"
+                                        alt="{{ $item->title }}"
+                                        class="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]"
+                                        loading="lazy"
+                                        decoding="async"
+                                    >
+                                </div>
+                                <div class="p-5">
+                                    <h4 class="text-base font-semibold text-ctc-blue">{{ $item->title }}</h4>
+                                    @if($item->caption)
+                                        <div class="mt-2 prose prose-sm max-w-none text-gray-600 prose-p:my-1 prose-a:text-ctc-secondary prose-strong:text-ctc-blue">
+                                            {!! \App\Support\TrixHtmlSanitizer::normalizeBlocksForDisplay($item->caption) !!}
+                                        </div>
+                                    @endif
+                                </div>
+                            </article>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="mt-8 rounded-2xl border border-dashed border-gray-300 bg-ctc-grey-light px-6 py-8 text-sm text-gray-600">
+                        History gallery images will appear here once added in the admin panel.
+                    </div>
+                @endif
+            </div>
         </div>
     </section>
 @endsection

@@ -20,42 +20,46 @@
             />
 
             <div>
-                <span class="block text-sm font-medium text-gray-700 mb-2">Image *</span>
-                <p class="text-xs text-gray-500 mb-3">Drag and drop a file here, or click to browse. You can use a URL instead below.</p>
+                <span class="block text-sm font-medium text-gray-700 mb-2">Images *</span>
+                <p class="text-xs text-gray-500 mb-3">Drag and drop one or many files. One caption will be used for all uploaded images.</p>
 
                 <div
                     class="rounded-xl border-2 border-dashed transition-colors"
                     x-data="{
                         dragging: false,
-                        previewUrl: null,
-                        fileName: '',
+                        previews: [],
+                        fileNames: [],
                         pick(files) {
-                            const f = files && files[0];
-                            if (!f || !f.type.startsWith('image/')) return;
-                            if (this.previewUrl) URL.revokeObjectURL(this.previewUrl);
-                            this.previewUrl = URL.createObjectURL(f);
-                            this.fileName = f.name;
+                            const selected = Array.from(files || []).filter(f => f.type.startsWith('image/'));
+                            if (!selected.length) return;
+                            this.previews.forEach(p => URL.revokeObjectURL(p));
+                            this.previews = selected.map(f => URL.createObjectURL(f));
+                            this.fileNames = selected.map(f => f.name);
                             const dt = new DataTransfer();
-                            dt.items.add(f);
-                            this.$refs.fileInput.files = dt.files;
+                            selected.forEach(f => dt.items.add(f));
+                            this.$refs.filesInput.files = dt.files;
+                            this.$refs.singleInput.value = '';
                             document.getElementById('image_url').value = '';
                         },
                         clearFile() {
-                            if (this.previewUrl) URL.revokeObjectURL(this.previewUrl);
-                            this.previewUrl = null;
-                            this.fileName = '';
-                            this.$refs.fileInput.value = '';
+                            this.previews.forEach(p => URL.revokeObjectURL(p));
+                            this.previews = [];
+                            this.fileNames = [];
+                            this.$refs.filesInput.value = '';
+                            this.$refs.singleInput.value = '';
                         }
                     }"
                     :class="dragging ? 'border-admin-teal bg-admin-teal/5' : 'border-gray-300 bg-gray-50/50'"
                 >
-                    <input type="file" name="image" x-ref="fileInput" accept="image/jpeg,image/png,image/webp,image/gif" class="sr-only"
+                    <input type="file" name="images[]" x-ref="filesInput" multiple accept="image/jpeg,image/png,image/webp,image/gif" class="sr-only"
+                           @change="pick($event.target.files)">
+                    <input type="file" name="image" x-ref="singleInput" accept="image/jpeg,image/png,image/webp,image/gif" class="sr-only"
                            @change="pick($event.target.files)">
 
                     <div role="button" tabindex="0"
-                         @click="$refs.fileInput.click()"
-                         @keydown.enter.prevent="$refs.fileInput.click()"
-                         @keydown.space.prevent="$refs.fileInput.click()"
+                         @click="$refs.filesInput.click()"
+                         @keydown.enter.prevent="$refs.filesInput.click()"
+                         @keydown.space.prevent="$refs.filesInput.click()"
                          @dragover.prevent="dragging = true"
                          @dragleave.prevent="dragging = false"
                          @drop.prevent="dragging = false; pick($event.dataTransfer.files)"
@@ -67,18 +71,26 @@
                                 </svg>
                             </span>
                             <div>
-                                <span class="text-sm font-semibold text-gray-900">Drop image here or click to upload</span>
+                                <span class="text-sm font-semibold text-gray-900">Drop image(s) here or click to upload</span>
                                 <p class="mt-1 text-xs text-gray-500">JPEG, PNG, WebP or GIF · max 5&nbsp;MB</p>
                             </div>
                         </div>
                     </div>
-                    <div x-show="fileName" x-cloak class="px-6 pb-6 flex flex-col items-center gap-2 border-t border-gray-200/80 pt-4">
-                        <p class="text-xs font-medium text-admin-teal truncate max-w-full text-center" x-text="fileName"></p>
-                        <img x-bind:src="previewUrl" alt="" class="max-h-40 rounded-lg border border-gray-200 object-contain bg-white">
-                        <button type="button" @click="clearFile()" class="text-xs text-red-600 hover:underline">Remove file</button>
+                    <div x-show="fileNames.length" x-cloak class="px-6 pb-6 border-t border-gray-200/80 pt-4">
+                        <p class="text-xs font-medium text-admin-teal text-center">
+                            <span x-text="fileNames.length"></span> file(s) selected
+                        </p>
+                        <div class="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <template x-for="(preview, idx) in previews" :key="idx">
+                                <img :src="preview" alt="" class="h-24 w-full rounded-lg border border-gray-200 object-cover bg-white">
+                            </template>
+                        </div>
+                        <button type="button" @click="clearFile()" class="mt-3 text-xs text-red-600 hover:underline">Clear files</button>
                     </div>
                 </div>
                 @error('image')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
+                @error('images')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
+                @error('images.*')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
             </div>
 
             <div class="relative">
@@ -86,7 +98,7 @@
                 <input type="text" name="image_url" id="image_url" value="{{ old('image_url') }}"
                        placeholder="https://…"
                        class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
-                <p class="mt-1 text-xs text-gray-500">Optional if you uploaded a file. Cleared when you choose a file.</p>
+                <p class="mt-1 text-xs text-gray-500">Optional for adding one external image without upload.</p>
                 @error('image_url')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
             </div>
 
