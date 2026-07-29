@@ -16,8 +16,7 @@ return new class extends Migration
         });
 
         $items = GalleryItem::query()
-            ->orderBy('sort_order')
-            ->orderByDesc('created_at')
+            ->orderBy('created_at')
             ->orderBy('id')
             ->get();
 
@@ -31,7 +30,7 @@ return new class extends Migration
 
         foreach ($grouped as $legacyKey => $groupItems) {
             /** @var \Illuminate\Support\Collection<int, GalleryItem> $groupItems */
-            $first = $groupItems->first();
+            $first = $groupItems->sortBy('created_at')->first();
             $baseKey = GalleryAlbums::makeAlbumKey((string) ($first?->title ?? 'gallery'), $first?->caption);
             $albumKey = $baseKey;
             $suffix = 2;
@@ -42,7 +41,7 @@ return new class extends Migration
             $usedKeys[$albumKey] = true;
 
             $itemSort = 10;
-            foreach ($groupItems->values() as $item) {
+            foreach ($groupItems->sortBy([['created_at', 'asc'], ['id', 'asc']])->values() as $item) {
                 $item->forceFill([
                     'album_key' => $albumKey,
                     'album_sort' => $albumSort,

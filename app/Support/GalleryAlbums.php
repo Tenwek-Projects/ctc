@@ -63,22 +63,27 @@ class GalleryAlbums
             ->map(function (Collection $groupItems, string $key) {
                 $ordered = $groupItems->sortBy([
                     ['sort_order', 'asc'],
-                    ['created_at', 'desc'],
+                    ['created_at', 'asc'],
                     ['id', 'asc'],
                 ])->values();
 
                 $first = $ordered->first();
+                $createdAt = $groupItems
+                    ->map(fn (GalleryItem $item) => optional($item->created_at)?->getTimestamp() ?? 0)
+                    ->min();
 
                 return [
                     'key' => $key,
                     'title' => $first ? self::displayTitle($first) : 'Gallery',
                     'caption_html' => $first?->caption,
                     'album_sort' => (int) ($ordered->min('album_sort') ?? 0),
+                    'created_at' => (int) $createdAt,
                     'items' => $ordered,
                 ];
             })
             ->sortBy([
                 ['album_sort', 'asc'],
+                ['created_at', 'asc'],
                 ['title', 'asc'],
             ])
             ->values();
