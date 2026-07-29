@@ -189,6 +189,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin-dashboard')->name('admin-das
         Route::resource('news', NewsArticleController::class)->except('show');
         Route::resource('events', EventArticleController::class)->except('show')->parameters(['events' => 'event_article']);
     });
+    Route::get('gallery/albums/{album}', [GalleryItemController::class, 'album'])->name('gallery.album');
+    Route::patch('gallery/albums/{album}/reorder', [GalleryItemController::class, 'reorderAlbum'])->name('gallery.albums.reorder');
+    Route::patch('gallery/{gallery_item}/reorder', [GalleryItemController::class, 'reorderItem'])->name('gallery.items.reorder');
     Route::resource('gallery', GalleryItemController::class)->except('show')->parameters(['gallery' => 'gallery_item']);
     Route::resource('enquiries', ContactEnquiryController::class)->only(['index', 'show', 'update', 'destroy']);
     Route::resource('bookings', BookingController::class)->except('show');

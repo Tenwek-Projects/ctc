@@ -1,9 +1,13 @@
 @extends('admin-dashboard.layouts.app')
 
-@section('title', 'Add gallery image')
-@section('header', 'Add gallery image')
+@section('title', !empty($albumKey) ? 'Add to album' : 'Add gallery album')
+@section('header', !empty($albumKey) ? 'Add images to album' : 'Add gallery album')
 
 @section('content')
+    <div class="mb-4">
+        <a href="{{ !empty($albumKey) ? route('admin-dashboard.gallery.album', $albumKey) : route('admin-dashboard.gallery.index') }}" class="text-sm text-admin-teal hover:underline">&larr; Back</a>
+    </div>
+
     <div class="rounded-xl bg-white border border-gray-200 shadow-sm p-6 max-w-3xl">
         @if ($errors->any())
             <div class="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -63,9 +67,13 @@
                   }
               }">
             @csrf
+            @if(!empty($albumKey))
+                <input type="hidden" name="album_key" value="{{ $albumKey }}">
+            @endif
             <div>
                 <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title *</label>
                 <input type="text" name="title" id="title" value="{{ old('title') }}" required class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
+                <p class="mt-1 text-xs text-gray-500">Used as the album name for new albums (and photo titles when uploading multiple).</p>
                 @error('title')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
             </div>
             <x-admin.trix-field
@@ -133,19 +141,12 @@
                 @error('image_url')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div>
-                    <label for="sort_order" class="block text-sm font-medium text-gray-700 mb-1">Sort order</label>
-                    <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', 0) }}" min="0" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
-                    @error('sort_order')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
-                </div>
-                <div class="flex items-center pt-8">
-                    <input type="checkbox" name="is_published" id="is_published" value="1" {{ old('is_published', true) ? 'checked' : '' }} class="rounded border-gray-300 text-admin-teal focus:ring-ctc-blue">
-                    <label for="is_published" class="ml-2 text-sm text-gray-700">Published (visible on site)</label>
-                </div>
+            <div class="flex items-center">
+                <input type="checkbox" name="is_published" id="is_published" value="1" {{ old('is_published', true) ? 'checked' : '' }} class="rounded border-gray-300 text-admin-teal focus:ring-ctc-blue">
+                <label for="is_published" class="ml-2 text-sm text-gray-700">Published (visible on site)</label>
             </div>
             <div class="flex gap-3 pt-2">
-                <a href="{{ route('admin-dashboard.gallery.index') }}" class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium">Cancel</a>
+                <a href="{{ !empty($albumKey) ? route('admin-dashboard.gallery.album', $albumKey) : route('admin-dashboard.gallery.index') }}" class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium">Cancel</a>
                 <button type="submit" class="px-4 py-2 rounded-lg bg-admin-teal text-white font-medium hover:bg-admin-teal-dark">Save</button>
             </div>
         </form>

@@ -10,6 +10,8 @@ class GalleryItem extends Model
     protected $fillable = [
         'title',
         'caption',
+        'album_key',
+        'album_sort',
         'image_url',
         'sort_order',
         'is_published',
@@ -17,6 +19,8 @@ class GalleryItem extends Model
 
     protected $casts = [
         'is_published' => 'boolean',
+        'album_sort' => 'integer',
+        'sort_order' => 'integer',
     ];
 
     public function scopePublished($query)
@@ -26,7 +30,10 @@ class GalleryItem extends Model
 
     public function scopeOrdered($query)
     {
-        return $query->orderBy('sort_order')->orderByDesc('created_at');
+        return $query
+            ->orderBy('album_sort')
+            ->orderBy('sort_order')
+            ->orderByDesc('created_at');
     }
 
     /** Absolute URL for image src; supports HTTPS URLs and public-disk paths. */

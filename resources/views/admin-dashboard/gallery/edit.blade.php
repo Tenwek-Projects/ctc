@@ -91,19 +91,13 @@
                 @error('image_url')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div>
-                    <label for="sort_order" class="block text-sm font-medium text-gray-700 mb-1">Sort order</label>
-                    <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', $item->sort_order) }}" min="0" class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-admin-teal focus:border-admin-teal">
-                    @error('sort_order')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
-                </div>
-                <div class="flex items-center pt-8">
-                    <input type="checkbox" name="is_published" id="is_published" value="1" {{ old('is_published', $item->is_published) ? 'checked' : '' }} class="rounded border-gray-300 text-ctc-blue focus:ring-ctc-blue">
-                    <label for="is_published" class="ml-2 text-sm text-gray-700">Published (visible on site)</label>
-                </div>
+            <div class="flex items-center pt-2">
+                <input type="checkbox" name="is_published" id="is_published" value="1" {{ old('is_published', $item->is_published) ? 'checked' : '' }} class="rounded border-gray-300 text-ctc-blue focus:ring-ctc-blue">
+                <label for="is_published" class="ml-2 text-sm text-gray-700">Published (visible on site)</label>
             </div>
+            <input type="hidden" name="sort_order" value="{{ old('sort_order', $item->sort_order) }}">
             <div class="flex gap-3 pt-2">
-                <a href="{{ route('admin-dashboard.gallery.index') }}" class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium">Cancel</a>
+                <a href="{{ $item->album_key ? route('admin-dashboard.gallery.album', $item->album_key) : route('admin-dashboard.gallery.index') }}" class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium">Cancel</a>
                 <button type="submit" class="px-4 py-2 rounded-lg bg-admin-teal text-white font-medium hover:bg-admin-teal-dark">Update</button>
             </div>
         </form>

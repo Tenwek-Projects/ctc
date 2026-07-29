@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\GalleryItem;
+use App\Support\GalleryAlbums;
 use App\Support\TrixHtmlSanitizer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,14 +20,35 @@ class GalleryItemController extends Controller
 
     public function index(): View
     {
-        $items = GalleryItem::query()->ordered()->paginate(20);
+        $items = GalleryItem::query()->ordered()->get();
+        $albums = GalleryAlbums::buildGroups($items);
 
-        return view('admin-dashboard.gallery.index', compact('items'));
+        return view('admin-dashboard.gallery.index', compact('albums', 'items'));
     }
 
-    public function create(): View
+    public function album(string $album): View
     {
-        return view('admin-dashboard.gallery.create');
+        $items = GalleryItem::query()
+            ->where('album_key', $album)
+            ->ordered()
+            ->get();
+
+        abort_if($items->isEmpty(), 404);
+
+        $group = GalleryAlbums::buildGroups($items)->first();
+
+        return view('admin-dashboard.gallery.album', [
+            'albumKey' => $album,
+            'group' => $group,
+            'items' => $items,
+        ]);
+    }
+
+    public function create(Request $request): View
+    {
+        return view('admin-dashboard.gallery.create', [
+            'albumKey' => $request->query('album'),
+        ]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -41,10 +63,10 @@ class GalleryItemController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'caption' => 'nullable|string|max:10000',
+            'album_key' => 'nullable|string|max:120',
             'image_url' => 'nullable|string|max:2000',
             'images' => 'nullable|array|max:30',
             'images.*' => 'nullable|file|mimes:jpeg,jpg,png,webp,gif|max:'.self::MAX_IMAGE_KB,
-            'sort_order' => 'nullable|integer|min:0|max:999999',
             'is_published' => 'boolean',
         ], [
             'images.*.mimes' => 'Each file must be a JPEG, PNG, WebP, or GIF.',
@@ -63,36 +85,54 @@ class GalleryItemController extends Controller
         }
 
         $validated['is_published'] = $request->boolean('is_published');
-        $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
         $validated['caption'] = TrixHtmlSanitizer::sanitize($validated['caption'] ?? '');
+
+        $albumKey = filled($validated['album_key'] ?? null)
+            ? (string) $validated['album_key']
+            : GalleryAlbums::makeAlbumKey($validated['title'], $validated['caption']);
+
+        $existingAlbum = GalleryItem::query()->where('album_key', $albumKey)->first();
+        $albumSort = $existingAlbum
+            ? (int) $existingAlbum->album_sort
+            : GalleryAlbums::nextAlbumSort();
+        $baseSortOrder = $existingAlbum
+            ? GalleryAlbums::nextSortOrderForAlbum($albumKey)
+            : 10;
 
         if ($files->isNotEmpty()) {
             $baseTitle = $validated['title'];
-            $baseSortOrder = $validated['sort_order'];
             $count = $files->count();
 
             foreach ($files as $index => $uploadedFile) {
                 GalleryItem::create([
                     'title' => $count > 1 ? $baseTitle.' #'.($index + 1) : $baseTitle,
                     'caption' => $validated['caption'],
+                    'album_key' => $albumKey,
+                    'album_sort' => $albumSort,
                     'image_url' => $uploadedFile->store('gallery', 'public'),
-                    'sort_order' => $baseSortOrder + $index,
+                    'sort_order' => $baseSortOrder + ($index * 10),
                     'is_published' => $validated['is_published'],
                 ]);
             }
 
-            return redirect()->route('admin-dashboard.gallery.index')->with('success', $count.' gallery image(s) added.');
+            return redirect()
+                ->route('admin-dashboard.gallery.album', $albumKey)
+                ->with('success', $count.' gallery image(s) added.');
         }
 
         GalleryItem::create([
             'title' => $validated['title'],
             'caption' => $validated['caption'],
+            'album_key' => $albumKey,
+            'album_sort' => $albumSort,
             'image_url' => $validated['image_url'],
-            'sort_order' => $validated['sort_order'],
+            'sort_order' => $baseSortOrder,
             'is_published' => $validated['is_published'],
         ]);
 
-        return redirect()->route('admin-dashboard.gallery.index')->with('success', 'Gallery image added.');
+        return redirect()
+            ->route('admin-dashboard.gallery.album', $albumKey)
+            ->with('success', 'Gallery image added.');
     }
 
     public function edit(GalleryItem $gallery_item): View
@@ -122,7 +162,7 @@ class GalleryItemController extends Controller
         }
 
         $validated['is_published'] = $request->boolean('is_published');
-        $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
+        $validated['sort_order'] = (int) ($validated['sort_order'] ?? $gallery_item->sort_order);
         $validated['caption'] = TrixHtmlSanitizer::sanitize($validated['caption'] ?? '');
 
         if ($request->hasFile('image')) {
@@ -140,18 +180,117 @@ class GalleryItemController extends Controller
 
         $gallery_item->update($validated);
 
-        return redirect()->route('admin-dashboard.gallery.index')->with('success', 'Gallery image updated.');
+        $albumKey = (string) ($gallery_item->album_key ?: '');
+
+        if ($albumKey !== '') {
+            return redirect()
+                ->route('admin-dashboard.gallery.album', $albumKey)
+                ->with('success', 'Gallery image updated.');
+        }
+
+        return redirect()
+            ->route('admin-dashboard.gallery.index')
+            ->with('success', 'Gallery image updated.');
     }
 
     public function destroy(GalleryItem $gallery_item): RedirectResponse
     {
+        $albumKey = (string) $gallery_item->album_key;
+
         if ($gallery_item->isStoredUpload()) {
             Storage::disk('public')->delete($gallery_item->image_url);
         }
 
         $gallery_item->delete();
 
-        return redirect()->route('admin-dashboard.gallery.index')->with('success', 'Gallery image removed.');
+        $remaining = $albumKey !== ''
+            ? GalleryItem::query()->where('album_key', $albumKey)->exists()
+            : false;
+
+        if ($remaining) {
+            return redirect()
+                ->route('admin-dashboard.gallery.album', $albumKey)
+                ->with('success', 'Gallery image removed.');
+        }
+
+        return redirect()
+            ->route('admin-dashboard.gallery.index')
+            ->with('success', 'Gallery image removed.');
+    }
+
+    public function reorderAlbum(Request $request, string $album): RedirectResponse
+    {
+        $validated = $request->validate([
+            'direction' => ['required', 'in:up,down'],
+        ]);
+
+        $items = GalleryItem::query()->ordered()->get();
+        $albums = GalleryAlbums::buildGroups($items)->values();
+        $index = $albums->search(fn (array $group) => $group['key'] === $album);
+
+        if ($index === false) {
+            return redirect()->route('admin-dashboard.gallery.index');
+        }
+
+        $swapIndex = $validated['direction'] === 'up' ? $index - 1 : $index + 1;
+        if ($swapIndex < 0 || $swapIndex >= $albums->count()) {
+            return redirect()
+                ->route('admin-dashboard.gallery.index')
+                ->with('error', 'That album is already at the edge of the list.');
+        }
+
+        $ordered = $albums->all();
+        $temp = $ordered[$index];
+        $ordered[$index] = $ordered[$swapIndex];
+        $ordered[$swapIndex] = $temp;
+
+        foreach ($ordered as $position => $group) {
+            GalleryItem::query()
+                ->where('album_key', $group['key'])
+                ->update(['album_sort' => ($position + 1) * 10]);
+        }
+
+        return redirect()
+            ->route('admin-dashboard.gallery.index')
+            ->with('success', 'Album order updated.');
+    }
+
+    public function reorderItem(Request $request, GalleryItem $gallery_item): RedirectResponse
+    {
+        $validated = $request->validate([
+            'direction' => ['required', 'in:up,down'],
+        ]);
+
+        $siblings = GalleryItem::query()
+            ->where('album_key', $gallery_item->album_key)
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
+
+        $index = $siblings->search(fn (GalleryItem $sibling) => $sibling->id === $gallery_item->id);
+        if ($index === false) {
+            return redirect()->route('admin-dashboard.gallery.index');
+        }
+
+        $swapIndex = $validated['direction'] === 'up' ? $index - 1 : $index + 1;
+        if ($swapIndex < 0 || $swapIndex >= $siblings->count()) {
+            return redirect()
+                ->route('admin-dashboard.gallery.album', $gallery_item->album_key)
+                ->with('error', 'That image is already at the edge of the album.');
+        }
+
+        $ordered = $siblings->values()->all();
+        $temp = $ordered[$index];
+        $ordered[$index] = $ordered[$swapIndex];
+        $ordered[$swapIndex] = $temp;
+
+        foreach ($ordered as $position => $sibling) {
+            $sibling->update(['sort_order' => ($position + 1) * 10]);
+        }
+
+        return redirect()
+            ->route('admin-dashboard.gallery.album', $gallery_item->album_key)
+            ->with('success', 'Image order updated.');
     }
 
     /**

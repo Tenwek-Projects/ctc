@@ -15,7 +15,6 @@
     ])
 
     @php
-        // Payload must follow the same order as on-page tiles (grouped), not the raw $items query order.
         $galleryPayload = $groups
             ->flatMap(fn ($group) => $group['items'])
             ->map(fn ($item) => [
@@ -28,6 +27,7 @@
         $photoCount = $galleryPayload->count();
         $groupCount = $groups->count();
         $flatIndex = 0;
+        $albumOrdinal = 0;
     @endphp
 
     <section
@@ -71,108 +71,121 @@
                 @endif
             </div>
 
-            @forelse($groups as $groupIndex => $group)
+            @forelse($rows as $rowIndex => $row)
                 @php
-                    $groupItems = $group['items'];
-                    $count = $groupItems->count();
-                    $isFeaturedLayout = $count >= 3;
+                    $isPairRow = $row['type'] === 'pair';
                 @endphp
-                <section
-                    class="ctc-gallery-album mt-14 lg:mt-20 {{ $groupIndex % 2 === 1 ? 'ctc-gallery-album--alt' : '' }}"
+                <div
+                    class="mt-14 lg:mt-20 {{ $isPairRow ? 'grid gap-8 sm:grid-cols-2 lg:gap-10' : '' }}"
                     data-ctc-reveal="fade-up"
-                    data-ctc-reveal-delay="{{ min(0.12, $groupIndex * 0.03) }}"
+                    data-ctc-reveal-delay="{{ min(0.12, $rowIndex * 0.03) }}"
                 >
-                    <div class="mb-7 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-                        <div class="max-w-2xl">
-                            <div class="flex items-center gap-3">
-                                <span class="inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-ctc-blue px-2 text-[11px] font-extrabold text-white">
-                                    {{ str_pad((string) ($groupIndex + 1), 2, '0', STR_PAD_LEFT) }}
-                                </span>
-                                <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">Album</p>
+                    @foreach($row['groups'] as $group)
+                        @php
+                            $groupItems = $group['items'];
+                            $count = $groupItems->count();
+                            $isFeaturedLayout = $count >= 3;
+                            $albumOrdinal++;
+                            $isCompact = $count === 1;
+                        @endphp
+                        <section class="ctc-gallery-album {{ ! $isPairRow && $albumOrdinal % 2 === 0 ? 'ctc-gallery-album--alt' : '' }}">
+                            <div class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between {{ $isCompact ? 'mb-4' : 'mb-7' }}">
+                                <div class="max-w-2xl">
+                                    <div class="flex items-center gap-3">
+                                        <span class="inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-ctc-blue px-2 text-[11px] font-extrabold text-white">
+                                            {{ str_pad((string) $albumOrdinal, 2, '0', STR_PAD_LEFT) }}
+                                        </span>
+                                        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-secondary">Album</p>
+                                    </div>
+                                    <h3 class="mt-3 {{ $isCompact ? 'text-lg sm:text-xl' : 'text-xl sm:text-2xl' }} font-headline font-extrabold tracking-tight text-ctc-blue">
+                                        {{ $group['title'] }}
+                                    </h3>
+                                    @if(! $isCompact && !empty($group['caption_html']) && strip_tags($group['caption_html']) !== $group['title'])
+                                        <div class="mt-2 prose prose-sm max-w-none text-gray-600 prose-p:my-1 prose-a:text-ctc-secondary">
+                                            {!! $group['caption_html'] !!}
+                                        </div>
+                                    @endif
+                                </div>
+                                @unless($isCompact)
+                                    <p class="text-sm font-semibold text-gray-500">
+                                        {{ $count }} {{ \Illuminate\Support\Str::plural('photo', $count) }}
+                                    </p>
+                                @endunless
                             </div>
-                            <h3 class="mt-3 text-xl sm:text-2xl font-headline font-extrabold tracking-tight text-ctc-blue">
-                                {{ $group['title'] }}
-                            </h3>
-                            @if(!empty($group['caption_html']) && strip_tags($group['caption_html']) !== $group['title'])
-                                <div class="mt-2 prose prose-sm max-w-none text-gray-600 prose-p:my-1 prose-a:text-ctc-secondary">
-                                    {!! $group['caption_html'] !!}
+
+                            @if($isFeaturedLayout)
+                                <div class="grid gap-4 lg:grid-cols-12 lg:gap-5" data-ctc-stagger="0.09" data-ctc-stagger-reveal="scale-in">
+                                    @foreach($groupItems as $itemIndex => $item)
+                                        @php
+                                            $currentIndex = $flatIndex++;
+                                            $isLead = $itemIndex === 0;
+                                        @endphp
+                                        <figure class="ctc-gallery-tile group relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm {{ $isLead ? 'lg:col-span-7 lg:row-span-2' : 'lg:col-span-5' }}">
+                                            <button
+                                                type="button"
+                                                @click="open({{ $currentIndex }})"
+                                                class="relative block w-full text-left {{ $isLead ? 'aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[28rem]' : 'aspect-[4/3]' }}"
+                                                aria-label="Open image: {{ $item->title }}"
+                                            >
+                                                <img
+                                                    src="{{ $item->resolvedImageUrl() }}"
+                                                    alt="{{ $item->title }}"
+                                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                                                    loading="lazy"
+                                                >
+                                                <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-95"></span>
+                                                <span class="pointer-events-none absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-ctc-blue">
+                                                    {{ $itemIndex + 1 }}/{{ $count }}
+                                                </span>
+                                                <span class="pointer-events-none absolute bottom-3 left-3 right-3 flex items-end justify-between gap-3">
+                                                    <span class="text-sm font-semibold text-white drop-shadow">{{ preg_replace('/\s+#\d+$/u', '', $item->title) }}</span>
+                                                    <span class="shrink-0 rounded-full bg-black/45 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                                        Zoom
+                                                    </span>
+                                                </span>
+                                            </button>
+                                        </figure>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="grid gap-5 {{ $count >= 2 ? 'sm:grid-cols-2' : '' }} {{ $count >= 3 ? 'lg:grid-cols-3' : '' }}" data-ctc-stagger="0.1" data-ctc-stagger-reveal="fade-up">
+                                    @foreach($groupItems as $itemIndex => $item)
+                                        @php $currentIndex = $flatIndex++; @endphp
+                                        <figure class="ctc-gallery-tile group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                                            <button
+                                                type="button"
+                                                @click="open({{ $currentIndex }})"
+                                                class="relative block w-full aspect-[4/3] bg-ctc-grey-light text-left"
+                                                aria-label="Open image: {{ $item->title }}"
+                                            >
+                                                <img
+                                                    src="{{ $item->resolvedImageUrl() }}"
+                                                    alt="{{ $item->title }}"
+                                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                                                    loading="lazy"
+                                                >
+                                                <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+                                                <span class="pointer-events-none absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-ctc-blue">
+                                                    {{ $itemIndex + 1 }}/{{ $count }}
+                                                </span>
+                                                <span class="pointer-events-none absolute right-3 top-3 rounded-full bg-black/55 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                                                    Click to zoom
+                                                </span>
+                                            </button>
+                                            @unless($isCompact)
+                                                <figcaption class="p-4">
+                                                    <h4 class="text-sm font-semibold text-gray-900 group-hover:text-ctc-blue transition-colors">
+                                                        {{ preg_replace('/\s+#\d+$/u', '', $item->title) }}
+                                                    </h4>
+                                                </figcaption>
+                                            @endunless
+                                        </figure>
+                                    @endforeach
                                 </div>
                             @endif
-                        </div>
-                        <p class="text-sm font-semibold text-gray-500">
-                            {{ $count }} {{ \Illuminate\Support\Str::plural('photo', $count) }}
-                        </p>
-                    </div>
-
-                    @if($isFeaturedLayout)
-                        <div class="grid gap-4 lg:grid-cols-12 lg:gap-5" data-ctc-stagger="0.09" data-ctc-stagger-reveal="scale-in">
-                            @foreach($groupItems as $itemIndex => $item)
-                                @php
-                                    $currentIndex = $flatIndex++;
-                                    $isLead = $itemIndex === 0;
-                                @endphp
-                                <figure class="ctc-gallery-tile group relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm {{ $isLead ? 'lg:col-span-7 lg:row-span-2' : 'lg:col-span-5' }}">
-                                    <button
-                                        type="button"
-                                        @click="open({{ $currentIndex }})"
-                                        class="relative block w-full text-left {{ $isLead ? 'aspect-[4/3] lg:aspect-auto lg:h-full lg:min-h-[28rem]' : 'aspect-[4/3]' }}"
-                                        aria-label="Open image: {{ $item->title }}"
-                                    >
-                                        <img
-                                            src="{{ $item->resolvedImageUrl() }}"
-                                            alt="{{ $item->title }}"
-                                            class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-                                            loading="lazy"
-                                        >
-                                        <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-95"></span>
-                                        <span class="pointer-events-none absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-ctc-blue">
-                                            {{ $itemIndex + 1 }}/{{ $count }}
-                                        </span>
-                                        <span class="pointer-events-none absolute bottom-3 left-3 right-3 flex items-end justify-between gap-3">
-                                            <span class="text-sm font-semibold text-white drop-shadow">{{ preg_replace('/\s+#\d+$/u', '', $item->title) }}</span>
-                                            <span class="shrink-0 rounded-full bg-black/45 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                                                Zoom
-                                            </span>
-                                        </span>
-                                    </button>
-                                </figure>
-                            @endforeach
-                        </div>
-                    @else
-                        <div class="grid gap-5 sm:grid-cols-2 {{ $count >= 3 ? 'lg:grid-cols-3' : '' }}" data-ctc-stagger="0.1" data-ctc-stagger-reveal="fade-up">
-                            @foreach($groupItems as $itemIndex => $item)
-                                @php $currentIndex = $flatIndex++; @endphp
-                                <figure class="ctc-gallery-tile group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
-                                    <button
-                                        type="button"
-                                        @click="open({{ $currentIndex }})"
-                                        class="relative block w-full aspect-[4/3] bg-ctc-grey-light text-left"
-                                        aria-label="Open image: {{ $item->title }}"
-                                    >
-                                        <img
-                                            src="{{ $item->resolvedImageUrl() }}"
-                                            alt="{{ $item->title }}"
-                                            class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-                                            loading="lazy"
-                                        >
-                                        <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
-                                        <span class="pointer-events-none absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-ctc-blue">
-                                            {{ $itemIndex + 1 }}/{{ $count }}
-                                        </span>
-                                        <span class="pointer-events-none absolute right-3 top-3 rounded-full bg-black/55 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                                            Click to zoom
-                                        </span>
-                                    </button>
-                                    <figcaption class="p-4">
-                                        <h4 class="text-sm font-semibold text-gray-900 group-hover:text-ctc-blue transition-colors">
-                                            {{ preg_replace('/\s+#\d+$/u', '', $item->title) }}
-                                        </h4>
-                                    </figcaption>
-                                </figure>
-                            @endforeach
-                        </div>
-                    @endif
-                </section>
+                        </section>
+                    @endforeach
+                </div>
             @empty
                 <div class="mt-12 rounded-3xl border-2 border-dashed border-ctc-secondary/40 bg-ctc-grey-light/50 px-6 py-16 text-center">
                     <p class="text-lg font-semibold text-gray-700">Gallery coming soon</p>

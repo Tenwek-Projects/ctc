@@ -576,36 +576,12 @@ class PageController extends Controller
     public function gallery()
     {
         $items = GalleryItem::query()->published()->ordered()->get();
-
-        $groups = $items
-            ->groupBy(function (GalleryItem $item) {
-                $captionKey = trim(preg_replace('/\s+/u', ' ', strip_tags((string) $item->caption)) ?? '');
-                if ($captionKey !== '') {
-                    return mb_strtolower($captionKey);
-                }
-
-                $baseTitle = trim(preg_replace('/\s+#\d+$/u', '', (string) $item->title) ?? '');
-
-                return mb_strtolower($baseTitle !== '' ? $baseTitle : 'gallery');
-            })
-            ->map(function ($groupItems, $key) {
-                /** @var \Illuminate\Support\Collection<int, GalleryItem> $groupItems */
-                $first = $groupItems->first();
-                $captionText = trim(preg_replace('/\s+/u', ' ', strip_tags((string) ($first?->caption ?? ''))) ?? '');
-                $baseTitle = trim(preg_replace('/\s+#\d+$/u', '', (string) ($first?->title ?? '')) ?? '');
-
-                return [
-                    'key' => $key,
-                    'title' => $captionText !== '' ? \Illuminate\Support\Str::limit($captionText, 90) : ($baseTitle !== '' ? $baseTitle : 'Gallery'),
-                    'caption_html' => $first?->caption,
-                    'items' => $groupItems->values(),
-                ];
-            })
-            ->values();
+        $groups = \App\Support\GalleryAlbums::buildGroups($items);
+        $rows = \App\Support\GalleryAlbums::packRows($groups);
 
         $metaDescription = 'Photo gallery from the Cardiothoracic Centre at Tenwek Hospital: care, facility, and community.';
 
-        return view('pages.gallery', compact('items', 'groups', 'metaDescription'));
+        return view('pages.gallery', compact('items', 'groups', 'rows', 'metaDescription'));
     }
 
     public function events()
