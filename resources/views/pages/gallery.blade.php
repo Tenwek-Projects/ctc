@@ -15,13 +15,17 @@
     ])
 
     @php
-        $galleryPayload = $items->map(fn ($item) => [
-            'title' => $item->title,
-            'caption' => $item->caption,
-            'src' => $item->resolvedImageUrl(),
-        ])->values();
+        // Payload must follow the same order as on-page tiles (grouped), not the raw $items query order.
+        $galleryPayload = $groups
+            ->flatMap(fn ($group) => $group['items'])
+            ->map(fn ($item) => [
+                'title' => $item->title,
+                'caption' => $item->caption,
+                'src' => $item->resolvedImageUrl(),
+            ])
+            ->values();
 
-        $photoCount = $items->count();
+        $photoCount = $galleryPayload->count();
         $groupCount = $groups->count();
         $flatIndex = 0;
     @endphp
@@ -177,62 +181,62 @@
             @endforelse
         </div>
 
-        {{-- Lightbox --}}
+        {{-- Lightbox: edge-to-edge image, minimal chrome --}}
         <div
             x-show="activeIndex !== null"
             x-cloak
-            class="fixed inset-0 z-[90] flex items-center justify-center p-3 sm:p-6"
+            class="fixed inset-0 z-[90] flex items-center justify-center"
             x-transition.opacity
             role="dialog"
             aria-modal="true"
             aria-label="Gallery image viewer"
         >
-            <button type="button" class="absolute inset-0 bg-black/80 backdrop-blur-sm" @click="close()" aria-label="Close viewer"></button>
+            <button type="button" class="absolute inset-0 bg-black/90" @click="close()" aria-label="Close viewer"></button>
 
-            <div class="relative z-[1] w-full max-w-6xl">
-                <div class="relative overflow-hidden rounded-2xl border border-white/15 bg-black/35 shadow-[0_35px_90px_rgba(0,0,0,0.5)]">
-                    <button
-                        type="button"
-                        @click="prev()"
-                        class="absolute left-3 top-1/2 -translate-y-1/2 z-[2] inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/12 text-white backdrop-blur-sm transition hover:bg-white/22 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-                        aria-label="Previous image"
+            <div class="relative z-[1] flex h-full w-full max-h-full max-w-full flex-col">
+                <button
+                    type="button"
+                    @click="close()"
+                    class="absolute right-2 top-2 z-[3] inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/55 text-white transition hover:bg-black/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 sm:right-3 sm:top-3"
+                    aria-label="Close viewer"
+                >
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+
+                <button
+                    type="button"
+                    @click="prev()"
+                    class="absolute left-2 top-1/2 z-[3] -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/55 text-white transition hover:bg-black/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 sm:left-3"
+                    aria-label="Previous image"
+                >
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+
+                <button
+                    type="button"
+                    @click="next()"
+                    class="absolute right-2 top-1/2 z-[3] -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/55 text-white transition hover:bg-black/75 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 sm:right-3"
+                    aria-label="Next image"
+                >
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <div class="flex min-h-0 flex-1 items-center justify-center">
+                    <img
+                        :src="images[activeIndex]?.src"
+                        :alt="images[activeIndex]?.title || 'Gallery image'"
+                        class="max-h-[100dvh] max-w-[100vw] object-contain"
                     >
-                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-                    </button>
-
-                    <button
-                        type="button"
-                        @click="next()"
-                        class="absolute right-3 top-1/2 -translate-y-1/2 z-[2] inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-white/12 text-white backdrop-blur-sm transition hover:bg-white/22 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-                        aria-label="Next image"
-                    >
-                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
-                    </button>
-
-                    <button
-                        type="button"
-                        @click="close()"
-                        class="absolute right-3 top-3 z-[2] inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-black/30 text-white transition hover:bg-black/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-                        aria-label="Close viewer"
-                    >
-                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                    </button>
-
-                    <div class="relative aspect-[16/10] sm:aspect-[16/9] bg-black">
-                        <img
-                            :src="images[activeIndex]?.src"
-                            :alt="images[activeIndex]?.title || 'Gallery image'"
-                            class="h-full w-full object-contain"
-                        >
-                    </div>
                 </div>
 
-                <div class="mt-3 rounded-xl bg-black/60 px-4 py-3 text-white/95">
-                    <div class="flex items-center justify-between gap-3">
-                        <p class="text-sm font-semibold" x-text="images[activeIndex]?.title"></p>
+                <div class="pointer-events-none absolute inset-x-0 bottom-0 z-[2] bg-gradient-to-t from-black/80 via-black/45 to-transparent px-4 pb-4 pt-16 sm:px-6 sm:pb-5">
+                    <div class="pointer-events-auto mx-auto flex max-w-4xl items-end justify-between gap-3 text-white">
+                        <div class="min-w-0">
+                            <p class="truncate text-sm font-semibold" x-text="images[activeIndex]?.title"></p>
+                            <div class="mt-0.5 line-clamp-2 text-xs text-white/80" x-html="images[activeIndex]?.caption || ''"></div>
+                        </div>
                         <p class="shrink-0 text-xs font-semibold text-white/70" x-text="activeIndex !== null ? ((activeIndex + 1) + ' / ' + images.length) : ''"></p>
                     </div>
-                    <div class="mt-1 text-xs text-white/80" x-html="images[activeIndex]?.caption || ''"></div>
                 </div>
             </div>
         </div>

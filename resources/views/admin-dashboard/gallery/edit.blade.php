@@ -70,7 +70,7 @@
                          class="w-full cursor-pointer px-6 py-8 rounded-xl focus:outline-none focus:ring-2 focus:ring-admin-teal focus:ring-inset">
                         <div class="flex flex-col items-center text-center gap-2 pointer-events-none">
                             <span class="text-sm font-semibold text-gray-900">Drop new image or click to replace</span>
-                            <p class="text-xs text-gray-500">JPEG, PNG, WebP or GIF · max 5&nbsp;MB</p>
+                            <p class="text-xs text-gray-500">JPEG, PNG, WebP or GIF · max 10&nbsp;MB</p>
                         </div>
                     </div>
                     <div x-show="fileName" x-cloak class="px-6 pb-6 flex flex-col items-center gap-2 border-t border-gray-200/80 pt-4">

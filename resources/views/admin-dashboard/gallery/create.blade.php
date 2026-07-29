@@ -5,7 +5,63 @@
 
 @section('content')
     <div class="rounded-xl bg-white border border-gray-200 shadow-sm p-6 max-w-3xl">
-        <form action="{{ route('admin-dashboard.gallery.store') }}" method="post" enctype="multipart/form-data" class="space-y-5">
+        @if ($errors->any())
+            <div class="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                <p class="font-semibold">Upload could not be saved</p>
+                <ul class="mt-1 list-disc pl-5 space-y-0.5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('admin-dashboard.gallery.store') }}" method="post" enctype="multipart/form-data" class="space-y-5"
+              x-data="{
+                  dragging: false,
+                  previews: [],
+                  fileNames: [],
+                  error: '',
+                  maxBytes: 10 * 1024 * 1024,
+                  maxFiles: 20,
+                  pick(files) {
+                      this.error = '';
+                      const selected = Array.from(files || []).filter(f => f && f.type && f.type.startsWith('image/'));
+                      if (!selected.length) {
+                          this.error = 'Please choose JPEG, PNG, WebP, or GIF files.';
+                          return;
+                      }
+                      if (selected.length > this.maxFiles) {
+                          this.error = 'Please upload at most ' + this.maxFiles + ' images at a time.';
+                          return;
+                      }
+                      const tooBig = selected.find(f => f.size > this.maxBytes);
+                      if (tooBig) {
+                          this.error = '“' + tooBig.name + '” is over 10MB. Compress it or choose a smaller file.';
+                          return;
+                      }
+                      const total = selected.reduce((sum, f) => sum + f.size, 0);
+                      if (total > 32 * 1024 * 1024) {
+                          this.error = 'Total batch is too large. Upload fewer images at once (under ~32MB total).';
+                          return;
+                      }
+                      this.previews.forEach(p => URL.revokeObjectURL(p));
+                      this.previews = selected.map(f => URL.createObjectURL(f));
+                      this.fileNames = selected.map(f => f.name);
+                      const dt = new DataTransfer();
+                      selected.forEach(f => dt.items.add(f));
+                      this.$refs.filesInput.files = dt.files;
+                      const url = document.getElementById('image_url');
+                      if (url) url.value = '';
+                  },
+                  clearFile() {
+                      this.error = '';
+                      this.previews.forEach(p => URL.revokeObjectURL(p));
+                      this.previews = [];
+                      this.fileNames = [];
+                      this.$refs.filesInput.value = '';
+                  }
+              }">
             @csrf
             <div>
                 <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Title *</label>
@@ -16,44 +72,19 @@
                 name="caption"
                 id="caption"
                 label="Caption"
+                help="One caption is applied to every image in this upload batch."
                 minHeight="8rem"
             />
 
             <div>
                 <span class="block text-sm font-medium text-gray-700 mb-2">Images *</span>
-                <p class="text-xs text-gray-500 mb-3">Drag and drop one or many files. One caption will be used for all uploaded images.</p>
+                <p class="text-xs text-gray-500 mb-3">Drag and drop one or many files. JPEG/PNG/WebP/GIF · max 10MB each · up to 20 files per batch.</p>
 
                 <div
                     class="rounded-xl border-2 border-dashed transition-colors"
-                    x-data="{
-                        dragging: false,
-                        previews: [],
-                        fileNames: [],
-                        pick(files) {
-                            const selected = Array.from(files || []).filter(f => f.type.startsWith('image/'));
-                            if (!selected.length) return;
-                            this.previews.forEach(p => URL.revokeObjectURL(p));
-                            this.previews = selected.map(f => URL.createObjectURL(f));
-                            this.fileNames = selected.map(f => f.name);
-                            const dt = new DataTransfer();
-                            selected.forEach(f => dt.items.add(f));
-                            this.$refs.filesInput.files = dt.files;
-                            this.$refs.singleInput.value = '';
-                            document.getElementById('image_url').value = '';
-                        },
-                        clearFile() {
-                            this.previews.forEach(p => URL.revokeObjectURL(p));
-                            this.previews = [];
-                            this.fileNames = [];
-                            this.$refs.filesInput.value = '';
-                            this.$refs.singleInput.value = '';
-                        }
-                    }"
                     :class="dragging ? 'border-admin-teal bg-admin-teal/5' : 'border-gray-300 bg-gray-50/50'"
                 >
-                    <input type="file" name="images[]" x-ref="filesInput" multiple accept="image/jpeg,image/png,image/webp,image/gif" class="sr-only"
-                           @change="pick($event.target.files)">
-                    <input type="file" name="image" x-ref="singleInput" accept="image/jpeg,image/png,image/webp,image/gif" class="sr-only"
+                    <input type="file" name="images[]" x-ref="filesInput" multiple accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif" class="sr-only"
                            @change="pick($event.target.files)">
 
                     <div role="button" tabindex="0"
@@ -72,7 +103,7 @@
                             </span>
                             <div>
                                 <span class="text-sm font-semibold text-gray-900">Drop image(s) here or click to upload</span>
-                                <p class="mt-1 text-xs text-gray-500">JPEG, PNG, WebP or GIF · max 5&nbsp;MB</p>
+                                <p class="mt-1 text-xs text-gray-500">If a batch fails, try fewer or smaller files.</p>
                             </div>
                         </div>
                     </div>
@@ -88,7 +119,7 @@
                         <button type="button" @click="clearFile()" class="mt-3 text-xs text-red-600 hover:underline">Clear files</button>
                     </div>
                 </div>
-                @error('image')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
+                <p x-show="error" x-cloak class="mt-2 text-sm text-red-600" x-text="error"></p>
                 @error('images')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
                 @error('images.*')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
             </div>
