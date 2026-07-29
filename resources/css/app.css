@@ -1487,3 +1487,69 @@ body[data-ctc-site="public"] .ctc-field:focus {
         z-index: 0 !important;
     }
 }
+
+/* Public gallery: grouped albums + soft atmosphere */
+.ctc-gallery-page {
+    background:
+        radial-gradient(1200px 420px at 10% -10%, rgba(98, 163, 161, 0.09), transparent 60%),
+        radial-gradient(900px 380px at 90% 0%, rgba(158, 196, 248, 0.14), transparent 55%),
+        #ffffff;
+}
+
+.ctc-gallery-album--alt {
+    position: relative;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding: 1.5rem 1rem;
+    border-radius: 1.5rem;
+    background: linear-gradient(180deg, rgba(243, 244, 246, 0.72), rgba(243, 244, 246, 0.28));
+}
+
+@media (min-width: 640px) {
+    .ctc-gallery-album--alt {
+        margin-left: -1.5rem;
+        margin-right: -1.5rem;
+        padding: 1.75rem 1.5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .ctc-gallery-album--alt {
+        margin-left: -2rem;
+        margin-right: -2rem;
+        padding: 2rem;
+    }
+}
+
+.ctc-gallery-tile {
+    transform-origin: 50% 60%;
+}
+
+.ctc-gallery-atmosphere {
+    animation: ctc-gallery-float 12s ease-in-out infinite alternate;
+}
+
+.ctc-gallery-atmosphere:nth-child(2) {
+    animation-duration: 15s;
+    animation-delay: -3s;
+}
+
+.ctc-gallery-atmosphere:nth-child(3) {
+    animation-duration: 18s;
+    animation-delay: -6s;
+}
+
+@keyframes ctc-gallery-float {
+    from {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    to {
+        transform: translate3d(18px, -22px, 0) scale(1.08);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ctc-gallery-atmosphere {
+        animation: none !important;
+    }
+}
