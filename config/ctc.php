@@ -138,6 +138,12 @@ return [
                             'description' => 'Compassionate cardiothoracic care from consultation to follow-up.',
                         ],
                         [
+                            'label' => 'Pharmaceutical Department',
+                            'route' => 'departments.show',
+                            'route_params' => ['department' => 'pharmacy'],
+                            'description' => 'Outpatient and clinical pharmacy, medication safety, and counseling.',
+                        ],
+                        [
                             'label' => 'Book appointment',
                             'route' => 'book-appointment',
                             'description' => 'Request a visit or consultation online.',
@@ -248,6 +254,11 @@ return [
                     'links' => [
                         ['label' => 'Training overview', 'route' => 'training', 'description' => 'Education & training at the CTC.'],
                         [
+                            'label' => 'Medical Education',
+                            'route' => 'training.medical-education',
+                            'description' => 'Fellowship, perfusion, rotations, and clinical learning.',
+                        ],
+                        [
                             'label' => 'Cardiothoracic Surgery Fellowship',
                             'route' => 'training.fellowship-rotations',
                             'description' => 'PAACS fellowship in collaboration with COSECSA.',
@@ -331,6 +342,7 @@ return [
                     ['label' => 'Cardiology Department', 'url' => '/departments/cardiology'],
                     ['label' => 'Cardiothoracic Surgery', 'url' => '/departments/cardiothoracic-surgery'],
                     ['label' => 'Endoscopy Department', 'url' => '/departments/endoscopy'],
+                    ['label' => 'Pharmaceutical Department', 'url' => '/departments/pharmacy'],
                     ['label' => 'Adult Cardiology', 'url' => '/services/adult-cardiology'],
                     ['label' => 'Cardiac Surgery', 'url' => '/services/cardiac-surgical-care'],
                     ['label' => 'Thoracic Surgery', 'url' => '/services/thoracic-surgical-care'],
@@ -358,6 +370,7 @@ return [
                     ['label' => 'Support the CTC', 'route' => 'support'],
                     ['label' => 'Training & Research', 'route' => 'training-research'],
                     ['label' => 'Training', 'route' => 'training'],
+                    ['label' => 'Medical Education', 'route' => 'training.medical-education'],
                     ['label' => 'Surgery Fellowship', 'route' => 'training.fellowship-rotations'],
                     ['label' => 'Perfusion Training', 'route' => 'training.perfusion'],
                     ['label' => 'Apply online', 'route' => 'college.apply.landing'],

@@ -47,6 +47,7 @@ class SitemapController extends Controller
                 route('training'),
                 route('training.fellowship-rotations'),
                 route('training.perfusion'),
+                route('training.medical-education'),
                 route('research'),
                 route('research.publications'),
                 route('impact'),

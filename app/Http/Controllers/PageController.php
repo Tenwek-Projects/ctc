@@ -373,6 +373,13 @@ class PageController extends Controller
                 'thoracic-surgical-care',
                 'cardiac-surgical-care',
             ],
+            'pharmacy' => [
+                'adult-cardiology',
+                'cardiac-surgical-care',
+                'intensive-care-unit',
+                'diagnostic-imaging',
+                'laboratory-services',
+            ],
             default => [],
         };
 
@@ -388,6 +395,7 @@ class PageController extends Controller
         $referralBlurb = match ($department->url_segment) {
             'cardiothoracic-surgery' => 'Referrals and appointments for cardiothoracic surgery are coordinated through the Centre.',
             'endoscopy' => 'Referrals and appointments for endoscopy are coordinated through the Centre. Call 0717 971 768 for Endoscopy enquiries.',
+            'pharmacy' => 'Pharmacy enquiries: +254 114 704 534. Referrals for complex medication management are coordinated through the Centre.',
             default => 'Referrals and appointments for this department are coordinated through the Centre.',
         };
 
@@ -437,6 +445,13 @@ class PageController extends Controller
         $metaDescription = 'Cardiovascular Perfusion Training Program at AGC Tenwek Cardiothoracic Centre: classroom, simulation, and clinical experience for open-heart surgery support.';
 
         return view('pages.training-perfusion', compact('metaDescription'));
+    }
+
+    public function trainingMedicalEducation()
+    {
+        $metaDescription = 'Medical education at AGC Tenwek Cardiothoracic Centre: COSECSA cardiothoracic surgery fellowship, perfusion training, anaesthesia rotations, and clinical learning grounded in excellence and Christian discipleship.';
+
+        return view('pages.training-medical-education', compact('metaDescription'));
     }
 
     public function researchPublications()

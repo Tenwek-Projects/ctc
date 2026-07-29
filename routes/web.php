@@ -70,6 +70,7 @@ Route::get('/training-research', [PageController::class, 'trainingResearch'])->n
 Route::get('/training', [PageController::class, 'training'])->name('training');
 Route::get('/training/fellowship-and-rotations', [PageController::class, 'trainingFellowshipRotations'])->name('training.fellowship-rotations');
 Route::get('/training/cardiovascular-perfusion', [PageController::class, 'trainingPerfusion'])->name('training.perfusion');
+Route::get('/training/medical-education', [PageController::class, 'trainingMedicalEducation'])->name('training.medical-education');
 Route::get('/research', [PageController::class, 'research'])->name('research');
 Route::get('/research/publications', [PageController::class, 'researchPublications'])->name('research.publications');
 Route::get('/impact', [PageController::class, 'impact'])->name('impact');

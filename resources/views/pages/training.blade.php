@@ -42,7 +42,24 @@
                     subtitle="Explore accredited pathways in cardiothoracic surgery and cardiovascular perfusion."
                 />
 
-                <div class="grid md:grid-cols-2 gap-6 lg:gap-8" data-ctc-stagger="0.08">
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" data-ctc-stagger="0.08">
+                    <a href="{{ route('training.medical-education') }}"
+                       class="ctc-card-tilt group flex flex-col rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 shadow-sm hover:shadow-lg hover:border-ctc-blue/35 transition-[box-shadow,border-color] duration-500 md:col-span-2 lg:col-span-1">
+                        <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-accent">Overview</p>
+                        <h3 class="mt-3 text-xl sm:text-2xl font-headline font-extrabold tracking-tight text-ctc-blue group-hover:text-ctc-ruby transition-colors">
+                            Medical Education
+                        </h3>
+                        <p class="mt-4 text-sm sm:text-base text-gray-600 leading-relaxed flex-1">
+                            Excellence in training across fellowship, perfusion, anaesthesia, critical care, and visiting programmes — with Christ-centred mentorship.
+                        </p>
+                        <div class="mt-6 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-ctc-blue/80 group-hover:text-ctc-ruby transition-colors">
+                            <span>Explore medical education</span>
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                        </div>
+                    </a>
+
                     <a href="{{ route('training.fellowship-rotations') }}"
                        class="ctc-card-tilt group flex flex-col rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 shadow-sm hover:shadow-lg hover:border-ctc-blue/35 transition-[box-shadow,border-color] duration-500">
                         <p class="text-[11px] font-bold uppercase tracking-[0.22em] text-ctc-ruby/90">Course 1</p>

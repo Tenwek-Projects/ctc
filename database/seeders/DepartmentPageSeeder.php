@@ -586,6 +586,192 @@ HTML,
 <p>We are located on the <strong>1st Floor</strong> at the AGC Tenwek Cardiothoracic Centre.</p>
 HTML,
             ],
+            [
+                'url_segment' => 'pharmacy',
+                'admin_label' => 'Pharmaceutical Department',
+                'meta_title' => 'Pharmaceutical Department',
+                'meta_description' => 'Pharmacy care at AGC Tenwek Cardiothoracic Centre: outpatient and inpatient clinical pharmacy, cardiovascular medication management, medication safety, and patient counseling in Bomet, Kenya.',
+                'intro_kicker' => 'Medication care',
+                'intro_heading' => 'Pharmaceutical Department',
+                'intro_subheading' => 'Safe, effective, and evidence-based medication therapy for cardiothoracic patients',
+                'sort_order' => 40,
+                'is_visible' => true,
+                'body_html' => <<<'HTML'
+<h2>Overview</h2>
+<p>The Pharmacy Department at the AGC Tenwek Hospital Cardiothoracic Centre is an integral part of your healthcare team. Our pharmacy care providers work closely with cardiologists, cardiothoracic surgeons, physicians, nurses, and other specialists to ensure that every patient receives safe, effective, and evidence-based medication therapy.</p>
+<p>We provide pharmaceutical care for patients receiving treatment for heart disease, vascular disorders, and other complex medical conditions. Our role extends beyond dispensing medications—we help optimize treatment outcomes by reviewing prescriptions, monitoring medication safety, preventing drug interactions, counseling patients and caregivers, and supporting long-term medication adherence.</p>
+<p>Whether you are receiving outpatient care, preparing for surgery, recovering after a procedure, or managing a chronic cardiovascular condition, our pharmacy team is committed to ensuring you understand your medications and use them safely and effectively.</p>
+
+<h2>When Should You Visit the Pharmacy?</h2>
+<p>Patients should seek advice from our pharmacy care providers whenever they:</p>
+<ul>
+<li>Have a new prescription from one of our specialists.</li>
+<li>Need information on how to take their medications correctly.</li>
+<li>Experience side effects or unexpected reactions to their medicines.</li>
+<li>Are taking multiple medications and have concerns about possible drug-drug and drug-food interactions.</li>
+<li>Require education on injectable medicines, anticoagulants, insulin, or other specialized therapies.</li>
+<li>Need assistance managing long-term medications for heart failure, hypertension, arrhythmias, coronary artery disease, diabetes, or other chronic illnesses.</li>
+<li>Have questions regarding medication storage, missed doses, travel with medicines, or medication refills.</li>
+</ul>
+<p>Healthcare providers should involve or refer patients to the pharmacy whenever medication optimization, therapeutic monitoring, medication counseling, or specialized pharmaceutical support is required.</p>
+
+<h2>Our Services</h2>
+<p>Our pharmacy offers comprehensive pharmaceutical services, including:</p>
+
+<h3>Outpatient Pharmacy Services</h3>
+<ul>
+<li>Dispensing of prescribed medications</li>
+<li>Prescription review and verification</li>
+<li>Patient medication counseling</li>
+<li>Medication refill services</li>
+<li>Medication reconciliation</li>
+</ul>
+
+<h3>Inpatient Clinical Pharmacy Services</h3>
+<ul>
+<li>Clinical review of medication therapy</li>
+<li>Participation in multidisciplinary ward rounds</li>
+<li>Medication optimization</li>
+<li>Therapeutic drug monitoring where appropriate</li>
+<li>Identification and prevention of medication-related problems</li>
+</ul>
+
+<h3>Specialized Cardiovascular Pharmacy Services</h3>
+<ul>
+<li>Management of anticoagulant therapy</li>
+<li>Heart failure medication optimization</li>
+<li>Post-cardiac surgery medication management</li>
+<li>Medication support for complex cardiovascular conditions</li>
+</ul>
+
+<h3>Medication Safety Services</h3>
+<ul>
+<li>Drug interaction screening</li>
+<li>Allergy verification</li>
+<li>Adverse drug reaction monitoring and reporting</li>
+<li>Medication error prevention</li>
+<li>Patient safety initiatives</li>
+</ul>
+
+<h3>Patient Education</h3>
+<ul>
+<li>One-on-one medication counseling</li>
+<li>Inhaler technique education</li>
+<li>Insulin administration education</li>
+<li>Lifestyle and medication adherence counseling</li>
+<li>Safe medication storage and disposal advice</li>
+</ul>
+
+<h2>Your Pharmacy Journey</h2>
+
+<h3>Before Your Visit</h3>
+<p>Your healthcare provider will evaluate your condition and prescribe the most appropriate medications based on your diagnosis and treatment plan.</p>
+
+<h3>Prescription Review</h3>
+<p>Our pharmacy care providers carefully review every prescription to ensure:</p>
+<ul>
+<li>The medication is appropriate.</li>
+<li>The dosage is correct.</li>
+<li>There are no significant drug interactions.</li>
+<li>The medicine is safe based on your allergies and medical history.</li>
+</ul>
+
+<h3>Medication Counseling</h3>
+<p>Before you leave, our pharmacy care providers explain:</p>
+<ul>
+<li>Why each medication has been prescribed.</li>
+<li>How and when to take it.</li>
+<li>Possible side effects.</li>
+<li>Foods or medicines to avoid.</li>
+<li>What to do if you miss a dose.</li>
+<li>When to seek medical attention.</li>
+</ul>
+
+<h3>Follow-Up Care</h3>
+<p>Depending on your condition, we may:</p>
+<ul>
+<li>Monitor your medication therapy over time.</li>
+<li>Support medication adherence.</li>
+<li>Coordinate with your healthcare team regarding treatment adjustments.</li>
+<li>Provide ongoing education during follow-up visits.</li>
+</ul>
+
+<h2>Referral Information</h2>
+<p>Healthcare professionals are encouraged to refer patients who:</p>
+<ul>
+<li>Require complex medication management.</li>
+<li>Are taking multiple medications (polypharmacy).</li>
+<li>Have experienced medication-related problems.</li>
+<li>Require anticoagulation counseling.</li>
+<li>Need medication education before hospital discharge.</li>
+<li>Have difficulty adhering to prescribed treatment.</li>
+<li>Require specialized cardiovascular medication management.</li>
+<li>Need medication reconciliation during admission or discharge.</li>
+</ul>
+<p>Patients preparing for major cardiac surgery or undergoing long-term management of cardiovascular disease particularly benefit from pharmacist involvement.</p>
+
+<h2>Why Choose Our Pharmacy?</h2>
+<p>Our pharmacy provides specialized pharmaceutical care designed to support the unique needs of cardiothoracic patients.</p>
+<p>Our strengths include:</p>
+<ul>
+<li>Pharmacy care providers experienced in cardiovascular and cardiothoracic pharmacotherapy.</li>
+<li>Close collaboration with multidisciplinary clinical teams.</li>
+<li>Individualized medication counseling for every patient.</li>
+<li>Evidence-based medication management.</li>
+<li>Comprehensive medication safety systems.</li>
+<li>Support for patients with complex medication regimens.</li>
+<li>Commitment to improving treatment outcomes through pharmaceutical care.</li>
+</ul>
+
+<h2>Frequently Asked Questions</h2>
+
+<h3>Do I need an appointment to collect my medications?</h3>
+<p>No. Patients may visit the pharmacy after receiving a prescription from one of our doctors. If you require extensive medication counseling, our pharmacy care providers will take the necessary time to answer your questions.</p>
+
+<h3>Can I speak directly with a pharmacist?</h3>
+<p>Yes. Our pharmacy care providers are available to discuss your medications, answer questions, and provide individualized counseling.</p>
+
+<h3>What should I bring when collecting my medication?</h3>
+<p>Please bring your prescription, identification, and a list of any medications or supplements you are currently taking.</p>
+
+<h3>What if I experience side effects?</h3>
+<p>Do not stop taking your medication without consulting your healthcare provider unless you are experiencing a medical emergency. Contact our pharmacy on <a href="tel:+254114704534">+254 114 704 534</a> or your treating doctor as soon as possible for advice.</p>
+
+<h3>Can I take herbal medicines or supplements with my prescription medicines?</h3>
+<p>Some herbal products and supplements may interact with prescription medications, particularly cardiovascular medicines. Always inform your healthcare provider and pharmacist about any over-the-counter medicines, vitamins, or herbal products you use.</p>
+
+<h3>What should I do if I miss a dose?</h3>
+<p>The appropriate action depends on the medication. Contact our pharmacy or follow the instructions provided during counseling. Do not double your next dose unless specifically instructed by your healthcare provider.</p>
+
+<h3>How should I store my medicines?</h3>
+<p>Store medicines according to the instructions on the label. Some medications require refrigeration, while others should be kept in a cool, dry place away from direct sunlight and out of the reach of children.</p>
+
+<h3>Can I refill my medications?</h3>
+<p>Yes. Refill availability depends on the validity of your prescription and your doctor's treatment plan. Refills are only done if the last date of the prescription has not passed, or you run out of medication before your next clinic appointment. Our pharmacy team will advise you when refills are due.</p>
+
+<h3>Should I stop my medications when I feel better?</h3>
+<p>No. Do not stop your medications when you feel better. Ensure you complete the entire dose of antibiotics and continue using your long-term medications unless advised otherwise by your doctor.</p>
+
+<h3>What should I do if I cannot pay for all the prescribed medications?</h3>
+<p>Please consult the pharmacy care providers. They will tailor your prescription to fit your budget and advise you on how you can ensure that you take all your medications as prescribed.</p>
+
+<h2>Additional Information</h2>
+<p>Your medications play a vital role in your treatment and recovery. Taking them exactly as prescribed helps reduce complications, prevent hospital readmissions, and improve long-term health outcomes.</p>
+<p>To help us provide the safest care possible, always:</p>
+<ul>
+<li>Inform your healthcare team about any medication allergies.</li>
+<li>Bring an updated list of all medications, supplements, and herbal products to every appointment.</li>
+<li>Never share prescription medications with others.</li>
+<li>Complete the full course of medications when instructed, especially antibiotics.</li>
+<li>Contact your healthcare provider if you have concerns about your medicines or experience unexpected side effects.</li>
+</ul>
+<p>At the AGC Tenwek Hospital Cardiothoracic Centre, our Pharmacy Department is committed to delivering patient-centered pharmaceutical care that supports safer treatment, better outcomes, and an exceptional patient experience.</p>
+
+<h2>Contact</h2>
+<p>Pharmacy enquiries: <a href="tel:+254114704534">+254 114 704 534</a>.</p>
+<p>You can also <a href="/book-appointment">book a consultation</a> with one of our doctors for further questions.</p>
+HTML,
+            ],
         ];
     }
 }
