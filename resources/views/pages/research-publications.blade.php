@@ -24,7 +24,7 @@
                     </h2>
                     <p class="mt-4 text-gray-600 leading-relaxed">
                         Scientific publications with authors affiliated to AGC Tenwek Hospital, Tenwek Hospital, or Tenwek Mission Hospital.
-                        For corrections or additions, contact
+                        Cardiac and endoscopy publications are listed first. For corrections or additions, contact
                         <a href="mailto:research.manager@tenwekhosp.org" class="font-semibold text-ctc-secondary hover:underline">research.manager@tenwekhosp.org</a>.
                     </p>
                     <div class="mt-6 flex flex-wrap gap-3">
@@ -69,9 +69,32 @@
                             <label for="pub-specialty" class="block text-xs font-bold uppercase tracking-[0.16em] text-gray-500 mb-2">Specialty</label>
                             <select id="pub-specialty" name="specialty" class="w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm focus:border-ctc-blue focus:ring-2 focus:ring-ctc-blue/20">
                                 <option value="">All specialties</option>
-                                @foreach($specialties as $specialtyOption)
-                                    <option value="{{ $specialtyOption }}" @selected($filters['specialty'] === $specialtyOption)>{{ $specialtyOption }}</option>
-                                @endforeach
+                                @php
+                                    $cardiacSpecialties = $specialties->filter(fn ($s) => str_contains(mb_strtolower($s), 'cardiothoracic') || str_contains(mb_strtolower($s), 'cardiology') || str_contains(mb_strtolower($s), 'perfusion'));
+                                    $endoscopySpecialties = $specialties->filter(fn ($s) => str_contains(mb_strtolower($s), 'endoscopy') || str_contains(mb_strtolower($s), 'gastroenterology'));
+                                    $otherSpecialties = $specialties->reject(fn ($s) => $cardiacSpecialties->contains($s) || $endoscopySpecialties->contains($s));
+                                @endphp
+                                @if($cardiacSpecialties->isNotEmpty())
+                                    <optgroup label="Cardiac (priority)">
+                                        @foreach($cardiacSpecialties as $specialtyOption)
+                                            <option value="{{ $specialtyOption }}" @selected($filters['specialty'] === $specialtyOption)>{{ $specialtyOption }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                @endif
+                                @if($endoscopySpecialties->isNotEmpty())
+                                    <optgroup label="Endoscopy (priority)">
+                                        @foreach($endoscopySpecialties as $specialtyOption)
+                                            <option value="{{ $specialtyOption }}" @selected($filters['specialty'] === $specialtyOption)>{{ $specialtyOption }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                @endif
+                                @if($otherSpecialties->isNotEmpty())
+                                    <optgroup label="Other specialties">
+                                        @foreach($otherSpecialties as $specialtyOption)
+                                            <option value="{{ $specialtyOption }}" @selected($filters['specialty'] === $specialtyOption)>{{ $specialtyOption }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                @endif
                             </select>
                         </div>
                         <div class="lg:col-span-2">

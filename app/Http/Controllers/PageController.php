@@ -477,7 +477,9 @@ class PageController extends Controller
 
         $totalCount = (clone $baseQuery)->count();
         $years = (clone $baseQuery)->whereNotNull('year')->distinct()->orderByDesc('year')->pluck('year');
-        $specialties = (clone $baseQuery)->whereNotNull('specialty')->distinct()->orderBy('specialty')->pluck('specialty');
+        $specialties = ResearchPublication::prioritizeSpecialtyLabels(
+            (clone $baseQuery)->whereNotNull('specialty')->distinct()->pluck('specialty')
+        );
         $types = (clone $baseQuery)->whereNotNull('publication_type')->distinct()->orderBy('publication_type')->pluck('publication_type');
 
         $filters = compact('search', 'year', 'specialty', 'type');

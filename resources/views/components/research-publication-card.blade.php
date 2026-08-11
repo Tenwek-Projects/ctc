@@ -4,14 +4,32 @@
     $url = $publication->publisherUrl();
     $doiUrl = $publication->doiUrl();
     $pubmedUrl = $publication->pubmedUrl();
+    $specialtyLower = mb_strtolower((string) $publication->specialty);
+    $titleLower = mb_strtolower((string) $publication->title);
+    $isCardiac = str_contains($specialtyLower, 'cardiothoracic')
+        || str_contains($specialtyLower, 'cardiology')
+        || str_contains($specialtyLower, 'perfusion')
+        || str_contains($titleLower, 'cardiac')
+        || str_contains($titleLower, 'cardio')
+        || str_contains($titleLower, 'heart');
+    $isEndoscopy = str_contains($specialtyLower, 'endoscopy')
+        || str_contains($specialtyLower, 'gastroenterology')
+        || str_contains($titleLower, 'endoscop')
+        || str_contains($titleLower, 'oesophag')
+        || str_contains($titleLower, 'esophag');
 @endphp
 
-<article class="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-ctc-blue/20 hover:shadow-md">
+<article class="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-5 sm:p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-ctc-blue/20 hover:shadow-md {{ $isCardiac || $isEndoscopy ? 'ring-1 ring-ctc-secondary/15' : '' }}">
     <div class="flex flex-col gap-4 sm:flex-row sm:items-start">
-        <div class="shrink-0">
+        <div class="shrink-0 space-y-2">
             <span class="inline-flex h-10 min-w-10 items-center justify-center rounded-xl bg-ctc-blue px-3 text-xs font-extrabold text-white shadow-sm">
                 {{ $publication->year ?: '—' }}
             </span>
+            @if($isCardiac)
+                <span class="block rounded-lg bg-ctc-ruby/10 px-2 py-1 text-center text-[9px] font-bold uppercase tracking-[0.12em] text-ctc-ruby">Cardiac</span>
+            @elseif($isEndoscopy)
+                <span class="block rounded-lg bg-ctc-secondary/15 px-2 py-1 text-center text-[9px] font-bold uppercase tracking-[0.12em] text-ctc-secondary-dark">Endoscopy</span>
+            @endif
         </div>
 
         <div class="min-w-0 flex-1">

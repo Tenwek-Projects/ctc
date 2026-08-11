@@ -36,10 +36,55 @@ class ResearchPublication extends Model
 
     public function scopeOrdered($query)
     {
+        // Priority: cardiac / cardiothoracic / perfusion first, then endoscopy / GI, then everything else.
         return $query
+            ->orderByRaw("
+                CASE
+                    WHEN specialty LIKE '%Cardiothoracic%'
+                      OR specialty LIKE '%Cardiology%'
+                      OR specialty LIKE '%Perfusion%'
+                      OR title LIKE '%cardiac%'
+                      OR title LIKE '%cardio%'
+                      OR title LIKE '%heart%'
+                      OR title LIKE '%valve%'
+                      OR title LIKE '%CABG%'
+                      OR title LIKE '%congenital%'
+                    THEN 0
+                    WHEN specialty LIKE '%Endoscopy%'
+                      OR specialty LIKE '%Gastroenterology%'
+                      OR title LIKE '%endoscop%'
+                      OR title LIKE '%oesophag%'
+                      OR title LIKE '%esophag%'
+                      OR title LIKE '%colonoscop%'
+                      OR title LIKE '%bronchoscop%'
+                    THEN 1
+                    ELSE 2
+                END
+            ")
             ->orderByDesc('year')
             ->orderBy('sort_order')
             ->orderBy('title');
+    }
+
+    /**
+     * Specialty labels sorted with cardiac & endoscopy groups first (for filter UI).
+     *
+     * @param  \Illuminate\Support\Collection<int, string>  $specialties
+     * @return \Illuminate\Support\Collection<int, string>
+     */
+    public static function prioritizeSpecialtyLabels($specialties)
+    {
+        return $specialties->sortBy(function (string $specialty) {
+            $s = mb_strtolower($specialty);
+            if (str_contains($s, 'cardiothoracic') || str_contains($s, 'cardiology') || str_contains($s, 'perfusion')) {
+                return '0-'.$specialty;
+            }
+            if (str_contains($s, 'endoscopy') || str_contains($s, 'gastroenterology')) {
+                return '1-'.$specialty;
+            }
+
+            return '2-'.$specialty;
+        })->values();
     }
 
     /**
