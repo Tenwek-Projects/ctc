@@ -7,7 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 class ResearchPublication extends Model
 {
     protected $fillable = [
-        'title', 'authors', 'journal', 'year', 'url', 'abstract', 'sort_order', 'is_visible',
+        'import_key',
+        'title',
+        'authors',
+        'tenwek_authors',
+        'journal',
+        'publication_type',
+        'doi',
+        'pmid',
+        'specialty',
+        'full_citation',
+        'year',
+        'url',
+        'abstract',
+        'sort_order',
+        'is_visible',
     ];
 
     protected $casts = [
@@ -21,6 +35,28 @@ class ResearchPublication extends Model
 
     public function scopeOrdered($query)
     {
-        return $query->orderBy('sort_order')->orderBy('year', 'desc');
+        return $query
+            ->orderByDesc('year')
+            ->orderBy('sort_order')
+            ->orderBy('title');
+    }
+
+    public function publisherUrl(): ?string
+    {
+        if (filled($this->url)) {
+            return $this->url;
+        }
+
+        if (filled($this->doi)) {
+            $doi = $this->doi;
+
+            return str_starts_with($doi, 'http') ? $doi : 'https://doi.org/'.$doi;
+        }
+
+        if (filled($this->pmid)) {
+            return 'https://pubmed.ncbi.nlm.nih.gov/'.preg_replace('/\D/', '', $this->pmid).'/';
+        }
+
+        return null;
     }
 }

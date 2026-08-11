@@ -16,6 +16,7 @@ use App\Models\ImpactStory;
 use App\Models\ImpactTestimonial;
 use App\Models\NewsArticle;
 use App\Models\ResourceDownload;
+use App\Models\ResearchPublication;
 use App\Models\Service;
 use App\Models\ServiceCategoryPage;
 use App\Models\DepartmentPage;
@@ -456,9 +457,20 @@ class PageController extends Controller
 
     public function researchPublications()
     {
+        $publications = ResearchPublication::query()->visible()->ordered()->get();
+        $years = $publications->pluck('year')->filter()->unique()->sortDesc()->values();
+        $specialties = $publications->pluck('specialty')->filter()->unique()->sort()->values();
+        $types = $publications->pluck('publication_type')->filter()->unique()->sort()->values();
+
         $metaDescription = 'Publications from Tenwek Cardiothoracic Centre: peer-reviewed articles, conference presentations, and outcomes research in resource-limited settings.';
 
-        return view('pages.research-publications', compact('metaDescription'));
+        return view('pages.research-publications', compact(
+            'publications',
+            'years',
+            'specialties',
+            'types',
+            'metaDescription',
+        ));
     }
 
     public function trainingResearch()

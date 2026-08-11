@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             ServiceCategoryPageSeeder::class,
             DepartmentPageSeeder::class,
+            ResearchPublicationSeeder::class,
             NewsArticleSeeder::class,
             CollegeProgrammeSeeder::class,
             AdminDemoSeeder::class,

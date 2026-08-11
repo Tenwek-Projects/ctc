@@ -25,18 +25,26 @@ class ResearchPublicationController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'authors' => 'nullable|string|max:500',
-            'journal' => 'nullable|string|max:255',
+            'title' => 'required|string|max:2000',
+            'authors' => 'nullable|string|max:5000',
+            'tenwek_authors' => 'nullable|string|max:5000',
+            'journal' => 'nullable|string|max:500',
+            'publication_type' => 'nullable|string|max:120',
+            'doi' => 'nullable|string|max:255',
+            'pmid' => 'nullable|string|max:32',
+            'specialty' => 'nullable|string|max:160',
+            'full_citation' => 'nullable|string|max:10000',
             'year' => 'nullable|string|max:4',
-            'url' => 'nullable|url|max:500',
+            'url' => 'nullable|string|max:2000',
             'abstract' => 'nullable|string|max:5000',
             'sort_order' => 'nullable|integer|min:0',
             'is_visible' => 'boolean',
         ]);
         $validated['is_visible'] = $request->boolean('is_visible');
         $validated['sort_order'] = (int) ($validated['sort_order'] ?? 0);
+        $validated['abstract'] = TrixHtmlSanitizer::sanitize($validated['abstract'] ?? '');
         ResearchPublication::create($validated);
+
         return redirect()->route('admin-dashboard.research.index')->with('success', 'Publication added.');
     }
 
@@ -48,11 +56,17 @@ class ResearchPublicationController extends Controller
     public function update(Request $request, ResearchPublication $research_publication): RedirectResponse
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'authors' => 'nullable|string|max:500',
-            'journal' => 'nullable|string|max:255',
+            'title' => 'required|string|max:2000',
+            'authors' => 'nullable|string|max:5000',
+            'tenwek_authors' => 'nullable|string|max:5000',
+            'journal' => 'nullable|string|max:500',
+            'publication_type' => 'nullable|string|max:120',
+            'doi' => 'nullable|string|max:255',
+            'pmid' => 'nullable|string|max:32',
+            'specialty' => 'nullable|string|max:160',
+            'full_citation' => 'nullable|string|max:10000',
             'year' => 'nullable|string|max:4',
-            'url' => 'nullable|url|max:500',
+            'url' => 'nullable|string|max:2000',
             'abstract' => 'nullable|string|max:5000',
             'sort_order' => 'nullable|integer|min:0',
             'is_visible' => 'boolean',
