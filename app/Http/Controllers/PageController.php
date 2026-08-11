@@ -455,20 +455,44 @@ class PageController extends Controller
         return view('pages.training-medical-education', compact('metaDescription'));
     }
 
-    public function researchPublications()
+    public function researchPublications(Request $request)
     {
-        $publications = ResearchPublication::query()->visible()->ordered()->get();
-        $years = $publications->pluck('year')->filter()->unique()->sortDesc()->values();
-        $specialties = $publications->pluck('specialty')->filter()->unique()->sort()->values();
-        $types = $publications->pluck('publication_type')->filter()->unique()->sort()->values();
+        $search = trim((string) $request->query('q', ''));
+        $year = trim((string) $request->query('year', ''));
+        $specialty = trim((string) $request->query('specialty', ''));
+        $type = trim((string) $request->query('type', ''));
+
+        $baseQuery = ResearchPublication::query()->visible();
+
+        $publications = (clone $baseQuery)
+            ->filtered(
+                $search !== '' ? $search : null,
+                $year !== '' ? $year : null,
+                $specialty !== '' ? $specialty : null,
+                $type !== '' ? $type : null,
+            )
+            ->ordered()
+            ->paginate(15)
+            ->withQueryString();
+
+        $totalCount = (clone $baseQuery)->count();
+        $years = (clone $baseQuery)->whereNotNull('year')->distinct()->orderByDesc('year')->pluck('year');
+        $specialties = (clone $baseQuery)->whereNotNull('specialty')->distinct()->orderBy('specialty')->pluck('specialty');
+        $types = (clone $baseQuery)->whereNotNull('publication_type')->distinct()->orderBy('publication_type')->pluck('publication_type');
+
+        $filters = compact('search', 'year', 'specialty', 'type');
+        $hasFilters = $search !== '' || $year !== '' || $specialty !== '' || $type !== '';
 
         $metaDescription = 'Publications from Tenwek Cardiothoracic Centre: peer-reviewed articles, conference presentations, and outcomes research in resource-limited settings.';
 
         return view('pages.research-publications', compact(
             'publications',
+            'totalCount',
             'years',
             'specialties',
             'types',
+            'filters',
+            'hasFilters',
             'metaDescription',
         ));
     }
